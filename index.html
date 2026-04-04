@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JEM HUB — ICAN Operating System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f5f8;
+      --white: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --radius: 14px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.07);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .header-logo {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.4);
+    }
+    .header-titles { flex: 1; min-width: 0; }
+    .header-name { font-weight: 800; font-size: 16px; letter-spacing: -0.4px; }
+    .header-sub { font-size: 11px; color: var(--muted); font-weight: 400; }
+    .header-pills { display: flex; gap: 8px; }
+    .pill {
+      font-size: 11px; font-weight: 600; padding: 4px 10px;
+      border-radius: 20px; white-space: nowrap;
+    }
+    .pill-green { background: #d1fae5; color: #065f46; }
+    .pill-amber { background: #fef3c7; color: #92400e; }
+    .pill-gray  { background: #f3f4f6; color: #374151; }
+    .view-toggle {
+      display: flex; background: var(--bg);
+      border-radius: 8px; padding: 2px; gap: 2px;
+    }
+    .view-btn {
+      border: none; background: transparent; cursor: pointer;
+      padding: 5px 11px; border-radius: 6px;
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      transition: all .15s;
+    }
+    .view-btn.active {
+      background: white; color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .header-date {
+      font-size: 11px; color: var(--muted); white-space: nowrap;
+    }
+
+    /* ── CANVAS WRAPPER ── */
+    #canvas-wrap {
+      width: 100%; overflow: auto;
+      height: calc(100vh - 61px);
+      cursor: grab;
+    }
+    #canvas-wrap:active { cursor: grabbing; }
+
+    #hub-inner {
+      position: relative;
+      width: 1700px; height: 1020px;
+    }
+
+    /* Dot grid background */
+    #hub-inner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-position: 14px 14px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* ── SVG CONNECTIONS ── */
+    #connections {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 1;
+    }
+    .c-center { stroke-width: 2.5; fill: none; opacity: 0; }
+    .c-tool   { stroke-width: 1.5; fill: none; opacity: 0; }
+    .animated { animation: drawIn .6s ease forwards; }
+    @keyframes drawIn {
+      to { opacity: 1; }
+    }
+
+    /* ── CENTER NODE ── */
+    .hub-center {
+      position: absolute; z-index: 20;
+      transform: translate(-50%, -50%);
+    }
+    .hub-center-inner {
+      width: 148px; height: 148px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2px;
+      box-shadow:
+        0 0 0 10px rgba(99,102,241,0.12),
+        0 0 0 24px rgba(99,102,241,0.06),
+        0 8px 32px rgba(99,102,241,0.4);
+      animation: pulse-hub 3.5s ease-in-out infinite;
+    }
+    @keyframes pulse-hub {
+      0%,100% { box-shadow: 0 0 0 10px rgba(99,102,241,0.12), 0 0 0 24px rgba(99,102,241,0.06), 0 8px 32px rgba(99,102,241,0.4); }
+      50%      { box-shadow: 0 0 0 14px rgba(99,102,241,0.16), 0 0 0 32px rgba(99,102,241,0.08), 0 12px 40px rgba(99,102,241,0.5); }
+    }
+    .hub-emoji { font-size: 38px; }
+    .hub-name  { font-size: 13px; font-weight: 800; color: white; letter-spacing: 0.5px; }
+    .hub-sub   { font-size: 9px; color: rgba(255,255,255,0.65); text-align: center; padding: 0 12px; }
+
+    /* ── CATEGORY NODES ── */
+    .cat-node {
+      position: absolute; z-index: 10;
+      transform: translate(-50%, -50%);
+      opacity: 0; animation: fadeUp .4s ease forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translate(-50%, calc(-50% + 10px)); }
+      to   { opacity:1; transform: translate(-50%, -50%); }
+    }
+    .cat-card {
+      background: white;
+      border: 2px solid var(--c, #6366f1);
+      border-radius: 12px;
+      padding: 9px 14px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: var(--shadow);
+      white-space: nowrap;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cat-card:hover { transform: translateY(-2px) translate(0,0); box-shadow: var(--shadow-lg); }
+    .cat-icon { font-size: 20px; }
+    .cat-name { font-size: 13px; font-weight: 700; }
+
+    /* ── TOOL CARDS ── */
+    .tool-node {
+      position: absolute; z-index: 8;
+      transform: translate(-50%, -50%);
+      opacity: 0; animation: fadeUp .4s ease forwards;
+    }
+    .tool-card {
+      width: 168px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px 9px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .tool-card::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--c, #6366f1);
+    }
+    .tool-card:hover { transform: translateY(-3px) translate(0,0); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .tool-card.clickable { cursor: pointer; }
+    .tool-header { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 5px; }
+    .tool-emoji { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+    .tool-name { font-size: 11.5px; font-weight: 700; line-height: 1.3; }
+    .tool-desc { font-size: 10px; color: var(--muted); line-height: 1.45; margin-bottom: 7px; }
+    .tool-footer { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+
+    /* Status */
+    .s-dot {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+    }
+    .s-dot::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; flex-shrink: 0;
+    }
+    .s-live    { color: #059669; }
+    .s-live::before { animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .s-dev     { color: #d97706; }
+    .s-active  { color: #2563eb; }
+    .s-planned { color: #9ca3af; }
+
+    /* Location tag */
+    .loc-tag {
+      font-size: 9px; font-weight: 500;
+      background: #f3f4f6; color: var(--muted);
+      padding: 2px 6px; border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* Open arrow on link tools */
+    .open-arr {
+      font-size: 10px; font-weight: 700;
+      color: var(--c, #6366f1);
+      background: color-mix(in srgb, var(--c,#6366f1) 10%, transparent);
+      padding: 2px 6px; border-radius: 4px;
+    }
+
+    /* ── LEGEND ── */
+    .legend {
+      position: fixed; bottom: 16px; right: 16px; z-index: 100;
+      background: white; border: 1px solid var(--border);
+      border-radius: 11px; padding: 10px 14px;
+      box-shadow: var(--shadow); font-size: 11px;
+    }
+    .legend-title { font-weight: 700; font-size: 9px; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--muted); margin-bottom: 7px; }
+    .legend-row { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .legend-label { font-size: 11px; font-weight: 500; }
+
+    /* ── GRID VIEW ── */
+    #grid-view { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
+    #grid-view.active { display: block; }
+
+    .g-section { margin-bottom: 36px; }
+    .g-header {
+      display: flex; align-items: center; gap: 10px;
+      padding-bottom: 10px; margin-bottom: 14px;
+      border-bottom: 2px solid var(--c, #6366f1);
+    }
+    .g-cat-icon { font-size: 22px; }
+    .g-cat-name { font-size: 15px; font-weight: 800; }
+    .g-count { margin-left: auto; font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    .g-tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 12px;
+    }
+    .g-tool {
+      background: white; border: 1px solid var(--border);
+      border-left: 4px solid var(--c, #6366f1);
+      border-radius: 12px; padding: 14px 16px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .g-tool.clickable { cursor: pointer; }
+    .g-tool:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .g-tool-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+    .g-tool-emoji { font-size: 26px; flex-shrink: 0; }
+    .g-tool-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .g-tool-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .g-tool-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 6px; }
+    .g-open-btn {
+      font-size: 11px; font-weight: 700;
+      color: var(--c, #6366f1);
+      background: color-mix(in srgb, var(--c,#6366f1) 10%, transparent);
+      padding: 4px 10px; border-radius: 6px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .g-open-btn:hover { background: color-mix(in srgb, var(--c,#6366f1) 18%, transparent); }
+    .g-plat { font-size: 10px; color: var(--muted); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 820px) {
+      #canvas-wrap { display: none; }
+      .legend { display: none; }
+      .view-toggle { display: none; }
+      .header-pills { display: none; }
+      #grid-view { display: block !important; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">🤖</div>
+  <div class="header-titles">
+    <div class="header-name">JEM HUB</div>
+    <div class="header-sub">ICAN Operating System</div>
+  </div>
+  <div class="header-pills" id="hpills"></div>
+  <div class="header-date" id="hdate"></div>
+  <div class="view-toggle">
+    <button class="view-btn active" id="btn-tree" onclick="setView('tree')">🌳 Map</button>
+    <button class="view-btn"        id="btn-grid" onclick="setView('grid')">⊞ Grid</button>
+  </div>
+</header>
+
+<!-- CANVAS (desktop tree view) -->
+<div id="canvas-wrap">
+  <div id="hub-inner">
+    <svg id="connections"></svg>
+    <div class="hub-center" id="hub-center">
+      <div class="hub-center-inner">
+        <div class="hub-emoji">🤖</div>
+        <div class="hub-name">JEM HUB</div>
+        <div class="hub-sub">ICAN Operating System</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GRID (mobile + toggle) -->
+<div id="grid-view"></div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-title">Status</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#059669"></div><span class="legend-label">Live</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:#d97706"></div><span class="legend-label">In Dev</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:#2563eb"></div><span class="legend-label">Active</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:#9ca3af"></div><span class="legend-label">Planned</span></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA — update this to add/remove tools
+// ══════════════════════════════════════════
+const DATA = {
+  categories: [
+    {
+      id: "ai", name: "AI & Automation", icon: "⚡", color: "#6366f1",
+      angle: 198,   // degrees from center (0=right, clockwise)
+      tools: [
+        { name: "Jem Supervisor Bot",      desc: "Your AI — responds on Telegram. Runs on this PC.",        icon: "🤖", status: "live",    loc: "Local PC",     url: null },
+        { name: "WhatsApp QA Bot",         desc: "Auto-answers student Qs every 5 hours from group chat.",  icon: "💬", status: "dev",     loc: "Local PC",     url: null },
+        { name: "WhatsApp Image Extractor",desc: "Downloads workshop group photos into sorted folders.",   icon: "📸", status: "live",    loc: "Local PC",     url: null },
+      ]
+    },
+    {
+      id: "grants", name: "Grants & Funding", icon: "💰", color: "#10b981",
+      angle: 342,
+      tools: [
+        { name: "Grants Dashboard",   desc: "Live tracker for all funding applications.",         icon: "📊", status: "live",   loc: "GitHub Pages", url: "https://shishirkhanal001.github.io/grants-dashboard/" },
+        { name: "Futurpreneur",       desc: "Discovery call Apr 15, 12:15 PM MT — under Daniel.", icon: "🗓️", status: "active", loc: "In Progress",  url: null },
+        { name: "IRAP & Others",      desc: "6 applications in progress, 7 in research.",        icon: "📋", status: "active", loc: "In Progress",  url: null },
+      ]
+    },
+    {
+      id: "film", name: "Film & Production", icon: "🎬", color: "#f59e0b",
+      angle: 126,
+      tools: [
+        { name: "ICAN Film Editor Plugin", desc: "Premiere Pro CEP panel + AI transcription (Amharic/Tigrinya).", icon: "✂️", status: "dev", loc: "Local PC", url: null },
+        { name: "2026 Annual Plan",        desc: "ICAN Film & Lucy TV strategic plan dashboard.",               icon: "📅", status: "live", loc: "GitHub Pages", url: "https://shishirkhanal001.github.io/ican-2026-plan/" },
+      ]
+    },
+    {
+      id: "web", name: "Web & Streaming", icon: "🌐", color: "#3b82f6",
+      angle: 54,
+      tools: [
+        { name: "Lucy TV",            desc: "OTT streaming — African diaspora cinema. $3.99–$6.99/mo.", icon: "📺", status: "live", loc: "Web",          url: "https://tvlucy.com" },
+        { name: "Kickstarter",        desc: "CA$8,000 goal — The Last Delivery. Launched Apr 1.",       icon: "🚀", status: "live", loc: "Web",          url: "https://www.kickstarter.com/projects/lucytv/lucy-tv-the-streaming-platform-for-independent-cinema" },
+        { name: "JEM HUB",            desc: "This dashboard — all tools, one view.",                   icon: "🗺️", status: "live", loc: "GitHub Pages", url: "https://shishirkhanal001.github.io/jem-hub/" },
+      ]
+    },
+    {
+      id: "workshop", name: "Workshop & Education", icon: "📚", color: "#ec4899",
+      angle: 270,
+      tools: [
+        { name: "Real Estate Workshop", desc: "8-class photography course. Mar–Apr 2026 cohort active.", icon: "🏠", status: "live", loc: "Local Files", url: null },
+        { name: "Class Handbooks",      desc: "8 PDF handbooks. Classes 1–8, all printed.",             icon: "📄", status: "live", loc: "Local Files", url: null },
+      ]
+    },
+  ]
+};
+
+// ══════════════════════════════════════════
+//  LAYOUT CONSTANTS
+// ══════════════════════════════════════════
+const CW = 1700, CH = 1020;
+const CX = CW / 2, CY = CH / 2;
+const CAT_R    = 310;  // center → category
+const TOOL_R   = 210;  // category → tool
+const FAN_DEG  = 22;   // degrees spread per tool
+
+function r(deg) { return deg * Math.PI / 180; }
+
+function catXY(cat) {
+  return {
+    x: CX + CAT_R * Math.cos(r(cat.angle)),
+    y: CY + CAT_R * Math.sin(r(cat.angle))
+  };
+}
+
+function toolXY(cat, i, n) {
+  const cp = catXY(cat);
+  const spread = (i - (n-1)/2) * FAN_DEG;
+  const a = r(cat.angle + spread);
+  return {
+    x: cp.x + TOOL_R * Math.cos(a),
+    y: cp.y + TOOL_R * Math.sin(a)
+  };
+}
+
+// ══════════════════════════════════════════
+//  RENDER TREE
+// ══════════════════════════════════════════
+function renderTree() {
+  const inner = document.getElementById('hub-inner');
+  const svg   = document.getElementById('connections');
+  svg.setAttribute('viewBox', `0 0 ${CW} ${CH}`);
+
+  // Define SVG gradients
+  let defs = '<defs>';
+  DATA.categories.forEach(cat => {
+    const cp = catXY(cat);
+    const hex = cat.color.replace('#','');
+    defs += `<linearGradient id="g-${cat.id}" x1="${CX}" y1="${CY}" x2="${cp.x}" y2="${cp.y}" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="${cat.color}" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="${cat.color}" stop-opacity="0.7"/>
+    </linearGradient>`;
+  });
+  defs += '</defs>';
+
+  let lines = '';
+  let nodeHTML = '';
+
+  DATA.categories.forEach((cat, ci) => {
+    const cp = catXY(cat);
+    const delay_cat = ci * 80;
+
+    // Center → category (dashed)
+    lines += `<line x1="${CX}" y1="${CY}" x2="${cp.x}" y2="${cp.y}"
+      stroke="url(#g-${cat.id})" stroke-dasharray="7 5"
+      class="c-center animated" style="animation-delay:${delay_cat}ms"/>`;
+
+    // Category node
+    nodeHTML += `<div class="cat-node" style="left:${cp.x}px;top:${cp.y}px;--c:${cat.color};animation-delay:${delay_cat+100}ms">
+      <div class="cat-card">
+        <span class="cat-icon">${cat.icon}</span>
+        <span class="cat-name">${cat.name}</span>
+      </div>
+    </div>`;
+
+    // Tools
+    cat.tools.forEach((tool, ti) => {
+      const tp = toolXY(cat, ti, cat.tools.length);
+      const delay_tool = delay_cat + 200 + ti * 60;
+
+      // Category → tool line (bezier)
+      const mx = (cp.x + tp.x) / 2;
+      const my = (cp.y + tp.y) / 2;
+      lines += `<path d="M ${cp.x} ${cp.y} Q ${mx} ${my} ${tp.x} ${tp.y}"
+        stroke="${cat.color}" class="c-tool animated" style="animation-delay:${delay_tool}ms"/>`;
+
+      // Tool node
+      const hasLink = !!tool.url;
+      const clickAttr = hasLink ? `onclick="window.open('${tool.url}','_blank')"` : '';
+      const badge = hasLink
+        ? `<span class="open-arr" style="--c:${cat.color}">↗ Open</span>`
+        : `<span class="loc-tag">${tool.loc}</span>`;
+
+      nodeHTML += `<div class="tool-node" style="left:${tp.x}px;top:${tp.y}px;--c:${cat.color};animation-delay:${delay_tool+80}ms">
+        <div class="tool-card ${hasLink?'clickable':''}" ${clickAttr}>
+          <div class="tool-header">
+            <span class="tool-emoji">${tool.icon}</span>
+            <span class="tool-name">${tool.name}</span>
+          </div>
+          <div class="tool-desc">${tool.desc}</div>
+          <div class="tool-footer">
+            <span class="s-dot s-${tool.status}">${STATUS_LABEL[tool.status]}</span>
+            ${badge}
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+
+  svg.innerHTML = defs + lines;
+  inner.insertAdjacentHTML('beforeend', nodeHTML);
+}
+
+// ══════════════════════════════════════════
+//  RENDER GRID
+// ══════════════════════════════════════════
+function renderGrid() {
+  let html = '';
+  DATA.categories.forEach(cat => {
+    html += `<div class="g-section" style="--c:${cat.color}">
+      <div class="g-header">
+        <span class="g-cat-icon">${cat.icon}</span>
+        <span class="g-cat-name">${cat.name}</span>
+        <span class="g-count">${cat.tools.length} tool${cat.tools.length>1?'s':''}</span>
+      </div>
+      <div class="g-tools">`;
+
+    cat.tools.forEach(tool => {
+      const hasLink = !!tool.url;
+      const action = hasLink
+        ? `<a href="${tool.url}" target="_blank" class="g-open-btn" style="--c:${cat.color}" onclick="event.stopPropagation()">Open ↗</a>`
+        : `<span class="g-plat">${tool.loc}</span>`;
+
+      html += `<div class="g-tool ${hasLink?'clickable':''}" style="--c:${cat.color}" ${hasLink?`onclick="window.open('${tool.url}','_blank')"`:''}">
+        <div class="g-tool-header">
+          <span class="g-tool-emoji">${tool.icon}</span>
+          <div>
+            <div class="g-tool-name">${tool.name}</div>
+            <div class="g-tool-desc">${tool.desc}</div>
+          </div>
+        </div>
+        <div class="g-tool-foot">
+          <span class="s-dot s-${tool.status}">${STATUS_LABEL[tool.status]}</span>
+          ${action}
+        </div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+  document.getElementById('grid-view').innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+//  HEADER STATS
+// ══════════════════════════════════════════
+const STATUS_LABEL = { live:'Live', dev:'In Dev', active:'Active', planned:'Planned' };
+
+function renderHeader() {
+  const all  = DATA.categories.flatMap(c => c.tools);
+  const live = all.filter(t => t.status === 'live').length;
+  const dev  = all.filter(t => t.status === 'dev').length;
+  document.getElementById('hpills').innerHTML = `
+    <span class="pill pill-green">${live} Live</span>
+    <span class="pill pill-amber">${dev} In Dev</span>
+    <span class="pill pill-gray">${all.length} Total</span>`;
+  const d = new Date();
+  document.getElementById('hdate').textContent =
+    d.toLocaleDateString('en-CA', { month:'short', day:'numeric', year:'numeric' });
+}
+
+// ══════════════════════════════════════════
+//  VIEW TOGGLE
+// ══════════════════════════════════════════
+function setView(v) {
+  const isTree = v === 'tree';
+  document.getElementById('canvas-wrap').style.display = isTree ? 'block' : 'none';
+  document.getElementById('grid-view').classList.toggle('active', !isTree);
+  document.querySelector('.legend').style.display = isTree ? 'block' : 'none';
+  document.getElementById('btn-tree').classList.toggle('active', isTree);
+  document.getElementById('btn-grid').classList.toggle('active', !isTree);
+}
+
+// ══════════════════════════════════════════
+//  CANVAS DRAG-TO-PAN
+// ══════════════════════════════════════════
+(function() {
+  const wrap = document.getElementById('canvas-wrap');
+  let dragging = false, startX, startY, scrollL, scrollT;
+  wrap.addEventListener('mousedown', e => {
+    if (e.target.closest('.tool-card.clickable, .g-open-btn')) return;
+    dragging = true; startX = e.clientX; startY = e.clientY;
+    scrollL = wrap.scrollLeft; scrollT = wrap.scrollTop;
+  });
+  window.addEventListener('mouseup', () => dragging = false);
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    wrap.scrollLeft = scrollL - (e.clientX - startX);
+    wrap.scrollTop  = scrollT  - (e.clientY - startY);
+  });
+})();
+
+// ══════════════════════════════════════════
+//  INIT — center the canvas on load
+// ══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderTree();
+  renderGrid();
+  renderHeader();
+
+  // Scroll canvas to center
+  const wrap = document.getElementById('canvas-wrap');
+  requestAnimationFrame(() => {
+    wrap.scrollLeft = (CW - wrap.clientWidth)  / 2;
+    wrap.scrollTop  = (CH - wrap.clientHeight) / 2;
+  });
+});
+</script>
+</body>
+</html>
