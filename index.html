@@ -8,58 +8,80 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#eeeef4;--white:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--sh:0 2px 12px rgba(0,0,0,.07);--sh-lg:0 8px 32px rgba(0,0,0,.13);--ci:#8b5cf6;--cs:#6366f1;--cm:#10b981;--ca:#f59e0b;--co:#3b82f6}
+:root{--bg:#eeeef4;--white:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--sh:0 2px 12px rgba(0,0,0,.07);--sh-lg:0 8px 32px rgba(0,0,0,.13);--sel:#6366f1}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100vh}
 
 /* ── HEADER ── */
-.hdr{position:fixed;top:0;left:0;right:0;z-index:300;height:52px;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 14px}
+.hdr{position:fixed;top:0;left:0;right:0;z-index:300;height:52px;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 12px;flex-wrap:nowrap}
 .hdr-badge{height:34px;width:34px;flex-shrink:0;background:#1a1a2e;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .hdr-badge span{font-family:'DM Serif Display',serif;font-size:13px;color:#C8001A;letter-spacing:.5px}
-.hdr-name{font-weight:800;font-size:15px;letter-spacing:-.3px}
-.hdr-sub{font-size:10px;color:var(--muted)}
-.pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+.hdr-name{font-weight:800;font-size:15px;letter-spacing:-.3px;white-space:nowrap}
+.hdr-sub{font-size:10px;color:var(--muted);white-space:nowrap}
+.pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap}
 .p-g{background:#d1fae5;color:#065f46}.p-a{background:#fef3c7;color:#92400e}.p-gr{background:#f3f4f6;color:#374151}
-.hdr-sep{width:1px;height:22px;background:var(--border)}
-.hdr-space{flex:1}
-.hdr-date{font-size:11px;color:var(--muted)}
-.zctrls{display:flex;align-items:center;gap:1px;background:#f3f4f6;border-radius:8px;padding:2px}
+.hdr-sep{width:1px;height:22px;background:var(--border);flex-shrink:0}
+.hdr-space{flex:1;min-width:4px}
+.hdr-date{font-size:11px;color:var(--muted);white-space:nowrap}
+.hdr-pills{display:flex;gap:5px}
+/* Zoom controls */
+.zctrls{display:flex;align-items:center;gap:1px;background:#f3f4f6;border-radius:8px;padding:2px;flex-shrink:0}
 .z-btn{border:none;background:transparent;cursor:pointer;width:28px;height:28px;border-radius:6px;font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .15s}
 .z-btn:hover{background:white;color:var(--text)}
-.zpct{font-size:11px;font-weight:600;color:var(--muted);min-width:40px;text-align:center}
-.vtoggle{display:flex;background:#f3f4f6;border-radius:8px;padding:2px;gap:1px}
-.vbtn{border:none;background:transparent;cursor:pointer;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;color:var(--muted);transition:all .15s}
+.zpct{font-size:11px;font-weight:600;color:var(--muted);min-width:36px;text-align:center}
+/* View toggle */
+.vtoggle{display:flex;background:#f3f4f6;border-radius:8px;padding:2px;gap:1px;flex-shrink:0}
+.vbtn{border:none;background:transparent;cursor:pointer;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap}
 .vbtn.on{background:white;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.reset-pos{border:none;background:#f3f4f6;cursor:pointer;padding:5px 10px;border-radius:7px;font-size:10px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap}
-.reset-pos:hover{background:#fef2f2;color:#dc2626}
+/* Mode toggle */
+.mtoggle{display:flex;background:#f3f4f6;border-radius:8px;padding:2px;gap:1px;flex-shrink:0}
+.mbtn{border:none;background:transparent;cursor:pointer;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap}
+.mbtn.on{background:white;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.mbtn.on[data-m="select"]{color:#6366f1}
+/* Misc header btns */
+.hbtn{border:none;background:#f3f4f6;cursor:pointer;padding:5px 9px;border-radius:7px;font-size:10px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.hbtn:hover{background:#e5e7eb;color:var(--text)}
+.hbtn.danger:hover{background:#fef2f2;color:#dc2626}
 
 /* ── CANVAS ── */
-#cw{position:fixed;top:52px;left:0;right:0;bottom:0;overflow:hidden;cursor:grab;user-select:none}
-#cw.pan{cursor:grabbing}
+#cw{position:fixed;top:52px;left:0;right:0;bottom:0;overflow:hidden;user-select:none}
+#cw.mode-pan{cursor:grab}
+#cw.mode-pan.panning{cursor:grabbing}
+#cw.mode-select{cursor:crosshair}
+#cw.mode-select [data-nid]{cursor:move}
+#cw.mode-select [data-nid].dragging{cursor:grabbing}
 #vp{position:absolute;top:0;left:0;width:8500px;height:4600px;transform-origin:0 0;opacity:0;animation:vpin .4s ease .1s forwards}
 @keyframes vpin{to{opacity:1}}
 #vp::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#b8b8cc 1.3px,transparent 1.3px);background-size:30px 30px;background-position:15px 15px;opacity:.4;pointer-events:none;z-index:0}
 #svg{position:absolute;top:0;left:0;width:8500px;height:4600px;pointer-events:none;z-index:1;overflow:visible}
 
-/* ── SECTION LABELS ── */
-.slabel{position:absolute;z-index:3;pointer-events:none}
-.sl-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:5px}
-.sl-title{font-size:26px;font-weight:800;letter-spacing:-.4px;display:block}
-.sl-sub{font-size:12px;color:var(--muted);margin-top:4px;display:block}
-.sl-bar{height:3px;border-radius:2px;margin-top:10px;width:100%}
+/* ── SELECTION RECT ── */
+#sel-rect{position:fixed;border:1.5px dashed #6366f1;background:rgba(99,102,241,.06);display:none;pointer-events:none;z-index:500;border-radius:4px}
 
-/* ── LAYER HEADERS ── */
-.lhdr{position:absolute;z-index:3;transform:translateX(-50%);pointer-events:none;text-align:center}
-.lh-num{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:.45;margin-bottom:3px}
-.lh-name{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
-.lh-bar{height:3px;border-radius:2px;margin:5px auto 0;width:160px}
+/* ── NODE SELECTION HIGHLIGHT ── */
+[data-nid].sel{outline:2px solid #6366f1;outline-offset:4px;border-radius:14px}
 
 /* ── DRAGGABLE BASE ── */
-[data-nid]{position:absolute;z-index:10;transform:translate(-50%,-50%);cursor:grab}
-[data-nid].dragging{cursor:grabbing;z-index:50}
-[data-nid]:active{cursor:grabbing}
+[data-nid]{position:absolute;z-index:10;transform:translate(-50%,-50%)}
+[data-nid].dragging{z-index:50}
+
+/* ── SECTION LABELS (draggable) ── */
+.slabel{cursor:grab}
+.slabel.dragging{cursor:grabbing}
+.sl-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:4px;outline:none}
+.sl-title{font-size:24px;font-weight:800;letter-spacing:-.4px;display:block;outline:none;min-width:80px}
+.sl-sub{font-size:11px;color:var(--muted);margin-top:3px;display:block;outline:none;min-width:80px}
+.sl-bar{height:3px;border-radius:2px;margin-top:8px;width:100%;min-width:200px}
+[contenteditable="true"]{outline:2px solid #6366f1!important;border-radius:4px;padding:2px 4px;background:rgba(255,255,255,.9);cursor:text!important}
+
+/* ── LAYER HEADERS (draggable) ── */
+.lhdr{cursor:grab;text-align:center}
+.lhdr.dragging{cursor:grabbing}
+.lh-num{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:.45;margin-bottom:3px;outline:none}
+.lh-name{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;outline:none;min-width:60px}
+.lh-bar{height:3px;border-radius:2px;margin:5px auto 0;width:140px}
 
 /* ── INFRA CARDS ── */
-.ic{width:222px;background:white;border:1px solid var(--border);border-radius:12px;padding:11px 13px;box-shadow:var(--sh);border-top:3px solid var(--lc,#6366f1);transition:box-shadow .2s}
+.ic{width:222px;background:white;border:1px solid var(--border);border-radius:12px;padding:11px 13px;box-shadow:var(--sh);border-top:3px solid var(--lc,#6366f1);transition:box-shadow .2s;cursor:grab}
 .ic:hover{box-shadow:var(--sh-lg)}
 .ic.special{border-style:dashed;background:color-mix(in srgb,var(--lc,#6366f1) 4%,white)}
 .ih{display:flex;align-items:flex-start;gap:7px;margin-bottom:5px}
@@ -71,28 +93,25 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .idetail{font-size:9px;color:var(--muted);line-height:1.6;white-space:pre-line}
 
 /* ── HUB CENTER ── */
-.hub-c{position:absolute;z-index:20;transform:translate(-50%,-50%);cursor:grab}
+.hub-c{cursor:grab}
 .hub-i{width:168px;height:168px;background:linear-gradient(145deg,#1a1a2e,#0d0d1a);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 0 3px rgba(200,0,26,.35),0 0 0 14px rgba(200,0,26,.1),0 0 0 30px rgba(200,0,26,.04),0 14px 44px rgba(0,0,0,.55);animation:phub 4s ease-in-out infinite}
 @keyframes phub{0%,100%{box-shadow:0 0 0 3px rgba(200,0,26,.35),0 0 0 14px rgba(200,0,26,.1),0 0 0 30px rgba(200,0,26,.04),0 14px 44px rgba(0,0,0,.55)}50%{box-shadow:0 0 0 5px rgba(200,0,26,.45),0 0 0 18px rgba(200,0,26,.15),0 0 0 38px rgba(200,0,26,.07),0 18px 52px rgba(0,0,0,.6)}}
 .hub-ican{font-family:'DM Serif Display',serif;font-size:30px;color:#C8001A;letter-spacing:2px;line-height:1}
 .hub-jh{font-size:10px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:2px;text-transform:uppercase}
 .hub-sub{font-size:8.5px;color:rgba(255,255,255,.35);text-align:center;padding:0 16px;line-height:1.4}
 
-/* ── CATEGORY NODES ── */
-.cat-n{position:absolute;z-index:10;transform:translate(-50%,-50%);cursor:grab}
+/* ── CAT / TOOL NODES ── */
+.cat-n{cursor:grab}
 .cat-c{background:white;border:2px solid var(--cc,#6366f1);border-radius:12px;padding:8px 13px;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);white-space:nowrap;transition:box-shadow .2s}
 .cat-c:hover{box-shadow:var(--sh-lg)}
 .cat-ic{font-size:19px}.cat-nm{font-size:12px;font-weight:700}
-
-/* ── TOOL CARDS ── */
-.tool-n{position:absolute;z-index:8;transform:translate(-50%,-50%);cursor:grab}
+.tool-n{cursor:grab}
 .tc{width:186px;background:white;border:1px solid var(--border);border-radius:10px;padding:9px 11px 8px;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .2s}
 .tc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cc,#6366f1);border-radius:10px 0 0 10px}
 .tc:hover{box-shadow:0 6px 20px rgba(0,0,0,.1)}
 .tc.link{cursor:pointer}
 .tth{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px}
-.tte{font-size:16px;flex-shrink:0;margin-top:1px}
-.ttn{font-size:11px;font-weight:700;line-height:1.3}
+.tte{font-size:16px;flex-shrink:0;margin-top:1px}.ttn{font-size:11px;font-weight:700;line-height:1.3}
 .ttd{font-size:9.5px;color:var(--muted);line-height:1.45;margin-bottom:5px}
 .tpath{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--cc,#6366f1);background:color-mix(in srgb,var(--cc,#6366f1) 8%,transparent);padding:2px 5px;border-radius:4px;margin-bottom:5px;word-break:break-all}
 .ttf{display:flex;align-items:center;justify-content:space-between;gap:3px}
@@ -105,14 +124,12 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .tarr{font-size:8.5px;font-weight:700;color:var(--cc,#6366f1);background:color-mix(in srgb,var(--cc,#6366f1) 10%,transparent);padding:2px 5px;border-radius:4px}
 
 /* ── LEGEND ── */
-.legend{position:fixed;bottom:14px;left:14px;z-index:200;background:white;border:1px solid var(--border);border-radius:10px;padding:9px 12px;box-shadow:var(--sh)}
-.leg-t{font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px}
-.leg-r{display:flex;align-items:center;gap:5px;margin-bottom:3px;font-size:10px;font-weight:500}
+.legend{position:fixed;bottom:14px;left:14px;z-index:200;background:white;border:1px solid var(--border);border-radius:10px;padding:9px 12px;box-shadow:var(--sh);font-size:10px}
+.leg-t{font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:5px}
+.leg-r{display:flex;align-items:center;gap:5px;margin-bottom:3px;font-weight:500}
 .leg-d{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .leg-sep{height:1px;background:var(--border);margin:5px 0}
-.leg-row2{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:10px}
-.leg-line{width:18px;height:2px;flex-shrink:0}
-.leg-dash{width:18px;flex-shrink:0;border-top:2px dashed #aaa}
+.leg-hint{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5}
 
 /* ── GRID VIEW ── */
 #gv{display:none;position:fixed;top:52px;left:0;right:0;bottom:0;overflow-y:auto;padding:20px;background:var(--bg)}
@@ -128,198 +145,197 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .g-tf{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
 .g-open{font-size:10px;font-weight:700;color:var(--cc,#6366f1);background:color-mix(in srgb,var(--cc,#6366f1) 10%,transparent);padding:3px 9px;border-radius:5px;text-decoration:none}
 
-@media(max-width:820px){#cw,.legend,.zctrls,.hdr-date,.hdr-sep{display:none!important}#gv{display:block!important}.hdr-pills{display:none}}
+@media(max-width:820px){#cw,.legend,.zctrls,.mtoggle,.hdr-date,.hdr-sep{display:none!important}#gv{display:block!important}.hdr-pills,.reset-pos{display:none}}
 </style>
 </head>
 <body>
 
 <header class="hdr">
   <div class="hdr-badge"><span>ICAN</span></div>
-  <div><div class="hdr-name">JEM HUB</div><div class="hdr-sub">ICAN Operating System</div></div>
-  <div class="hdr-pills" id="hpills" style="display:flex;gap:5px"></div>
+  <div><div class="hdr-name">JEM HUB</div><div class="hdr-sub">ICAN OS</div></div>
+  <div class="hdr-pills" id="hpills" style="display:flex;gap:4px"></div>
   <div class="hdr-sep"></div>
+  <!-- Mode toggle -->
+  <div class="mtoggle">
+    <button class="mbtn on" data-m="pan"    onclick="setMode('pan')">✋ Pan</button>
+    <button class="mbtn"    data-m="select" onclick="setMode('select')">⬚ Select</button>
+  </div>
+  <!-- View toggle -->
+  <div class="vtoggle">
+    <button class="vbtn on" data-v="map"  onclick="setV('map')">🌳 Map</button>
+    <button class="vbtn"    data-v="grid" onclick="setV('grid')">⊞ Grid</button>
+  </div>
+  <div class="hdr-sep"></div>
+  <!-- Zoom -->
   <div class="zctrls">
     <button class="z-btn" onclick="zBy(1.2)">+</button>
     <span class="zpct" id="zpct">60%</span>
     <button class="z-btn" onclick="zBy(1/1.2)">−</button>
-    <button class="z-btn" onclick="gotoInfra()" title="Jump to Architecture" style="font-size:10px">⬡</button>
-    <button class="z-btn" onclick="gotoTools()" title="Jump to Tools" style="font-size:10px">◎</button>
-    <button class="z-btn" onclick="fitAll()" title="Fit everything" style="font-size:10px">⊞</button>
+    <button class="z-btn" title="Jump to Architecture" onclick="gotoInfra()" style="font-size:10px">⬡</button>
+    <button class="z-btn" title="Jump to Tools"        onclick="gotoTools()" style="font-size:10px">◎</button>
+    <button class="z-btn" title="Fit all"              onclick="fitAll()"    style="font-size:10px">⊞</button>
   </div>
-  <div class="vtoggle">
-    <button class="vbtn on" data-v="map" onclick="setV('map')">🌳 Map</button>
-    <button class="vbtn" data-v="grid" onclick="setV('grid')">⊞ Grid</button>
-  </div>
-  <button class="reset-pos" onclick="resetPositions()">↺ Reset Layout</button>
   <div class="hdr-sep"></div>
+  <button class="hbtn danger" onclick="resetAll()">↺ Reset</button>
+  <div class="hdr-space"></div>
   <div class="hdr-date" id="hdate"></div>
 </header>
 
-<div id="cw"><div id="vp"><svg id="svg"></svg></div></div>
+<!-- Canvas -->
+<div id="cw" class="mode-pan">
+  <div id="vp"><svg id="svg"></svg></div>
+</div>
+
+<!-- Selection rectangle -->
+<div id="sel-rect"></div>
+
+<!-- Grid view (mobile) -->
 <div id="gv"></div>
 
+<!-- Legend -->
 <div class="legend">
-  <div class="leg-t">Node Status</div>
+  <div class="leg-t">Status</div>
   <div class="leg-r"><div class="leg-d" style="background:#059669"></div>Live</div>
   <div class="leg-r"><div class="leg-d" style="background:#d97706"></div>In Dev</div>
   <div class="leg-r"><div class="leg-d" style="background:#2563eb"></div>Active</div>
   <div class="leg-sep"></div>
-  <div class="leg-t">Connections</div>
-  <div class="leg-row2"><div class="leg-line" style="background:#6366f1"></div>Data flow</div>
-  <div class="leg-row2"><div class="leg-dash"></div>Updates / feedback</div>
+  <div class="leg-hint">✋ Pan mode — drag canvas<br>⬚ Select mode — drag to select<br>Double-click labels to edit</div>
 </div>
 
 <script>
-// ══════════════════════════════════════════
-//  LAYOUT CONSTANTS
-// ══════════════════════════════════════════
-const CW=8500, CH=4600;
-const HX=6150, HY=1850; // hub center
-const CAT_R=390, TOOL_R=300, FAN=38; // tools map
-const rad = d => d*Math.PI/180;
-function catXY(cat){ return {x:HX+CAT_R*Math.cos(rad(cat.angle)), y:HY+CAT_R*Math.sin(rad(cat.angle))}; }
-function toolXY(cat,i,n){ const {x,y}=catXY(cat); const a=rad(cat.angle+(i-(n-1)/2)*FAN); return {x:x+TOOL_R*Math.cos(a), y:y+TOOL_R*Math.sin(a)}; }
+// ═══════════════════════════════════════════════
+//  LAYOUT
+// ═══════════════════════════════════════════════
+const HX=6150, HY=1850, CAT_R=390, TOOL_R=300, FAN=38;
+const rad = d=>d*Math.PI/180;
+const catXY = c=>({x:HX+CAT_R*Math.cos(rad(c.angle)), y:HY+CAT_R*Math.sin(rad(c.angle))});
+const toolXY = (c,i,n)=>{const {x,y}=catXY(c);const a=rad(c.angle+(i-(n-1)/2)*FAN);return{x:x+TOOL_R*Math.cos(a),y:y+TOOL_R*Math.sin(a)};};
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  TOOL DATA
-// ══════════════════════════════════════════
-const SL = {live:'Live',dev:'In Dev',active:'Active',planned:'Planned'};
-const TOOLS = {
-  categories:[
-    { id:"ai", name:"AI & Automation", icon:"⚡", color:"#6366f1", angle:198,
-      tools:[
-        { id:"jem-bot",  name:"Jem Supervisor Bot",        desc:"24/7 AI on Telegram. Receives your messages, reads context MDs, calls Claude, replies.", icon:"🤖", s:"live", loc:"Local PC", path:"Claude\\supervisor\\supervisor.py", url:null },
-        { id:"wa-qa",    name:"WhatsApp QA Bot",            desc:"Every 5h: extract group chat, parse questions, Claude replies as teacher.", icon:"💬", s:"dev",  loc:"Local PC", path:"Workshops\\Realestate Workshop\\WhatsApp QA Bot\\", url:null },
-        { id:"wa-img",   name:"WhatsApp Image Extractor",   desc:"Downloads photos from WhatsApp groups into sorted folders.", icon:"📸", s:"live", loc:"Local PC", path:"Workshops\\Realestate Workshop\\Whatsapp Image Extractor\\_codex\\", url:null },
-      ]},
-    { id:"grants", name:"Grants & Funding", icon:"💰", color:"#10b981", angle:342,
-      tools:[
-        { id:"grants-db",    name:"Grants Dashboard",  desc:"Live tracker — 3 submitted, 6 in progress, 7 researching, $3.5M pipeline.", icon:"📊", s:"live",   loc:"GitHub Pages", path:null, url:"https://shishirkhanal001.github.io/grants-dashboard/" },
-        { id:"futurpreneur", name:"Futurpreneur",       desc:"Discovery call Apr 15, 12:15 PM MT — under Daniel Haile.", icon:"🗓️", s:"active", loc:"In Progress", path:"Grants Applications\\Futurpreneur\\", url:null },
-        { id:"irap",         name:"IRAP & Others",      desc:"6 applications in progress, 7 in research stage.", icon:"📋", s:"active", loc:"In Progress", path:"Grants Applications\\", url:null },
-      ]},
-    { id:"film", name:"Film & Production", icon:"🎬", color:"#f59e0b", angle:126,
-      tools:[
-        { id:"editor",   name:"ICAN Film Editor Plugin", desc:"Premiere Pro CEP panel. AI transcription in Amharic + Tigrinya. Phase 1 in progress.", icon:"✂️", s:"dev",  loc:"Local PC",     path:"ICAN FILM EDITOR\\", url:null },
-        { id:"plan2026", name:"2026 Annual Plan",          desc:"ICAN Film & Lucy TV strategic dashboard — weekly, quarterly, yearly goals.", icon:"📅", s:"live", loc:"GitHub Pages", path:null, url:"https://shishirkhanal001.github.io/ican-2026-plan/" },
-      ]},
-    { id:"web", name:"Web & Streaming", icon:"🌐", color:"#3b82f6", angle:54,
-      tools:[
-        { id:"lucy-tv",     name:"Lucy TV",        desc:"OTT streaming — African diaspora cinema. SVOD $3.99–$6.99/mo.", icon:"📺", s:"live", loc:"Web", path:null, url:"https://tvlucy.com" },
-        { id:"kickstarter", name:"Kickstarter",    desc:"CA$8,000 goal — The Last Delivery. Live since Apr 1, 2026.", icon:"🚀", s:"live", loc:"Web", path:null, url:"https://www.kickstarter.com/projects/lucytv/lucy-tv-the-streaming-platform-for-independent-cinema" },
-        { id:"jem-hub-t",   name:"JEM HUB",        desc:"This dashboard. All tools + full system architecture in one view.", icon:"🗺️", s:"live", loc:"GitHub Pages", path:"Claude\\JEM-HUB\\index.html", url:"https://shishirkhanal001.github.io/jem-hub/" },
-      ]},
-    { id:"workshop", name:"Workshop & Education", icon:"📚", color:"#ec4899", angle:270,
-      tools:[
-        { id:"re-ws",       name:"Real Estate Workshop", desc:"8-class photography course. Cohort Mar–Apr 2026 active.", icon:"🏠", s:"live", loc:"Local Files", path:"Workshops\\Realestate Workshop\\", url:null },
-        { id:"class-books", name:"Class Handbooks",      desc:"8 PDF handbooks, Classes 1–8. All printed and in use.", icon:"📄", s:"live", loc:"Local Files", path:"Workshops\\Realestate Workshop\\Class Documents\\", url:null },
-      ]},
-  ]
+// ═══════════════════════════════════════════════
+const SL={live:'Live',dev:'In Dev',active:'Active',planned:'Planned'};
+const TOOLS={categories:[
+  {id:"ai",name:"AI & Automation",icon:"⚡",color:"#6366f1",angle:198,tools:[
+    {id:"jem-bot", name:"Jem Supervisor Bot",       desc:"24/7 AI on Telegram. Receives messages, reads context MDs, calls Claude, replies.",icon:"🤖",s:"live",loc:"Local PC",path:"Claude\\supervisor\\supervisor.py",url:null},
+    {id:"wa-qa",   name:"WhatsApp QA Bot",           desc:"Every 5h: extract group chat, parse questions, Claude replies as teacher.",icon:"💬",s:"dev",loc:"Local PC",path:"Workshops\\Realestate Workshop\\WhatsApp QA Bot\\",url:null},
+    {id:"wa-img",  name:"WhatsApp Image Extractor",  desc:"Downloads photos from WhatsApp groups into sorted date/sender folders.",icon:"📸",s:"live",loc:"Local PC",path:"Workshops\\Realestate Workshop\\Whatsapp Image Extractor\\_codex\\",url:null},
+  ]},
+  {id:"grants",name:"Grants & Funding",icon:"💰",color:"#10b981",angle:342,tools:[
+    {id:"grants-db",   name:"Grants Dashboard", desc:"Live tracker — 3 submitted, 6 in progress, 7 researching, $3.5M pipeline.",icon:"📊",s:"live",  loc:"GitHub Pages",path:null,url:"https://shishirkhanal001.github.io/grants-dashboard/"},
+    {id:"futurpreneur",name:"Futurpreneur",      desc:"Discovery call Apr 15, 12:15 PM MT — under Daniel Haile.",icon:"🗓️",s:"active",loc:"In Progress",path:"Grants Applications\\Futurpreneur\\",url:null},
+    {id:"irap",        name:"IRAP & Others",     desc:"6 applications in progress, 7 in research stage.",icon:"📋",s:"active",loc:"In Progress",path:"Grants Applications\\",url:null},
+  ]},
+  {id:"film",name:"Film & Production",icon:"🎬",color:"#f59e0b",angle:126,tools:[
+    {id:"editor",  name:"ICAN Film Editor Plugin",desc:"Premiere Pro CEP panel. AI transcription in Amharic + Tigrinya. Phase 1 in progress.",icon:"✂️",s:"dev",loc:"Local PC",path:"ICAN FILM EDITOR\\",url:null},
+    {id:"plan2026",name:"2026 Annual Plan",       desc:"ICAN Film & Lucy TV strategic dashboard — weekly, quarterly, yearly goals.",icon:"📅",s:"live",loc:"GitHub Pages",path:null,url:"https://shishirkhanal001.github.io/ican-2026-plan/"},
+  ]},
+  {id:"web",name:"Web & Streaming",icon:"🌐",color:"#3b82f6",angle:54,tools:[
+    {id:"lucy-tv",    name:"Lucy TV",    desc:"OTT streaming — African diaspora cinema. SVOD $3.99–$6.99/mo.",icon:"📺",s:"live",loc:"Web",path:null,url:"https://tvlucy.com"},
+    {id:"kickstarter",name:"Kickstarter",desc:"CA$8,000 goal — The Last Delivery. Live since Apr 1, 2026.",icon:"🚀",s:"live",loc:"Web",path:null,url:"https://www.kickstarter.com/projects/lucytv/lucy-tv-the-streaming-platform-for-independent-cinema"},
+    {id:"jem-hub-t",  name:"JEM HUB",   desc:"This dashboard — all tools + full system architecture in one view.",icon:"🗺️",s:"live",loc:"GitHub Pages",path:"Claude\\JEM-HUB\\index.html",url:"https://shishirkhanal001.github.io/jem-hub/"},
+  ]},
+  {id:"workshop",name:"Workshop & Education",icon:"📚",color:"#ec4899",angle:270,tools:[
+    {id:"re-ws",      name:"Real Estate Workshop",desc:"8-class photography course. Cohort Mar–Apr 2026 active.",icon:"🏠",s:"live",loc:"Local Files",path:"Workshops\\Realestate Workshop\\",url:null},
+    {id:"class-books",name:"Class Handbooks",    desc:"8 PDF handbooks, Classes 1–8. All printed and in use.",icon:"📄",s:"live",loc:"Local Files",path:"Workshops\\Realestate Workshop\\Class Documents\\",url:null},
+  ]},
+]};
+
+// ═══════════════════════════════════════════════
+//  INFRA NODES
+// ═══════════════════════════════════════════════
+const INFRA=[
+  {id:"shishir",lc:"#8b5cf6",icon:"📱",name:"Shishir Khanal",   badge:"User",      role:"Primary user. Sends text, voice notes, photos via Telegram.",detail:"Auth ID: 5395334942\nAll commands, tasks, and conversations",path:null,dx:560,dy:980},
+  {id:"daniel", lc:"#8b5cf6",icon:"📱",name:"Daniel Haile",     badge:"User",      role:"Co-access. Same bot, same full PC access via Telegram.",detail:"Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant",path:null,dx:560,dy:1175},
+  {id:"sched",  lc:"#8b5cf6",icon:"⏰",name:"Scheduled Tasks",  badge:"Trigger",   role:"Runs Python scripts on timer — no human input needed.",detail:"Windows Task Scheduler\n8 AM morning briefing · Mon 9 AM weekly report\nWhatsApp QA Bot every 5h (in dev)",path:null,dx:560,dy:1370},
+  {id:"sup-py", lc:"#6366f1",icon:"⚙️",name:"supervisor.py",    badge:"Supervisor",role:"Main bot loop. Receives Telegram messages, builds context prompt, calls Claude CLI, parses response, executes actions.",detail:"Long-polls Telegram API · Authorizes user IDs\nAuto-starts on Windows login via startw.bat",path:"Claude\\supervisor\\supervisor.py",dx:1230,dy:1090},
+  {id:"jem-py", lc:"#6366f1",icon:"📤",name:"jem_send.py",      badge:"Sender",    role:"Called by Claude via Bash. Sends text, files, or HTML→PDF to Telegram.",detail:"msg → text reply\nfile → any format directly\npdf → Chrome headless → PDF → Telegram",path:"Claude\\supervisor\\jem_send.py",dx:1230,dy:1360},
+  {id:"cfg",    lc:"#6366f1",icon:"🔑",name:"config.env",       badge:"Config",    role:"API keys, authorized user IDs, bot name, voice on/off.",detail:"TELEGRAM_BOT_TOKEN · TELEGRAM_USER_ID\nAUTHORIZED_USERS · VOICE_INPUT=True\nVOICE_RESPONSES=True",path:"Claude\\supervisor\\config.env",dx:1230,dy:1590},
+  {id:"mb",     lc:"#10b981",icon:"🧠",name:"MASTER_BRAIN.md",  badge:"Memory",    role:"Company context, team, brand, architecture, escalation rules. Loaded EVERY message.",detail:"~800 tokens · Company BNs, brand colors, mission\nJem architecture · New task protocol",path:"Claude\\MASTER_BRAIN.md",dx:1980,dy:900},
+  {id:"pi",     lc:"#10b981",icon:"📋",name:"PROJECT_INDEX.md", badge:"Memory",    role:"All 8 projects with status, paths, routing table. Loaded EVERY message.",detail:"~400 tokens\n'If Shishir says X → load this CLAUDE.md'\nQuick status snapshot per project",path:"Claude\\PROJECT_INDEX.md",dx:1980,dy:1090},
+  {id:"pmd",    lc:"#10b981",icon:"📄",name:"[project] CLAUDE.md",badge:"Memory",  role:"Project-specific memory. Only ONE relevant project file loaded per message.",detail:"One file per project · 600–1,200 tokens each\nUpdated at end of every work session\n8 active CLAUDE.md files in use",path:"[project folder]\\CLAUDE.md",dx:1980,dy:1280},
+  {id:"log",    lc:"#10b981",icon:"📝",name:"LOG_YYYY-MM-DD.md",badge:"Memory",    role:"Today's full activity log. Supervisor auto-appends after every reply.",detail:"New file each day · Includes all Q&A + timestamps\nPrevents repeating info within same day",path:"Claude\\LOG_YYYY-MM-DD.md",dx:1980,dy:1470},
+  {id:"expand", lc:"#10b981",icon:"➕",name:"How to Expand",    badge:"Protocol",  role:"Add new project:\n→ create folder\n→ create CLAUDE.md\n→ add row to PROJECT_INDEX.md\n→ Jem picks it up next message\n\nAdd tool to JEM HUB:\n→ edit DATA in index.html → git push",detail:"MDs are auto-loaded. No code change needed for new projects.",path:null,dx:1980,dy:1700,special:true},
+  {id:"cli",    lc:"#f59e0b",icon:"🤖",name:"claude --print",   badge:"AI Engine", role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin. Returns response to stdout.",detail:"Model: claude-sonnet-4-6\nFresh session each call — no history between calls",path:null,dx:2780,dy:980},
+  {id:"api",    lc:"#f59e0b",icon:"☁️",name:"Anthropic API",    badge:"Remote",    role:"Remote AI inference. claude-sonnet-4-6 generates the response from your context.",detail:"Not local — requires internet\n~$0.01–0.03 per message · Round-trip to API",path:null,dx:2780,dy:1210},
+  {id:"tools-ai",lc:"#f59e0b",icon:"🔧",name:"Tool Calls (Local)",badge:"Execution",role:"Claude executes these tools live on your PC: Read, Write, Edit, Bash, Grep, Glob.",detail:"Read → open any file\nWrite/Edit → modify files\nBash → run any script or command",path:null,dx:2780,dy:1450},
+  {id:"briefs", lc:"#f59e0b",icon:"🌅",name:"Scheduled Scripts",badge:"Scheduler", role:"morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM) run independently on schedule.",detail:"Each reads all MDs → calls Claude → Telegram\nWindows Task Scheduler fires them",path:"Claude\\supervisor\\morning_briefing.py",dx:2780,dy:1670},
+  {id:"o-tg",   lc:"#3b82f6",icon:"💬",name:"Text → Telegram",  badge:"Output",    role:"Claude calls jem_send.py msg. Text response goes back to your phone.",detail:"Supports markdown formatting\nVoice reply via edge-tts if VOICE_RESPONSES=True",path:null,dx:3540,dy:900},
+  {id:"o-pdf",  lc:"#3b82f6",icon:"📎",name:"File / PDF → Telegram",badge:"Output",role:"Files sent directly. HTML → Chrome headless → PDF → sent.",detail:"Chrome: Program Files\\Google\\Chrome\\Application\nTemp user-data-dir per call",path:null,dx:3540,dy:1110},
+  {id:"o-drive",lc:"#3b82f6",icon:"💾",name:"Google Drive Upload",badge:"Output",  role:"OAuth upload to 'Jem Uploads' folder in your Google Drive.",detail:"Token: drive_token.json\nRe-auth if needed: drive_setup.py",path:"Claude\\supervisor\\drive_token.json",dx:3540,dy:1320},
+  {id:"o-gh",   lc:"#3b82f6",icon:"🌐",name:"GitHub Pages Deploy",badge:"Output",  role:"Claude pushes code via gh CLI. GitHub auto-deploys to public URL. Reload = latest.",detail:"Account: ShishirKhanal001 · 3 live dashboards\nDeploy time: ~60 seconds",path:null,dx:3540,dy:1530},
+];
+
+const EDGES=[
+  {f:"shishir",t:"sup-py",c:"#8b5cf6"},{f:"daniel",t:"sup-py",c:"#8b5cf6"},{f:"sched",t:"sup-py",c:"#8b5cf6"},
+  {f:"cfg",t:"sup-py",c:"#6366f1",dash:true},
+  {f:"sup-py",t:"mb",c:"#10b981"},{f:"sup-py",t:"pi",c:"#10b981"},{f:"sup-py",t:"pmd",c:"#10b981"},{f:"sup-py",t:"log",c:"#10b981"},
+  {f:"mb",t:"cli",c:"#f59e0b"},{f:"pi",t:"cli",c:"#f59e0b"},{f:"pmd",t:"cli",c:"#f59e0b"},{f:"log",t:"cli",c:"#f59e0b"},
+  {f:"cli",t:"api",c:"#f59e0b"},{f:"api",t:"cli",c:"#d97706",dash:true},
+  {f:"cli",t:"tools-ai",c:"#f59e0b"},{f:"tools-ai",t:"pmd",c:"#10b981",dash:true},
+  {f:"briefs",t:"cli",c:"#f59e0b",dash:true},{f:"briefs",t:"o-tg",c:"#3b82f6",dash:true},
+  {f:"cli",t:"o-tg",c:"#3b82f6"},{f:"cli",t:"o-pdf",c:"#3b82f6"},{f:"cli",t:"o-drive",c:"#3b82f6"},{f:"cli",t:"o-gh",c:"#3b82f6"},
+  {f:"o-tg",t:"jem-py",c:"#6366f1",dash:true},{f:"o-pdf",t:"jem-py",c:"#6366f1",dash:true},
+  {f:"o-gh",t:"hub",c:"#6366f1",w:2.5},
+];
+
+// ═══════════════════════════════════════════════
+//  NODE POSITIONS + LABEL TEXT
+// ═══════════════════════════════════════════════
+let NP={};
+const DEFAULT_LABELS={
+  'sl-arch-tag':'System Architecture','sl-arch-title':'HOW JEM WORKS','sl-arch-sub':'Full pipeline — from your phone to every output. Drag any card. Double-click text to edit.',
+  'sl-tools-tag':'Tools Map','sl-tools-title':'TOOLS BUILT','sl-tools-sub':'All tools and dashboards maintained by this system. Click web tools to open.',
+  'lh-input-num':'01','lh-input-name':'INPUT',
+  'lh-super-num':'02','lh-super-name':'SUPERVISOR',
+  'lh-mem-num':'03',  'lh-mem-name':'MEMORY & CONTEXT',
+  'lh-ai-num':'04',   'lh-ai-name':'AI ENGINE',
+  'lh-out-num':'05',  'lh-out-name':'OUTPUT',
 };
+let LT={...DEFAULT_LABELS};
 
-// ══════════════════════════════════════════
-//  INFRASTRUCTURE NODES
-// ══════════════════════════════════════════
-const INFRA = [
-  // INPUT
-  {id:"shishir",  lc:"#8b5cf6", icon:"📱", name:"Shishir Khanal",         badge:"User",       role:"Primary user. Sends text, voice notes, photos via Telegram from phone.", detail:"Auth ID: 5395334942\nAll commands, tasks, and conversations", path:null, dx:560, dy:980},
-  {id:"daniel",   lc:"#8b5cf6", icon:"📱", name:"Daniel Haile",           badge:"User",       role:"Co-access. Same bot, same full PC access via Telegram.", detail:"Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant", path:null, dx:560, dy:1175},
-  {id:"sched",    lc:"#8b5cf6", icon:"⏰", name:"Scheduled Tasks",        badge:"Trigger",    role:"Runs Python scripts on timer — no human input needed.", detail:"Windows Task Scheduler\n8 AM morning briefing · Mon 9 AM weekly report\nWhatsApp QA Bot every 5h (in dev)", path:null, dx:560, dy:1370},
-
-  // SUPERVISOR
-  {id:"sup-py",   lc:"#6366f1", icon:"⚙️", name:"supervisor.py",          badge:"Supervisor", role:"Main bot loop. Receives Telegram messages, builds context prompt, calls Claude CLI, parses response, executes actions.", detail:"Long-polls Telegram API · Authorizes user IDs\nAuto-starts on Windows login via startw.bat", path:"Claude\\supervisor\\supervisor.py", dx:1230, dy:1090},
-  {id:"jem-py",   lc:"#6366f1", icon:"📤", name:"jem_send.py",            badge:"Sender",     role:"Called by Claude via Bash. Sends text, files, or HTML→PDF to Telegram.", detail:"msg → text reply\nfile → any format directly\npdf → Chrome headless → PDF → Telegram", path:"Claude\\supervisor\\jem_send.py", dx:1230, dy:1360},
-  {id:"cfg",      lc:"#6366f1", icon:"🔑", name:"config.env",             badge:"Config",     role:"API keys, authorized user IDs, bot name, voice on/off.", detail:"TELEGRAM_BOT_TOKEN\nTELEGRAM_USER_ID · AUTHORIZED_USERS\nVOICE_INPUT=True · VOICE_RESPONSES=True", path:"Claude\\supervisor\\config.env", dx:1230, dy:1590},
-
-  // MEMORY
-  {id:"mb",       lc:"#10b981", icon:"🧠", name:"MASTER_BRAIN.md",        badge:"Memory",     role:"Company context, team, brand, architecture, escalation rules. Loaded EVERY message.", detail:"~800 tokens · Company BNs, brand colors, mission\nIJem architecture · New task protocol", path:"Claude\\MASTER_BRAIN.md", dx:1980, dy:900},
-  {id:"pi",       lc:"#10b981", icon:"📋", name:"PROJECT_INDEX.md",       badge:"Memory",     role:"All 8 projects with status, paths, routing table. Loaded EVERY message.", detail:"~400 tokens\n'If Shishir says X → load this CLAUDE.md'\nQuick status snapshot per project", path:"Claude\\PROJECT_INDEX.md", dx:1980, dy:1090},
-  {id:"pmd",      lc:"#10b981", icon:"📄", name:"[project] CLAUDE.md",   badge:"Memory",     role:"Project-specific memory. Only the ONE relevant project's file is loaded per message.", detail:"One file per project · 600–1,200 tokens each\nUpdated at end of every work session\n8 active CLAUDE.md files in use", path:"[project folder]\\CLAUDE.md", dx:1980, dy:1280},
-  {id:"log",      lc:"#10b981", icon:"📝", name:"LOG_YYYY-MM-DD.md",      badge:"Memory",     role:"Today's full activity log. Supervisor auto-appends after every reply.", detail:"New file each day\nIncludes all Q&A + timestamps + project\nUsed to avoid repeating info in same day", path:"Claude\\LOG_YYYY-MM-DD.md", dx:1980, dy:1470},
-  {id:"expand",   lc:"#10b981", icon:"➕", name:"How to Expand This System", badge:"Protocol", role:"Add new project:\n→ create folder\n→ create CLAUDE.md\n→ add row to PROJECT_INDEX.md\n→ Jem picks it up next message\n\nAdd tool to JEM HUB:\n→ edit DATA in index.html\n→ git push → live in 1 min", detail:"MDs are auto-loaded. No code change needed for new projects.", path:null, dx:1980, dy:1700, special:true},
-
-  // AI ENGINE
-  {id:"cli",      lc:"#f59e0b", icon:"🤖", name:"claude --print",         badge:"AI Engine",  role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin pipe. Returns response to stdout.", detail:"Model: claude-sonnet-4-6\nFresh session each call — no history between calls\nMax context: ~200K tokens", path:null, dx:2780, dy:980},
-  {id:"api",      lc:"#f59e0b", icon:"☁️", name:"Anthropic API",          badge:"Remote",     role:"Remote AI inference. claude-sonnet-4-6 generates the response from your context.", detail:"Not local — requires internet\n~$0.01–0.03 per message\nRound-trip to API then back to CLI", path:null, dx:2780, dy:1210},
-  {id:"tools-ai", lc:"#f59e0b", icon:"🔧", name:"Tool Calls (Local)",     badge:"Execution",  role:"Claude executes these tools in real time on your PC: Read, Write, Edit, Bash, Grep, Glob.", detail:"Read → open any file\nWrite/Edit → modify files\nBash → run any script or command\nGrep/Glob → search files", path:null, dx:2780, dy:1450},
-  {id:"briefs",   lc:"#f59e0b", icon:"🌅", name:"Scheduled Scripts",      badge:"Scheduler",  role:"morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM) run independently on schedule.", detail:"Each reads all MDs → calls Claude → sends Telegram\nNot triggered by you — Windows Task Scheduler fires them", path:"Claude\\supervisor\\morning_briefing.py", dx:2780, dy:1670},
-
-  // OUTPUT
-  {id:"o-tg",     lc:"#3b82f6", icon:"💬", name:"Text → Telegram",        badge:"Output",     role:"Claude calls jem_send.py msg. Text response goes back to your phone.", detail:"Supports markdown formatting\nVoice reply via edge-tts if VOICE_RESPONSES=True\nWhisper local if VOICE_INPUT=True", path:null, dx:3540, dy:900},
-  {id:"o-pdf",    lc:"#3b82f6", icon:"📎", name:"File / PDF → Telegram",  badge:"Output",     role:"Files sent directly. HTML → Chrome headless → PDF → sent.", detail:"Chrome: Program Files\\Google\\Chrome\\Application\nTemp user-data-dir per call (avoids profile lock)\nSupports any file type", path:null, dx:3540, dy:1110},
-  {id:"o-drive",  lc:"#3b82f6", icon:"💾", name:"Google Drive Upload",    badge:"Output",     role:"OAuth upload to 'Jem Uploads' folder in your Google Drive.", detail:"Token: drive_token.json\nRe-auth if needed: drive_setup.py\nSupports single file or full folder", path:"Claude\\supervisor\\drive_token.json", dx:3540, dy:1320},
-  {id:"o-gh",     lc:"#3b82f6", icon:"🌐", name:"GitHub Pages Deploy",    badge:"Output",     role:"Claude pushes code via gh CLI. GitHub auto-deploys to public URL. Reload = latest version.", detail:"Account: ShishirKhanal001\n3 live dashboards right now\nDeploy time: ~60 seconds", path:null, dx:3540, dy:1530},
-];
-
-// ══════════════════════════════════════════
-//  EDGES (connections between nodes)
-// ══════════════════════════════════════════
-const EDGES = [
-  // Inputs → Supervisor
-  {f:"shishir", t:"sup-py", c:"#8b5cf6"},
-  {f:"daniel",  t:"sup-py", c:"#8b5cf6"},
-  {f:"sched",   t:"sup-py", c:"#8b5cf6"},
-  {f:"cfg",     t:"sup-py", c:"#6366f1", dash:true},
-  // Supervisor reads MDs
-  {f:"sup-py", t:"mb",  c:"#10b981"},
-  {f:"sup-py", t:"pi",  c:"#10b981"},
-  {f:"sup-py", t:"pmd", c:"#10b981"},
-  {f:"sup-py", t:"log", c:"#10b981"},
-  // MDs → Claude CLI
-  {f:"mb",  t:"cli", c:"#f59e0b"},
-  {f:"pi",  t:"cli", c:"#f59e0b"},
-  {f:"pmd", t:"cli", c:"#f59e0b"},
-  {f:"log", t:"cli", c:"#f59e0b"},
-  // AI internals
-  {f:"cli", t:"api",      c:"#f59e0b"},
-  {f:"api", t:"cli",      c:"#d97706", dash:true},
-  {f:"cli", t:"tools-ai", c:"#f59e0b"},
-  {f:"tools-ai", t:"pmd", c:"#10b981", dash:true}, // tools update project memory
-  // Scheduled → AI
-  {f:"briefs", t:"cli", c:"#f59e0b", dash:true},
-  // AI → Outputs
-  {f:"cli", t:"o-tg",    c:"#3b82f6"},
-  {f:"cli", t:"o-pdf",   c:"#3b82f6"},
-  {f:"cli", t:"o-drive", c:"#3b82f6"},
-  {f:"cli", t:"o-gh",    c:"#3b82f6"},
-  // Outputs fire jem_send
-  {f:"o-tg",  t:"jem-py", c:"#6366f1", dash:true},
-  {f:"o-pdf", t:"jem-py", c:"#6366f1", dash:true},
-  // GitHub deploy → JEM HUB center
-  {f:"o-gh", t:"hub", c:"#6366f1", w:2.5},
-];
-
-// ══════════════════════════════════════════
-//  NODE POSITIONS
-// ══════════════════════════════════════════
-let NP = {}; // { id: {x,y} }
-
-function buildDefaults() {
-  NP = {};
-  NP['hub'] = {x:HX, y:HY};
-  TOOLS.categories.forEach(c => {
-    NP['cat-'+c.id] = catXY(c);
-    c.tools.forEach((t,i) => { NP['tool-'+t.id] = toolXY(c,i,c.tools.length); });
+function buildDefaults(){
+  NP={};
+  NP['hub']={x:HX,y:HY};
+  TOOLS.categories.forEach(c=>{
+    NP['cat-'+c.id]=catXY(c);
+    c.tools.forEach((t,i)=>{NP['tool-'+t.id]=toolXY(c,i,c.tools.length);});
   });
-  INFRA.forEach(n => { NP[n.id] = {x:n.dx, y:n.dy}; });
+  INFRA.forEach(n=>{NP[n.id]={x:n.dx,y:n.dy};});
+  // Section labels & layer headers
+  NP['sl-arch'] ={x:380, y:360}; NP['sl-tools']={x:5100,y:360};
+  NP['lh-input']={x:560, y:640}; NP['lh-super']={x:1230,y:640};
+  NP['lh-mem']  ={x:1980,y:640}; NP['lh-ai']   ={x:2780,y:640};
+  NP['lh-out']  ={x:3540,y:640};
 }
 
-function loadNP() {
-  try { const s=JSON.parse(localStorage.getItem('jh-np')||'{}'); Object.assign(NP,s); } catch(e) {}
+function loadState(){
+  try{const p=JSON.parse(localStorage.getItem('jh-np')||'{}');Object.assign(NP,p);}catch(e){}
+  try{const l=JSON.parse(localStorage.getItem('jh-lt')||'{}');Object.assign(LT,l);}catch(e){}
 }
-function saveNP() {
-  try { localStorage.setItem('jh-np', JSON.stringify(NP)); } catch(e) {}
-}
-function resetPositions() {
-  localStorage.removeItem('jh-np'); buildDefaults(); renderAll(); fitAll();
+function saveNP(){try{localStorage.setItem('jh-np',JSON.stringify(NP));}catch(e){}}
+function saveLT(id,txt){LT[id]=txt;try{localStorage.setItem('jh-lt',JSON.stringify(LT));}catch(e){}}
+function resetAll(){localStorage.removeItem('jh-np');localStorage.removeItem('jh-lt');buildDefaults();LT={...DEFAULT_LABELS};renderAll();fitAll();}
+
+// ═══════════════════════════════════════════════
+//  EDITABLE TEXT
+// ═══════════════════════════════════════════════
+function startEdit(el, labelId){
+  if(el.contentEditable==='true') return;
+  el.contentEditable='true'; el.focus();
+  const r=document.createRange(); r.selectNodeContents(el);
+  const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  function done(){el.contentEditable='false';saveLT(labelId,el.textContent.trim());}
+  el.addEventListener('blur',done,{once:true});
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}},);
 }
 
-// ══════════════════════════════════════════
-//  RENDER ALL
-// ══════════════════════════════════════════
-function renderAll() {
-  const vp = document.getElementById('vp');
-  vp.querySelectorAll('[data-nid],.slabel,.lhdr,.hub-c,.cat-n,.tool-n').forEach(e=>e.remove());
+// ═══════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════
+function renderAll(){
+  const vp=document.getElementById('vp');
+  vp.querySelectorAll('[data-nid]').forEach(e=>e.remove());
   renderSectionLabels(vp);
   renderLayerHeaders(vp);
   renderInfraNodes(vp);
@@ -327,257 +343,277 @@ function renderAll() {
   renderCatNodes(vp);
   renderToolNodes(vp);
   drawConnections();
+  syncSelectionUI();
 }
 
-function renderSectionLabels(vp) {
-  const items = [
-    {x:300, y:280, tag:'System Architecture', title:'HOW JEM WORKS', sub:'Full pipeline — from your phone to every output. Drag any card to rearrange.', bar:'linear-gradient(90deg,#8b5cf6,#6366f1,#10b981,#f59e0b,#3b82f6)', w:700},
-    {x:5000, y:280, tag:'Tools Map', title:'TOOLS BUILT', sub:'All tools and dashboards maintained by this system. Click web tools to open.', bar:'linear-gradient(90deg,#6366f1,#10b981,#f59e0b,#3b82f6,#ec4899)', w:500},
-  ];
-  items.forEach(it => {
-    const d = document.createElement('div');
-    d.className = 'slabel';
-    d.style.cssText = `left:${it.x}px;top:${it.y}px;width:${it.w}px`;
-    d.innerHTML = `<div class="sl-tag">${it.tag}</div><span class="sl-title">${it.title}</span><span class="sl-sub">${it.sub}</span><div class="sl-bar" style="background:${it.bar}"></div>`;
-    vp.appendChild(d);
+function mk(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e;}
+function placeNode(el,id,vp){el.dataset.nid=id;const p=NP[id];el.style.left=p.x+'px';el.style.top=p.y+'px';vp.appendChild(el);}
+
+function renderSectionLabels(vp){
+  [
+    {id:'sl-arch',  tagK:'sl-arch-tag', titleK:'sl-arch-title', subK:'sl-arch-sub',  bar:'linear-gradient(90deg,#8b5cf6,#6366f1,#10b981,#f59e0b,#3b82f6)', w:640},
+    {id:'sl-tools', tagK:'sl-tools-tag',titleK:'sl-tools-title',subK:'sl-tools-sub', bar:'linear-gradient(90deg,#6366f1,#10b981,#f59e0b,#3b82f6,#ec4899)',  w:480},
+  ].forEach(it=>{
+    const el=mk('div','slabel');
+    el.innerHTML=`<div class="sl-tag" data-eid="${it.tagK}" ondblclick="startEdit(this,'${it.tagK}')">${LT[it.tagK]}</div><span class="sl-title" data-eid="${it.titleK}" ondblclick="startEdit(this,'${it.titleK}')">${LT[it.titleK]}</span><span class="sl-sub" data-eid="${it.subK}" ondblclick="startEdit(this,'${it.subK}')">${LT[it.subK]}</span><div class="sl-bar" style="background:${it.bar};width:${it.w}px"></div>`;
+    placeNode(el,it.id,vp);
   });
 }
 
-function renderLayerHeaders(vp) {
-  const layers = [
-    {x:560,  y:620, num:'01', name:'INPUT',           c:'#8b5cf6'},
-    {x:1230, y:620, num:'02', name:'SUPERVISOR',      c:'#6366f1'},
-    {x:1980, y:620, num:'03', name:'MEMORY & CONTEXT',c:'#10b981'},
-    {x:2780, y:620, num:'04', name:'AI ENGINE',       c:'#f59e0b'},
-    {x:3540, y:620, num:'05', name:'OUTPUT',          c:'#3b82f6'},
-  ];
-  layers.forEach(l => {
-    const d = document.createElement('div');
-    d.className = 'lhdr';
-    d.style.cssText = `left:${l.x}px;top:${l.y}px`;
-    d.innerHTML = `<div class="lh-num" style="color:${l.c}">${l.num}</div><div class="lh-name" style="color:${l.c}">${l.name}</div><div class="lh-bar" style="background:${l.c};opacity:.35"></div>`;
-    vp.appendChild(d);
+function renderLayerHeaders(vp){
+  [
+    {id:'lh-input',numK:'lh-input-num',nameK:'lh-input-name',c:'#8b5cf6'},
+    {id:'lh-super',numK:'lh-super-num',nameK:'lh-super-name',c:'#6366f1'},
+    {id:'lh-mem',  numK:'lh-mem-num',  nameK:'lh-mem-name',  c:'#10b981'},
+    {id:'lh-ai',   numK:'lh-ai-num',   nameK:'lh-ai-name',   c:'#f59e0b'},
+    {id:'lh-out',  numK:'lh-out-num',  nameK:'lh-out-name',  c:'#3b82f6'},
+  ].forEach(it=>{
+    const el=mk('div','lhdr');
+    el.innerHTML=`<div class="lh-num" style="color:${it.c}" data-eid="${it.numK}" ondblclick="startEdit(this,'${it.numK}')">${LT[it.numK]}</div><div class="lh-name" style="color:${it.c}" data-eid="${it.nameK}" ondblclick="startEdit(this,'${it.nameK}')">${LT[it.nameK]}</div><div class="lh-bar" style="background:${it.c};opacity:.35"></div>`;
+    placeNode(el,it.id,vp);
   });
 }
 
-function renderInfraNodes(vp) {
-  INFRA.forEach(n => {
-    const pos = NP[n.id];
-    const pathEl = n.path ? `<div class="ipath">📁 …\\${n.path}</div>` : '';
-    const el = document.createElement('div');
-    el.dataset.nid = n.id;
-    el.style.cssText = `left:${pos.x}px;top:${pos.y}px`;
-    el.innerHTML = `<div class="ic${n.special?' special':''}" style="--lc:${n.lc}">
-      <div class="ih">
-        <span class="iico">${n.icon}</span>
-        <span class="inm">${n.name}</span>
-        <span class="ibadge" style="background:color-mix(in srgb,${n.lc} 12%,transparent);color:${n.lc}">${n.badge}</span>
-      </div>
-      <div class="irole">${n.role}</div>
-      ${pathEl}
-      <div class="idetail">${n.detail}</div>
-    </div>`;
-    vp.appendChild(el);
+function renderInfraNodes(vp){
+  INFRA.forEach(n=>{
+    const el=mk('div');
+    const pathEl=n.path?`<div class="ipath">📁 …\\${n.path}</div>`:'';
+    el.innerHTML=`<div class="ic${n.special?' special':''}" style="--lc:${n.lc}"><div class="ih"><span class="iico">${n.icon}</span><span class="inm">${n.name}</span><span class="ibadge" style="background:color-mix(in srgb,${n.lc} 12%,transparent);color:${n.lc}">${n.badge}</span></div><div class="irole">${n.role}</div>${pathEl}<div class="idetail">${n.detail}</div></div>`;
+    placeNode(el,n.id,vp);
   });
 }
 
-function renderHubNode(vp) {
-  const pos = NP['hub'];
-  const el = document.createElement('div');
-  el.className = 'hub-c'; el.dataset.nid = 'hub';
-  el.style.cssText = `left:${pos.x}px;top:${pos.y}px`;
-  el.innerHTML = `<div class="hub-i"><div class="hub-ican">ICAN</div><div class="hub-jh">JEM HUB</div><div class="hub-sub">Operating System</div></div>`;
-  vp.appendChild(el);
+function renderHubNode(vp){
+  const el=mk('div','hub-c');
+  el.innerHTML=`<div class="hub-i"><div class="hub-ican">ICAN</div><div class="hub-jh">JEM HUB</div><div class="hub-sub">Operating System</div></div>`;
+  placeNode(el,'hub',vp);
 }
 
-function renderCatNodes(vp) {
-  TOOLS.categories.forEach(c => {
-    const pos = NP['cat-'+c.id];
-    const el = document.createElement('div');
-    el.className = 'cat-n'; el.dataset.nid = 'cat-'+c.id;
-    el.style.cssText = `left:${pos.x}px;top:${pos.y}px`;
-    el.innerHTML = `<div class="cat-c" style="--cc:${c.color}"><span class="cat-ic">${c.icon}</span><span class="cat-nm">${c.name}</span></div>`;
-    vp.appendChild(el);
+function renderCatNodes(vp){
+  TOOLS.categories.forEach(c=>{
+    const el=mk('div','cat-n');
+    el.innerHTML=`<div class="cat-c" style="--cc:${c.color}"><span class="cat-ic">${c.icon}</span><span class="cat-nm">${c.name}</span></div>`;
+    placeNode(el,'cat-'+c.id,vp);
   });
 }
 
-function renderToolNodes(vp) {
-  TOOLS.categories.forEach(c => {
-    c.tools.forEach(t => {
-      const pos = NP['tool-'+t.id];
-      const el = document.createElement('div');
-      el.className = 'tool-n'; el.dataset.nid = 'tool-'+t.id;
-      el.style.cssText = `left:${pos.x}px;top:${pos.y}px`;
-      const hasLink = !!t.url;
-      const click = hasLink ? `onclick="window.open('${t.url}','_blank')"` : '';
-      const badge = hasLink ? `<span class="tarr" style="--cc:${c.color}">↗ Open</span>` : `<span class="tloc">${t.loc}</span>`;
-      const pathEl = t.path ? `<div class="tpath">📁 …\\${t.path}</div>` : '';
-      el.innerHTML = `<div class="tc${hasLink?' link':''}" style="--cc:${c.color}" ${click}>
-        <div class="tth"><span class="tte">${t.icon}</span><span class="ttn">${t.name}</span></div>
-        <div class="ttd">${t.desc}</div>
-        ${pathEl}
-        <div class="ttf"><span class="sd s-${t.s}">${SL[t.s]}</span>${badge}</div>
-      </div>`;
-      vp.appendChild(el);
+function renderToolNodes(vp){
+  TOOLS.categories.forEach(c=>{
+    c.tools.forEach(t=>{
+      const el=mk('div','tool-n');
+      const hasLink=!!t.url;
+      const click=hasLink?`onclick="window.open('${t.url}','_blank')"`:'' ;
+      const badge=hasLink?`<span class="tarr" style="--cc:${c.color}">↗ Open</span>`:`<span class="tloc">${t.loc}</span>`;
+      const pathEl=t.path?`<div class="tpath">📁 …\\${t.path}</div>`:'';
+      el.innerHTML=`<div class="tc${hasLink?' link':''}" style="--cc:${c.color}" ${click}><div class="tth"><span class="tte">${t.icon}</span><span class="ttn">${t.name}</span></div><div class="ttd">${t.desc}</div>${pathEl}<div class="ttf"><span class="sd s-${t.s}">${SL[t.s]}</span>${badge}</div></div>`;
+      placeNode(el,'tool-'+t.id,vp);
     });
   });
 }
 
-// ══════════════════════════════════════════
-//  CONNECTIONS (SVG)
-// ══════════════════════════════════════════
-function drawConnections() {
-  const colors = [...new Set(EDGES.map(e=>e.c))];
-  let h = '<defs>';
-  colors.forEach(c => {
-    h += `<marker id="a${c.replace('#','')}" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${c}" opacity="0.7"/></marker>`;
-  });
-  h += '</defs>';
-
-  // Infra edges
-  EDGES.forEach(e => {
-    const p1=NP[e.f], p2=NP[e.t];
-    if(!p1||!p2) return;
-    const dx=p2.x-p1.x;
-    const off=Math.max(Math.abs(dx)*0.45,100);
+// ═══════════════════════════════════════════════
+//  SVG CONNECTIONS
+// ═══════════════════════════════════════════════
+function drawConnections(){
+  const colors=[...new Set(EDGES.map(e=>e.c))];
+  let h='<defs>';
+  colors.forEach(c=>{h+=`<marker id="a${c.replace('#','')}" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${c}" opacity="0.7"/></marker>`;});
+  h+='</defs>';
+  EDGES.forEach(e=>{
+    const p1=NP[e.f],p2=NP[e.t]; if(!p1||!p2)return;
+    const off=Math.max(Math.abs(p2.x-p1.x)*.45,100);
     const d=`M ${p1.x} ${p1.y} C ${p1.x+off} ${p1.y} ${p2.x-off} ${p2.y} ${p2.x} ${p2.y}`;
-    const marker = e.dash ? '' : `marker-end="url(#a${e.c.replace('#','')})"`;
-    h += `<path d="${d}" stroke="${e.c}" stroke-width="${e.w||1.8}" fill="none" opacity="${e.dash?0.28:0.5}" ${e.dash?'stroke-dasharray="6 4"':''} ${marker}/>`;
+    const mk=e.dash?'':`marker-end="url(#a${e.c.replace('#','')})"`;
+    h+=`<path d="${d}" stroke="${e.c}" stroke-width="${e.w||1.8}" fill="none" opacity="${e.dash?.28:.5}" ${e.dash?'stroke-dasharray="6 4"':''} ${mk}/>`;
   });
-
-  // Hub → Category → Tool connections
-  TOOLS.categories.forEach(c => {
-    const cp=NP['cat-'+c.id], hp=NP['hub'];
-    if(!cp||!hp) return;
-    h += `<line x1="${hp.x}" y1="${hp.y}" x2="${cp.x}" y2="${cp.y}" stroke="${c.color}" stroke-width="2" stroke-dasharray="7 5" opacity="0.5"/>`;
-    c.tools.forEach(t => {
-      const tp=NP['tool-'+t.id];
-      if(!tp) return;
-      h += `<path d="M ${cp.x} ${cp.y} Q ${(cp.x+tp.x)/2} ${(cp.y+tp.y)/2} ${tp.x} ${tp.y}" stroke="${c.color}" stroke-width="1.5" fill="none" opacity="0.4"/>`;
+  TOOLS.categories.forEach(c=>{
+    const cp=NP['cat-'+c.id],hp=NP['hub']; if(!cp||!hp)return;
+    h+=`<line x1="${hp.x}" y1="${hp.y}" x2="${cp.x}" y2="${cp.y}" stroke="${c.color}" stroke-width="2" stroke-dasharray="7 5" opacity="0.5"/>`;
+    c.tools.forEach(t=>{
+      const tp=NP['tool-'+t.id]; if(!tp)return;
+      h+=`<path d="M ${cp.x} ${cp.y} Q ${(cp.x+tp.x)/2} ${(cp.y+tp.y)/2} ${tp.x} ${tp.y}" stroke="${c.color}" stroke-width="1.5" fill="none" opacity="0.4"/>`;
     });
   });
-
-  document.getElementById('svg').innerHTML = h;
+  document.getElementById('svg').innerHTML=h;
 }
 
-// ══════════════════════════════════════════
-//  DRAG INDIVIDUAL CARDS
-// ══════════════════════════════════════════
-let drag = null;
+// ═══════════════════════════════════════════════
+//  SELECTION
+// ═══════════════════════════════════════════════
+let selected=new Set();
 
-document.addEventListener('DOMContentLoaded', () => {
-  const cw = document.getElementById('cw');
-
-  cw.addEventListener('mousedown', e => {
-    const nodeEl = e.target.closest('[data-nid]');
-    if (nodeEl && !e.target.closest('.tc.link')) {
-      e.stopPropagation();
-      const nid = nodeEl.dataset.nid;
-      const pos = NP[nid];
-      drag = {
-        nid, el: nodeEl,
-        ox: (e.clientX - vs.tx) / vs.scale - pos.x,
-        oy: (e.clientY - vs.ty) / vs.scale - pos.y,
-        moved: false, sx: e.clientX, sy: e.clientY
-      };
-      nodeEl.classList.add('dragging');
-    } else if (!nodeEl) {
-      pan.active = true; pan.sx=e.clientX; pan.sy=e.clientY; pan.tx=vs.tx; pan.ty=vs.ty;
-      cw.classList.add('pan');
-    }
-  });
-
-  window.addEventListener('mousemove', e => {
-    if (drag) {
-      if (!drag.moved && (Math.abs(e.clientX-drag.sx)>4||Math.abs(e.clientY-drag.sy)>4)) drag.moved=true;
-      if (drag.moved) {
-        const nx = (e.clientX-vs.tx)/vs.scale - drag.ox;
-        const ny = (e.clientY-vs.ty)/vs.scale - drag.oy;
-        NP[drag.nid] = {x:nx, y:ny};
-        drag.el.style.left = nx+'px';
-        drag.el.style.top  = ny+'px';
-        drawConnections();
-      }
-    } else if (pan.active) {
-      vs.tx = pan.tx + (e.clientX-pan.sx);
-      vs.ty = pan.ty + (e.clientY-pan.sy);
-      applyT();
-    }
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (drag) { drag.el.classList.remove('dragging'); if(drag.moved) saveNP(); drag=null; }
-    if (pan.active) { pan.active=false; cw.classList.remove('pan'); }
-  });
-
-  // Touch pan
-  let tl=null;
-  cw.addEventListener('touchstart', e=>{ if(e.touches.length===1) tl={x:e.touches[0].clientX,y:e.touches[0].clientY}; });
-  cw.addEventListener('touchmove', e=>{ e.preventDefault(); if(e.touches.length===1&&tl){ vs.tx+=e.touches[0].clientX-tl.x; vs.ty+=e.touches[0].clientY-tl.y; tl={x:e.touches[0].clientX,y:e.touches[0].clientY}; applyT(); } },{passive:false});
-  cw.addEventListener('touchend',()=>tl=null);
-});
-
-// ══════════════════════════════════════════
-//  PAN + ZOOM
-// ══════════════════════════════════════════
-const vs = {tx:0, ty:0, scale:.6};
-const pan = {active:false, sx:0, sy:0, tx:0, ty:0};
-
-function applyT() {
-  document.getElementById('vp').style.transform = `translate(${vs.tx}px,${vs.ty}px) scale(${vs.scale})`;
-  document.getElementById('zpct').textContent = Math.round(vs.scale*100)+'%';
+function toggleSel(nid,addOnly=false){
+  if(addOnly){selected.add(nid);}
+  else{if(selected.has(nid))selected.delete(nid);else{selected.clear();selected.add(nid);}}
+  syncSelectionUI();
+}
+function clearSel(){selected.clear();syncSelectionUI();}
+function syncSelectionUI(){
+  document.querySelectorAll('[data-nid].sel').forEach(e=>e.classList.remove('sel'));
+  selected.forEach(nid=>{const el=document.querySelector(`[data-nid="${nid}"]`);if(el)el.classList.add('sel');});
 }
 
-function zBy(f, cx, cy) {
+// ═══════════════════════════════════════════════
+//  INTERACTION — pan / drag / select
+// ═══════════════════════════════════════════════
+const vs={tx:0,ty:0,scale:.6};
+let curMode='pan';
+let drag=null;
+let pan={active:false,sx:0,sy:0,tx:0,ty:0};
+let rub=null; // rubber band {sx,sy} in screen coords
+
+function setMode(m){
+  curMode=m;
   const cw=document.getElementById('cw');
-  const W=cw.clientWidth, H=cw.clientHeight;
-  const mx=cx??W/2, my=cy??H/2;
+  cw.className=`mode-${m}`;
+  document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  if(m==='pan') clearSel();
+}
+
+function applyT(){
+  document.getElementById('vp').style.transform=`translate(${vs.tx}px,${vs.ty}px) scale(${vs.scale})`;
+  document.getElementById('zpct').textContent=Math.round(vs.scale*100)+'%';
+}
+
+function zBy(f,cx,cy){
+  const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;
+  const mx=cx??W/2,my=cy??H/2;
   const ns=Math.min(Math.max(vs.scale*f,.15),4);
-  vs.tx=mx-(mx-vs.tx)*(ns/vs.scale);
-  vs.ty=my-(my-vs.ty)*(ns/vs.scale);
+  vs.tx=mx-(mx-vs.tx)*(ns/vs.scale); vs.ty=my-(my-vs.ty)*(ns/vs.scale);
   vs.scale=ns; applyT();
 }
 
-document.getElementById('cw').addEventListener('wheel', e=>{
+document.getElementById('cw').addEventListener('wheel',e=>{
   e.preventDefault();
   const r=document.getElementById('cw').getBoundingClientRect();
-  zBy(e.deltaY>0?.88:1.14, e.clientX-r.left, e.clientY-r.top);
+  zBy(e.deltaY>0?.88:1.14,e.clientX-r.left,e.clientY-r.top);
 },{passive:false});
 
-function gotoInfra() {
-  const cw=document.getElementById('cw'), W=cw.clientWidth, H=cw.clientHeight;
-  vs.scale=.55; vs.tx=W/2-2050*.55; vs.ty=H/2-1250*.55; applyT();
-}
-function gotoTools() {
-  const cw=document.getElementById('cw'), W=cw.clientWidth, H=cw.clientHeight;
-  vs.scale=.65; vs.tx=W/2-HX*.65; vs.ty=H/2-HY*.65; applyT();
-}
-function fitAll() {
-  const cw=document.getElementById('cw'), W=cw.clientWidth, H=cw.clientHeight;
-  vs.scale=.38; vs.tx=W/2-4200*.38; vs.ty=H/2-1500*.38; applyT();
-}
+function gotoInfra(){const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;vs.scale=.55;vs.tx=W/2-2050*.55;vs.ty=H/2-1250*.55;applyT();}
+function gotoTools(){const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;vs.scale=.65;vs.tx=W/2-HX*.65;vs.ty=H/2-HY*.65;applyT();}
+function fitAll(){const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;vs.scale=.36;vs.tx=W/2-3800*.36;vs.ty=H/2-1400*.36;applyT();}
 
-// ══════════════════════════════════════════
-//  GRID VIEW
-// ══════════════════════════════════════════
-function renderGrid() {
-  let h='';
-  TOOLS.categories.forEach(c=>{
-    h+=`<div class="g-sec" style="--cc:${c.color}"><div class="g-hd"><span class="g-ic">${c.icon}</span><span class="g-nm">${c.name}</span><span class="g-ct">${c.tools.length} tool${c.tools.length>1?'s':''}</span></div><div class="g-tools">`;
-    c.tools.forEach(t=>{
-      const hasLink=!!t.url;
-      const foot=hasLink?`<a href="${t.url}" target="_blank" class="g-open" style="--cc:${c.color}" onclick="event.stopPropagation()">Open ↗</a>`:`<span style="font-size:10px;color:var(--muted)">${t.loc}</span>`;
-      h+=`<div class="g-tool${hasLink?' link':''}" style="--cc:${c.color}" ${hasLink?`onclick="window.open('${t.url}','_blank')"`:''}>
-        <div class="g-th"><span class="g-em">${t.icon}</span><div><div class="g-tn">${t.name}</div><div class="g-td">${t.desc}</div></div></div>
-        <div class="g-tf"><span class="sd s-${t.s}">${SL[t.s]}</span>${foot}</div>
-      </div>`;
-    });
-    h+='</div></div>';
+// ── Rubber-band helpers ──────────────────────────
+const selRect=document.getElementById('sel-rect');
+function showRub(x1,y1,x2,y2){
+  selRect.style.display='block';
+  selRect.style.left=Math.min(x1,x2)+'px';
+  selRect.style.top=Math.min(y1,y2)+'px';
+  selRect.style.width=Math.abs(x2-x1)+'px';
+  selRect.style.height=Math.abs(y2-y1)+'px';
+}
+function hideRub(){selRect.style.display='none';}
+
+function nodesInRect(sx1,sy1,sx2,sy2){
+  const cw=document.getElementById('cw').getBoundingClientRect();
+  const minX=Math.min(sx1,sx2),maxX=Math.max(sx1,sx2);
+  const minY=Math.min(sy1,sy2)+52,maxY=Math.max(sy1,sy2)+52; // +52 header
+  const found=[];
+  Object.keys(NP).forEach(nid=>{
+    const p=NP[nid];
+    const sx=p.x*vs.scale+vs.tx,sy=p.y*vs.scale+vs.ty+52;
+    if(sx>=minX&&sx<=maxX&&sy>=minY&&sy<=maxY) found.push(nid);
   });
-  document.getElementById('gv').innerHTML = h;
+  return found;
 }
 
-function setV(v) {
+// ── Main mouse events ────────────────────────────
+document.getElementById('cw').addEventListener('mousedown',e=>{
+  if(e.button!==0) return;
+  const nodeEl=e.target.closest('[data-nid]');
+  const isEditing=e.target.contentEditable==='true';
+  if(isEditing) return;
+
+  if(nodeEl){
+    e.stopPropagation();
+    const nid=nodeEl.dataset.nid;
+    const pos=NP[nid];
+    drag={
+      nid, el:nodeEl,
+      ox:(e.clientX-vs.tx)/vs.scale-pos.x,
+      oy:(e.clientY-vs.ty)/vs.scale-pos.y,
+      moved:false, sx:e.clientX, sy:e.clientY,
+      startNP: selected.size>1&&selected.has(nid)
+        ? Object.fromEntries([...selected].map(id=>[id,{...NP[id]}]))
+        : null
+    };
+    nodeEl.classList.add('dragging');
+  } else {
+    if(curMode==='select'){
+      rub={sx:e.clientX,sy:e.clientY};
+    } else {
+      pan.active=true; pan.sx=e.clientX; pan.sy=e.clientY; pan.tx=vs.tx; pan.ty=vs.ty;
+      document.getElementById('cw').classList.add('panning');
+    }
+  }
+});
+
+window.addEventListener('mousemove',e=>{
+  if(drag){
+    if(!drag.moved&&(Math.abs(e.clientX-drag.sx)>4||Math.abs(e.clientY-drag.sy)>4)) drag.moved=true;
+    if(drag.moved){
+      const nx=(e.clientX-vs.tx)/vs.scale-drag.ox;
+      const ny=(e.clientY-vs.ty)/vs.scale-drag.oy;
+      if(drag.startNP&&selected.size>1){
+        // Multi-drag: move all selected by same delta from start positions
+        const dx=nx-drag.startNP[drag.nid].x, dy=ny-drag.startNP[drag.nid].y;
+        selected.forEach(nid=>{
+          if(!drag.startNP[nid]) return;
+          NP[nid]={x:drag.startNP[nid].x+dx, y:drag.startNP[nid].y+dy};
+          const el=document.querySelector(`[data-nid="${nid}"]`);
+          if(el){el.style.left=NP[nid].x+'px';el.style.top=NP[nid].y+'px';}
+        });
+      } else {
+        NP[drag.nid]={x:nx,y:ny};
+        drag.el.style.left=nx+'px';
+        drag.el.style.top=ny+'px';
+      }
+      drawConnections();
+    }
+  } else if(pan.active){
+    vs.tx=pan.tx+(e.clientX-pan.sx); vs.ty=pan.ty+(e.clientY-pan.sy); applyT();
+  } else if(rub){
+    showRub(rub.sx,rub.sy,e.clientX,e.clientY);
+  }
+});
+
+window.addEventListener('mouseup',e=>{
+  if(drag){
+    drag.el.classList.remove('dragging');
+    if(!drag.moved){
+      // Click — toggle selection
+      if(curMode==='select') toggleSel(drag.nid, e.shiftKey);
+      // If it's a link node and not dragging, allow click to propagate naturally
+    } else {
+      saveNP();
+    }
+    drag=null;
+  }
+  if(pan.active){pan.active=false;document.getElementById('cw').classList.remove('panning');}
+  if(rub){
+    const moved=Math.abs(e.clientX-rub.sx)>8||Math.abs(e.clientY-rub.sy)>8;
+    if(moved){
+      const found=nodesInRect(rub.sx,rub.sy,e.clientX,e.clientY);
+      if(!e.shiftKey) selected.clear();
+      found.forEach(nid=>selected.add(nid));
+      syncSelectionUI();
+    } else if(!e.shiftKey){
+      clearSel();
+    }
+    hideRub(); rub=null;
+  }
+});
+
+// Touch pan
+let tl=null;
+document.getElementById('cw').addEventListener('touchstart',e=>{if(e.touches.length===1)tl={x:e.touches[0].clientX,y:e.touches[0].clientY};});
+document.getElementById('cw').addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&tl){vs.tx+=e.touches[0].clientX-tl.x;vs.ty+=e.touches[0].clientY-tl.y;tl={x:e.touches[0].clientX,y:e.touches[0].clientY};applyT();}},{passive:false});
+document.getElementById('cw').addEventListener('touchend',()=>tl=null);
+
+// ═══════════════════════════════════════════════
+//  VIEW TOGGLE + GRID + HEADER
+// ═══════════════════════════════════════════════
+function setV(v){
   const isM=v==='map';
   document.getElementById('cw').style.display=isM?'block':'none';
   document.getElementById('gv').classList.toggle('on',!isM);
@@ -585,28 +621,36 @@ function setV(v) {
   document.querySelectorAll('.vbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
 }
 
-// ══════════════════════════════════════════
-//  HEADER
-// ══════════════════════════════════════════
-function renderHeader() {
+function renderGrid(){
+  let h='';
+  TOOLS.categories.forEach(c=>{
+    h+=`<div class="g-sec" style="--cc:${c.color}"><div class="g-hd"><span class="g-ic">${c.icon}</span><span class="g-nm">${c.name}</span><span class="g-ct">${c.tools.length} tools</span></div><div class="g-tools">`;
+    c.tools.forEach(t=>{
+      const hl=!!t.url;
+      const foot=hl?`<a href="${t.url}" target="_blank" class="g-open" style="--cc:${c.color}" onclick="event.stopPropagation()">Open ↗</a>`:`<span style="font-size:10px;color:var(--muted)">${t.loc}</span>`;
+      h+=`<div class="g-tool${hl?' link':''}" style="--cc:${c.color}" ${hl?`onclick="window.open('${t.url}','_blank')"`:''}>
+        <div class="g-th"><span class="g-em">${t.icon}</span><div><div class="g-tn">${t.name}</div><div class="g-td">${t.desc}</div></div></div>
+        <div class="g-tf"><span class="sd s-${t.s}">${SL[t.s]}</span>${foot}</div>
+      </div>`;
+    });
+    h+='</div></div>';
+  });
+  document.getElementById('gv').innerHTML=h;
+}
+
+function renderHeader(){
   const all=TOOLS.categories.flatMap(c=>c.tools);
-  document.getElementById('hpills').innerHTML=`
-    <span class="pill p-g">${all.filter(t=>t.s==='live').length} Live</span>
-    <span class="pill p-a">${all.filter(t=>t.s==='dev').length} In Dev</span>
-    <span class="pill p-gr">${all.length} Tools · ${INFRA.length} System Nodes</span>`;
+  document.getElementById('hpills').innerHTML=`<span class="pill p-g">${all.filter(t=>t.s==='live').length} Live</span><span class="pill p-a">${all.filter(t=>t.s==='dev').length} In Dev</span><span class="pill p-gr">${all.length} Tools</span>`;
   document.getElementById('hdate').textContent=new Date().toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  INIT
-// ══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', ()=>{
-  buildDefaults();
-  loadNP();
-  renderAll();
-  renderGrid();
-  renderHeader();
-  requestAnimationFrame(()=>{ fitAll(); });
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  buildDefaults(); loadState();
+  renderAll(); renderGrid(); renderHeader();
+  requestAnimationFrame(()=>gotoInfra());
 });
 </script>
 </body>
