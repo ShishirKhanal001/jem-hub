@@ -170,6 +170,12 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div><div class="hdr-name">JEM HUB</div><div class="hdr-sub">ICAN OS</div></div>
   <div class="hdr-pills" id="hpills" style="display:flex;gap:4px"></div>
   <div class="hdr-sep"></div>
+  <!-- Flow filter toggle (only visible in map view) -->
+  <div class="vtoggle" id="flow-toggle" style="display:none">
+    <button class="vbtn on" data-f="cat"  onclick="setFlow('cat')" title="Group by system category (Input / Supervisor / Memory / AI / Output)">📂 Category</button>
+    <button class="vbtn"    data-f="flow" onclick="setFlow('flow')" title="Show actual execution order: Trigger → Receive → Context → AI → Deliver">⛓ Flow</button>
+  </div>
+  <div class="hdr-sep" id="flow-sep" style="display:none"></div>
   <!-- Mode toggle -->
   <div class="mtoggle">
     <button class="mbtn on" data-m="pan"    onclick="setMode('pan')">✋ Pan</button>
@@ -233,6 +239,7 @@ const TOOLS={categories:[
     {id:"jem-bot", name:"Jem Supervisor Bot",       desc:"24/7 AI on Telegram. Receives messages, reads context MDs, calls Claude, replies.",icon:"🤖",s:"live",loc:"Local PC",path:"Claude\\supervisor\\supervisor.py",url:null},
     {id:"wa-qa",   name:"WhatsApp QA Bot",           desc:"Every 5h: extract group chat, parse questions, Claude replies as teacher.",icon:"💬",s:"dev",loc:"Local PC",path:"Workshops\\Realestate Workshop\\WhatsApp QA Bot\\",url:null},
     {id:"wa-img",  name:"WhatsApp Image Extractor",  desc:"Downloads photos from WhatsApp groups into sorted date/sender folders.",icon:"📸",s:"live",loc:"Local PC",path:"Workshops\\Realestate Workshop\\Whatsapp Image Extractor\\_codex\\",url:null},
+    {id:"term-hub-t",name:"JEM Terminal Hub",         desc:"Split-pane terminal: Ollama handles free casual chat, Claude sits idle for heavy tasks. Live token + cost tracker.",icon:"⌨️",s:"live",loc:"Local PC",path:"Claude\\terminal_hub\\terminal_hub.py",url:null},
   ]},
   {id:"grants",name:"Grants & Funding",icon:"💰",color:"#10b981",angle:342,tools:[
     {id:"grants-db",   name:"Grants Dashboard", desc:"Live tracker — 3 submitted, 6 in progress, 7 researching, $3.5M pipeline.",icon:"📊",s:"live",  loc:"GitHub Pages",path:null,url:"https://shishirkhanal001.github.io/grants-dashboard/"},
@@ -259,6 +266,8 @@ const TOOLS={categories:[
 // ═══════════════════════════════════════════════
 const INFRA=[
   {id:"pc",      lc:"#8b5cf6",icon:"🖥️",name:"Windows PC",          badge:"Hardware",   role:"Shishir's local machine. Everything lives here — all scripts, files, Claude, Python, Chrome. The physical brain of the whole system.",detail:"Windows 11 Home · C:\\Users\\jhabi\\\nAll Claude files in Downloads\\Claude\\\nPython 3.12 · gh CLI · Node.js · Chrome",path:null,dx:560,dy:770},
+  {id:"term-hub", lc:"#00cc66",icon:"🖥️",name:"JEM Terminal Hub",    badge:"Token Saver",role:"Split-pane terminal UI. Left: Ollama chat (free, local). Right top: Claude monitor (heavy tasks on demand). Right bottom: live token + cost tracker. Logs to daily MD.",detail:"start.bat → double-click to launch\nNormal msg → Ollama (qwen2.5:7b, free)\n! prefix   → Claude Code (billed)\nLogs to LOG_YYYY-MM-DD.md",path:"Claude\\terminal_hub\\terminal_hub.py",dx:560,dy:175},
+  {id:"ollama",   lc:"#00cc66",icon:"🦙",name:"Ollama (Local LLM)",  badge:"Free AI",    role:"Runs qwen2.5:7b locally. Zero token cost. Handles casual chat, quick questions, lightweight tasks. Falls back to Claude via ! prefix for heavy work.",detail:"API: localhost:11434\nDefault model: qwen2.5:7b\nAlso: qwen2.5-coder:7b · llama3.2:3b\nFully offline · No internet needed",path:null,dx:1230,dy:175},
   {id:"terminal",lc:"#f59e0b",icon:"⌨️",name:"Claude Code Terminal", badge:"Direct CLI", role:"Type 'claude' in any terminal for full direct access — same AI, all tools, no Telegram needed. More powerful than the bot. Sees files live, runs tests, debugs, writes code.",detail:"claude → interactive session (full tools)\nclaude --print \"prompt\" → script-friendly\nSame model: claude-sonnet-4-6\nTools: Read Write Edit Bash Grep Glob + more",path:null,dx:560,dy:570},
   {id:"shishir", lc:"#8b5cf6",icon:"📱",name:"Shishir Khanal",      badge:"User",       role:"Primary user. Sends text, voice notes, photos via Telegram.",detail:"Auth ID: 5395334942\nAll commands, tasks, and conversations",path:null,dx:560,dy:980},
   {id:"daniel",  lc:"#8b5cf6",icon:"📱",name:"Daniel Haile",        badge:"User",       role:"Co-access. Same bot, same full PC access via Telegram.",detail:"Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant",path:null,dx:560,dy:1175},
@@ -283,6 +292,8 @@ const INFRA=[
 ];
 
 const EDGES=[
+  {f:"term-hub",t:"ollama",c:"#00cc66",w:2.5},{f:"term-hub",t:"cli",c:"#f59e0b",dash:true},{f:"term-hub",t:"log",c:"#10b981",dash:true},
+  {f:"ollama",t:"term-hub",c:"#00cc66",dash:true},
   {f:"pc",t:"sup-py",c:"#8b5cf6",dash:true},{f:"terminal",t:"cli",c:"#f59e0b",w:2.5},
   {f:"shishir",t:"sup-py",c:"#8b5cf6"},{f:"daniel",t:"sup-py",c:"#8b5cf6"},{f:"sched",t:"sup-py",c:"#8b5cf6"},
   {f:"cfg",t:"sup-py",c:"#6366f1",dash:true},
@@ -398,12 +409,79 @@ Without this system (worst case):
   8 CLAUDE.mds × 1,000 ...... 8,000 tok
   Manual repasting context ... + waste
 </div><div class="exp-total">Savings: ~5,600 tokens/message ≈ 70% reduction<br>≈ $50–80/month saved at current usage<br>Routing is the key — Claude only reads what it needs.</div>`},
+
+  {id:"exp-termhub",icon:"🦙",title:"Terminal Hub — Ollama as Claude's Assistant",cls:"report-card",dx:3420,dy:2380,html:`<b>The idea:</b> Not every question needs Claude. Most casual chat, quick lookups, and simple rewrites can be handled by a free local model — saving your Claude tokens for real work.
+
+<b>The stack:</b>
+<b>Ollama</b> runs <b>qwen2.5:7b</b> locally on your PC.
+No internet. No API cost. Zero tokens billed.
+
+<b>How routing works:</b>
+  Normal message  →  Ollama  (free, instant)
+  <span class="exp-code">!</span> prefix      →  Claude Code  (heavy task)
+
+<b>What Ollama handles well:</b>
+• Casual questions, summaries, drafts
+• Quick code snippets + explanations
+• Brainstorming, rephrasing
+
+<b>What stays on Claude:</b>
+• File reads, edits, code fixes
+• Research + multi-step tasks
+• Anything touching your actual project files
+
+<b>The terminal hub</b> shows both side by side with a live token counter so you always know what's been spent.
+<div class="exp-total">Pull the model once: <code>ollama pull qwen2.5:7b</code><br>Launch: double-click Claude\\terminal_hub\\start.bat</div>`},
 ];
 
 // ═══════════════════════════════════════════════
 //  NODE POSITIONS + LABEL TEXT
 // ═══════════════════════════════════════════════
 let NP={};
+let flowMode=false;
+let savedCatNP={};
+
+// Flow-order positions: same 5 columns, cards redistributed by actual execution chain
+const FLOW_NP={
+  // Col 1 (x=560) — TRIGGER: who/what initiates
+  'term-hub':   {x:560,  y:580},
+  'shishir':    {x:560,  y:800},
+  'daniel':     {x:560,  y:1010},
+  'sched':      {x:560,  y:1220},
+  'gh-actions': {x:560,  y:1430},
+  // Col 2 (x=1230) — RECEIVE: machine + bot entry point
+  'ollama':     {x:1230, y:580},
+  'pc':         {x:1230, y:800},
+  'terminal':   {x:1230, y:1050},
+  'sup-py':     {x:1230, y:1300},
+  'cfg':        {x:1230, y:1510},
+  // Col 3 (x=1980) — CONTEXT: memory loaded per message
+  'mb':         {x:1980, y:800},
+  'pi':         {x:1980, y:1010},
+  'pmd':        {x:1980, y:1220},
+  'log':        {x:1980, y:1430},
+  'expand':     {x:1980, y:1640},
+  // Col 4 (x=2780) — AI PROCESS: inference + tool execution
+  'cli':        {x:2780, y:800},
+  'api':        {x:2780, y:1010},
+  'tools-ai':   {x:2780, y:1220},
+  'briefs':     {x:2780, y:1430},
+  // Col 5 (x=3540) — DELIVER: output back to user
+  'jem-py':     {x:3540, y:800},
+  'o-tg':       {x:3540, y:1010},
+  'o-pdf':      {x:3540, y:1220},
+  'o-drive':    {x:3540, y:1430},
+  'o-gh':       {x:3540, y:1640},
+};
+
+const FLOW_LABELS={
+  'lh-input-num':'01','lh-input-name':'TRIGGER',
+  'lh-super-num':'02','lh-super-name':'RECEIVE',
+  'lh-mem-num':'03',  'lh-mem-name':'CONTEXT',
+  'lh-ai-num':'04',   'lh-ai-name':'AI PROCESS',
+  'lh-out-num':'05',  'lh-out-name':'DELIVER',
+};
+
 const DEFAULT_LABELS={
   'sl-arch-tag':'System Architecture','sl-arch-title':'HOW JEM WORKS','sl-arch-sub':'Full pipeline — from your phone to every output. Drag any card. Double-click text to edit.',
   'sl-tools-tag':'Tools Map','sl-tools-title':'TOOLS BUILT','sl-tools-sub':'All tools and dashboards maintained by this system. Click web tools to open.',
@@ -440,7 +518,29 @@ function loadState(){
 }
 function saveNP(){try{localStorage.setItem('jh-np',JSON.stringify(NP));}catch(e){}}
 function saveLT(id,txt){LT[id]=txt;try{localStorage.setItem('jh-lt',JSON.stringify(LT));}catch(e){}}
-function resetAll(){localStorage.removeItem('jh-np');localStorage.removeItem('jh-lt');buildDefaults();LT={...DEFAULT_LABELS};renderAll();fitAll();}
+function resetAll(){localStorage.removeItem('jh-np');localStorage.removeItem('jh-lt');flowMode=false;savedCatNP={};document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f==='cat'));buildDefaults();LT={...DEFAULT_LABELS};renderAll();fitAll();}
+
+function setFlow(mode){
+  if((mode==='flow')===flowMode) return; // already in this mode
+  flowMode=(mode==='flow');
+  if(flowMode){
+    // Save current infra + header positions
+    [...Object.keys(FLOW_NP),'lh-input','lh-super','lh-mem','lh-ai','lh-out'].forEach(id=>{if(NP[id])savedCatNP[id]={...NP[id]};});
+    // Apply flow positions
+    Object.assign(NP,FLOW_NP);
+    // Apply flow layer labels
+    Object.keys(FLOW_LABELS).forEach(k=>{LT[k]=FLOW_LABELS[k];});
+  } else {
+    // Restore saved positions
+    if(Object.keys(savedCatNP).length) Object.assign(NP,savedCatNP);
+    // Restore default labels (then reapply any user edits from storage)
+    LT={...DEFAULT_LABELS};
+    try{const l=JSON.parse(localStorage.getItem('jh-lt')||'{}');Object.assign(LT,l);}catch(e){}
+  }
+  document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f===mode));
+  renderAll();
+  gotoInfra();
+}
 
 // ═══════════════════════════════════════════════
 //  EDITABLE TEXT
@@ -754,6 +854,9 @@ function setV(v){
   document.getElementById('gv').classList.toggle('on',!isM);
   document.querySelector('.legend').style.display=isM?'block':'none';
   document.querySelectorAll('.vbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  // Show flow filter only in map view
+  document.getElementById('flow-toggle').style.display=isM?'flex':'none';
+  document.getElementById('flow-sep').style.display=isM?'block':'none';
 }
 
 function renderGrid(){
@@ -785,6 +888,9 @@ function renderHeader(){
 document.addEventListener('DOMContentLoaded',()=>{
   buildDefaults(); loadState();
   renderAll(); renderGrid(); renderHeader();
+  // Show flow toggle (default view is map)
+  document.getElementById('flow-toggle').style.display='flex';
+  document.getElementById('flow-sep').style.display='block';
   requestAnimationFrame(()=>gotoInfra());
 });
 </script>
