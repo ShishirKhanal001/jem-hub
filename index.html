@@ -274,7 +274,8 @@ const INFRA=[
   {id:"cli",    lc:"#f59e0b",icon:"🤖",name:"claude --print",   badge:"AI Engine", role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin. Returns response to stdout.",detail:"Model: claude-sonnet-4-6\nFresh session each call — no history between calls",path:null,dx:2780,dy:980},
   {id:"api",    lc:"#f59e0b",icon:"☁️",name:"Anthropic API",    badge:"Remote",    role:"Remote AI inference. claude-sonnet-4-6 generates the response from your context.",detail:"Not local — requires internet\n~$0.01–0.03 per message · Round-trip to API",path:null,dx:2780,dy:1210},
   {id:"tools-ai",lc:"#f59e0b",icon:"🔧",name:"Tool Calls (Local)",badge:"Execution",role:"Claude executes these tools live on your PC: Read, Write, Edit, Bash, Grep, Glob.",detail:"Read → open any file\nWrite/Edit → modify files\nBash → run any script or command",path:null,dx:2780,dy:1450},
-  {id:"briefs", lc:"#f59e0b",icon:"🌅",name:"Scheduled Scripts",badge:"Scheduler", role:"morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM) run independently on schedule.",detail:"Each reads all MDs → calls Claude → Telegram\nWindows Task Scheduler fires them",path:"Claude\\supervisor\\morning_briefing.py",dx:2780,dy:1670},
+  {id:"briefs", lc:"#f59e0b",icon:"🌅",name:"Scheduled Scripts (PC)",badge:"Scheduler", role:"morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM) run on Windows Task Scheduler when PC is on.",detail:"Each reads all MDs → calls Claude → Telegram\nWindows Task Scheduler fires them",path:"Claude\\supervisor\\morning_briefing.py",dx:2780,dy:1670},
+  {id:"gh-actions",lc:"#10b981",icon:"⚙️",name:"GitHub Actions",badge:"Cloud Cron",role:"Cloud scheduler — runs even when PC is off. Fires daily_brief.py at 9am, 12pm, 5pm MDT. Also syncs tasks to Google Calendar every 30 min.",detail:"Repo: ShishirKhanal001/ican-2026-plan\n9am · 12pm · 5pm MDT → Telegram to Shishir + Daniel\nEvery 30 min → Google Calendar sync\nFree tier · No server needed",path:"2026-Dashboard\\.github\\workflows\\scheduler.yml",dx:2780,dy:1870},
   {id:"o-tg",   lc:"#3b82f6",icon:"💬",name:"Text → Telegram",  badge:"Output",    role:"Claude calls jem_send.py msg. Text response goes back to your phone.",detail:"Supports markdown formatting\nVoice reply via edge-tts if VOICE_RESPONSES=True",path:null,dx:3540,dy:900},
   {id:"o-pdf",  lc:"#3b82f6",icon:"📎",name:"File / PDF → Telegram",badge:"Output",role:"Files sent directly. HTML → Chrome headless → PDF → sent.",detail:"Chrome: Program Files\\Google\\Chrome\\Application\nTemp user-data-dir per call",path:null,dx:3540,dy:1110},
   {id:"o-drive",lc:"#3b82f6",icon:"💾",name:"Google Drive Upload",badge:"Output",  role:"OAuth upload to 'Jem Uploads' folder in your Google Drive.",detail:"Token: drive_token.json\nRe-auth if needed: drive_setup.py",path:"Claude\\supervisor\\drive_token.json",dx:3540,dy:1320},
@@ -290,6 +291,7 @@ const EDGES=[
   {f:"cli",t:"api",c:"#f59e0b"},{f:"api",t:"cli",c:"#d97706",dash:true},
   {f:"cli",t:"tools-ai",c:"#f59e0b"},{f:"tools-ai",t:"pmd",c:"#10b981",dash:true},
   {f:"briefs",t:"cli",c:"#f59e0b",dash:true},{f:"briefs",t:"o-tg",c:"#3b82f6",dash:true},
+  {f:"gh-actions",t:"o-tg",c:"#10b981"},{f:"gh-actions",t:"o-gh",c:"#10b981",dash:true},
   {f:"cli",t:"o-tg",c:"#3b82f6"},{f:"cli",t:"o-pdf",c:"#3b82f6"},{f:"cli",t:"o-drive",c:"#3b82f6"},{f:"cli",t:"o-gh",c:"#3b82f6"},
   {f:"o-tg",t:"jem-py",c:"#6366f1",dash:true},{f:"o-pdf",t:"jem-py",c:"#6366f1",dash:true},
   {f:"o-gh",t:"hub",c:"#6366f1",w:2.5},
@@ -427,6 +429,7 @@ function buildDefaults(){
   NP['lh-input']={x:560, y:640}; NP['lh-super']={x:1230,y:640};
   NP['lh-mem']  ={x:1980,y:640}; NP['lh-ai']   ={x:2780,y:640};
   NP['lh-out']  ={x:3540,y:640};
+  NP['gh-actions']={x:2780,y:1870};
   NP['sl-guide']={x:380, y:2140};
   EXPLAINERS.forEach(e=>{NP[e.id]={x:e.dx,y:e.dy};});
 }
