@@ -266,8 +266,8 @@ const TOOLS={categories:[
 // ═══════════════════════════════════════════════
 const INFRA=[
   {id:"pc",      lc:"#8b5cf6",icon:"🖥️",name:"Windows PC",          badge:"Hardware",   role:"Shishir's local machine. Everything lives here — all scripts, files, Claude, Python, Chrome. The physical brain of the whole system.",detail:"Windows 11 Home · C:\\Users\\jhabi\\\nAll Claude files in Downloads\\Claude\\\nPython 3.12 · gh CLI · Node.js · Chrome",path:null,dx:560,dy:770},
-  {id:"term-hub", lc:"#00cc66",icon:"🖥️",name:"JEM Terminal Hub",    badge:"Token Saver",role:"Split-pane terminal UI. Left: Ollama chat (free, local). Right top: Claude monitor (heavy tasks on demand). Right bottom: live token + cost tracker. Logs to daily MD.",detail:"start.bat → double-click to launch\nNormal msg → Ollama (qwen2.5:7b, free)\n! prefix   → Claude Code (billed)\nLogs to LOG_YYYY-MM-DD.md",path:"Claude\\terminal_hub\\terminal_hub.py",dx:560,dy:175},
-  {id:"ollama",   lc:"#00cc66",icon:"🦙",name:"Ollama (Local LLM)",  badge:"Free AI",    role:"Runs qwen2.5:7b locally. Zero token cost. Handles casual chat, quick questions, lightweight tasks. Falls back to Claude via ! prefix for heavy work.",detail:"API: localhost:11434\nDefault model: qwen2.5:7b\nAlso: qwen2.5-coder:7b · llama3.2:3b\nFully offline · No internet needed",path:null,dx:1230,dy:175},
+  {id:"term-hub", lc:"#00cc66",icon:"🖥️",name:"JEM Terminal Hub",    badge:"Token Saver",role:"Split-pane terminal UI. Left: Ollama chat (free, local). Right top: Claude monitor (heavy tasks on demand). Right bottom: live token + cost tracker. Logs to daily MD.",detail:"start.bat → double-click to launch\nNormal msg → Ollama (qwen2.5:7b, free)\n! prefix   → Claude Code (billed)\nLogs to LOG_YYYY-MM-DD.md",path:"Claude\\terminal_hub\\terminal_hub.py",dx:560,dy:750},
+  {id:"ollama",   lc:"#00cc66",icon:"🦙",name:"Ollama (Local LLM)",  badge:"Free AI",    role:"Runs qwen2.5:7b locally. Zero token cost. Handles casual chat, quick questions, lightweight tasks. Falls back to Claude via ! prefix for heavy work.",detail:"API: localhost:11434\nDefault model: qwen2.5:7b\nAlso: qwen2.5-coder:7b · llama3.2:3b\nFully offline · No internet needed",path:null,dx:2780,dy:2090},
   {id:"terminal",lc:"#f59e0b",icon:"⌨️",name:"Claude Code Terminal", badge:"Direct CLI", role:"Type 'claude' in any terminal for full direct access — same AI, all tools, no Telegram needed. More powerful than the bot. Sees files live, runs tests, debugs, writes code.",detail:"claude → interactive session (full tools)\nclaude --print \"prompt\" → script-friendly\nSame model: claude-sonnet-4-6\nTools: Read Write Edit Bash Grep Glob + more",path:null,dx:560,dy:570},
   {id:"shishir", lc:"#8b5cf6",icon:"📱",name:"Shishir Khanal",      badge:"User",       role:"Primary user. Sends text, voice notes, photos via Telegram.",detail:"Auth ID: 5395334942\nAll commands, tasks, and conversations",path:null,dx:560,dy:980},
   {id:"daniel",  lc:"#8b5cf6",icon:"📱",name:"Daniel Haile",        badge:"User",       role:"Co-access. Same bot, same full PC access via Telegram.",detail:"Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant",path:null,dx:560,dy:1175},
@@ -444,13 +444,13 @@ let savedCatNP={};
 // Flow-order positions: same 5 columns, cards redistributed by actual execution chain
 const FLOW_NP={
   // Col 1 (x=560) — TRIGGER: who/what initiates
-  'term-hub':   {x:560,  y:580},
+  'term-hub':   {x:560,  y:750},
   'shishir':    {x:560,  y:800},
   'daniel':     {x:560,  y:1010},
   'sched':      {x:560,  y:1220},
   'gh-actions': {x:560,  y:1430},
   // Col 2 (x=1230) — RECEIVE: machine + bot entry point
-  'ollama':     {x:1230, y:580},
+  'ollama':     {x:2780, y:2090},
   'pc':         {x:1230, y:800},
   'terminal':   {x:1230, y:1050},
   'sup-py':     {x:1230, y:1300},
