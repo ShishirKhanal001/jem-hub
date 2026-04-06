@@ -239,7 +239,7 @@ const TOOLS={categories:[
     {id:"jem-bot", name:"Jem Supervisor Bot",       desc:"24/7 AI on Telegram. Receives messages, reads context MDs, calls Claude, replies.",icon:"🤖",s:"live",loc:"Local PC",path:"Claude\\supervisor\\supervisor.py",url:null},
     {id:"wa-qa",   name:"WhatsApp QA Bot",           desc:"Every 5h: extract group chat, parse questions, Claude replies as teacher.",icon:"💬",s:"dev",loc:"Local PC",path:"Workshops\\Realestate Workshop\\WhatsApp QA Bot\\",url:null},
     {id:"wa-img",  name:"WhatsApp Image Extractor",  desc:"Downloads photos from WhatsApp groups into sorted date/sender folders.",icon:"📸",s:"live",loc:"Local PC",path:"Workshops\\Realestate Workshop\\Whatsapp Image Extractor\\_codex\\",url:null},
-    {id:"term-hub-t",name:"JEM Terminal Hub",         desc:"Split-pane terminal: Ollama handles free casual chat, Claude sits idle for heavy tasks. Live token + cost tracker.",icon:"⌨️",s:"live",loc:"Local PC",path:"Claude\\terminal_hub\\terminal_hub.py",url:null},
+    {id:"haiku-t",   name:"Haiku Smart Routing",        desc:"Short/casual queries auto-route to Haiku (fast, cheap). Work tasks go to Sonnet. Token usage tracked daily.",icon:"⚡",s:"live",loc:"Jem Supervisor",path:"Claude\\supervisor\\supervisor.py",url:null},
   ]},
   {id:"grants",name:"Grants & Funding",icon:"💰",color:"#10b981",angle:342,tools:[
     {id:"grants-db",   name:"Grants Dashboard", desc:"Live tracker — 3 submitted, 6 in progress, 7 researching, $3.5M pipeline.",icon:"📊",s:"live",  loc:"GitHub Pages",path:null,url:"https://shishirkhanal001.github.io/grants-dashboard/"},
@@ -266,8 +266,7 @@ const TOOLS={categories:[
 // ═══════════════════════════════════════════════
 const INFRA=[
   {id:"pc",      lc:"#8b5cf6",icon:"🖥️",name:"Windows PC",          badge:"Hardware",   role:"Shishir's local machine. Everything lives here — all scripts, files, Claude, Python, Chrome. The physical brain of the whole system.",detail:"Windows 11 Home · C:\\Users\\jhabi\\\nAll Claude files in Downloads\\Claude\\\nPython 3.12 · gh CLI · Node.js · Chrome",path:null,dx:560,dy:770},
-  {id:"term-hub", lc:"#00cc66",icon:"🖥️",name:"JEM Terminal Hub",    badge:"Token Saver",role:"Split-pane terminal UI. Left: Ollama chat (free, local). Right top: Claude monitor (heavy tasks on demand). Right bottom: live token + cost tracker. Logs to daily MD.",detail:"start.bat → double-click to launch\nNormal msg → Ollama (qwen2.5:7b, free)\n! prefix   → Claude Code (billed)\nLogs to LOG_YYYY-MM-DD.md",path:"Claude\\terminal_hub\\terminal_hub.py",dx:560,dy:750},
-  {id:"ollama",   lc:"#00cc66",icon:"🦙",name:"Ollama (Local LLM)",  badge:"Free AI",    role:"Runs qwen2.5:7b locally. Zero token cost. Handles casual chat, quick questions, lightweight tasks. Falls back to Claude via ! prefix for heavy work.",detail:"API: localhost:11434\nDefault model: qwen2.5:7b\nAlso: qwen2.5-coder:7b · llama3.2:3b\nFully offline · No internet needed",path:null,dx:2780,dy:2090},
+  {id:"haiku",    lc:"#00cc66",icon:"⚡",name:"Haiku Smart Routing",  badge:"Token Saver",role:"Casual / short queries auto-route to Claude Haiku (fast, cheap). Work tasks route to Sonnet. Force with /haiku, /sonnet, /opus. Daily token counter with /tokens.",detail:"Short msg (<150 chars, no action words) → Haiku\nWork/editing/analysis → Sonnet\n/opus → heavy strategy\n/tokens → see daily usage",path:"Claude\\supervisor\\supervisor.py",dx:560,dy:750},
   {id:"terminal",lc:"#f59e0b",icon:"⌨️",name:"Claude Code Terminal", badge:"Direct CLI", role:"Type 'claude' in any terminal for full direct access — same AI, all tools, no Telegram needed. More powerful than the bot. Sees files live, runs tests, debugs, writes code.",detail:"claude → interactive session (full tools)\nclaude --print \"prompt\" → script-friendly\nSame model: claude-sonnet-4-6\nTools: Read Write Edit Bash Grep Glob + more",path:null,dx:560,dy:570},
   {id:"shishir", lc:"#8b5cf6",icon:"📱",name:"Shishir Khanal",      badge:"User",       role:"Primary user. Sends text, voice notes, photos via Telegram.",detail:"Auth ID: 5395334942\nAll commands, tasks, and conversations",path:null,dx:560,dy:980},
   {id:"daniel",  lc:"#8b5cf6",icon:"📱",name:"Daniel Haile",        badge:"User",       role:"Co-access. Same bot, same full PC access via Telegram.",detail:"Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant",path:null,dx:560,dy:1175},
@@ -280,7 +279,7 @@ const INFRA=[
   {id:"pmd",    lc:"#10b981",icon:"📄",name:"[project] CLAUDE.md",badge:"Memory",  role:"Project-specific memory. Only ONE relevant project file loaded per message.",detail:"One file per project · 600–1,200 tokens each\nUpdated at end of every work session\n8 active CLAUDE.md files in use",path:"[project folder]\\CLAUDE.md",dx:1980,dy:1280},
   {id:"log",    lc:"#10b981",icon:"📝",name:"LOG_YYYY-MM-DD.md",badge:"Memory",    role:"Today's full activity log. Supervisor auto-appends after every reply.",detail:"New file each day · Includes all Q&A + timestamps\nPrevents repeating info within same day",path:"Claude\\LOG_YYYY-MM-DD.md",dx:1980,dy:1470},
   {id:"expand", lc:"#10b981",icon:"➕",name:"How to Expand",    badge:"Protocol",  role:"Add new project:\n→ create folder\n→ create CLAUDE.md\n→ add row to PROJECT_INDEX.md\n→ Jem picks it up next message\n\nAdd tool to JEM HUB:\n→ edit DATA in index.html → git push",detail:"MDs are auto-loaded. No code change needed for new projects.",path:null,dx:1980,dy:1700,special:true},
-  {id:"cli",    lc:"#f59e0b",icon:"🤖",name:"claude --print",   badge:"AI Engine", role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin. Returns response to stdout.",detail:"Model: claude-sonnet-4-6\nFresh session each call — no history between calls",path:null,dx:2780,dy:980},
+  {id:"cli",    lc:"#f59e0b",icon:"🤖",name:"claude --print",   badge:"AI Engine", role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin. Smart routing: Haiku for casual, Sonnet for work, Opus on demand. Separate --resume sessions per model.",detail:"Haiku: claude-haiku-4-5-20251001\nSonnet: claude-sonnet-4-6\nOpus: claude-opus-4-6\n--resume keeps session alive all day",path:null,dx:2780,dy:980},
   {id:"api",    lc:"#f59e0b",icon:"☁️",name:"Anthropic API",    badge:"Remote",    role:"Remote AI inference. claude-sonnet-4-6 generates the response from your context.",detail:"Not local — requires internet\n~$0.01–0.03 per message · Round-trip to API",path:null,dx:2780,dy:1210},
   {id:"tools-ai",lc:"#f59e0b",icon:"🔧",name:"Tool Calls (Local)",badge:"Execution",role:"Claude executes these tools live on your PC: Read, Write, Edit, Bash, Grep, Glob.",detail:"Read → open any file\nWrite/Edit → modify files\nBash → run any script or command",path:null,dx:2780,dy:1450},
   {id:"briefs", lc:"#f59e0b",icon:"🌅",name:"Scheduled Scripts (PC)",badge:"Scheduler", role:"morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM) run on Windows Task Scheduler when PC is on.",detail:"Each reads all MDs → calls Claude → Telegram\nWindows Task Scheduler fires them",path:"Claude\\supervisor\\morning_briefing.py",dx:2780,dy:1670},
@@ -292,8 +291,7 @@ const INFRA=[
 ];
 
 const EDGES=[
-  {f:"term-hub",t:"ollama",c:"#00cc66",w:2.5},{f:"term-hub",t:"cli",c:"#f59e0b",dash:true},{f:"term-hub",t:"log",c:"#10b981",dash:true},
-  {f:"ollama",t:"term-hub",c:"#00cc66",dash:true},
+  {f:"haiku",t:"cli",c:"#00cc66",dash:true},
   {f:"pc",t:"sup-py",c:"#8b5cf6",dash:true},{f:"terminal",t:"cli",c:"#f59e0b",w:2.5},
   {f:"shishir",t:"sup-py",c:"#8b5cf6"},{f:"daniel",t:"sup-py",c:"#8b5cf6"},{f:"sched",t:"sup-py",c:"#8b5cf6"},
   {f:"cfg",t:"sup-py",c:"#6366f1",dash:true},
@@ -410,28 +408,22 @@ Without this system (worst case):
   Manual repasting context ... + waste
 </div><div class="exp-total">Savings: ~5,600 tokens/message ≈ 70% reduction<br>≈ $50–80/month saved at current usage<br>Routing is the key — Claude only reads what it needs.</div>`},
 
-  {id:"exp-termhub",icon:"🦙",title:"Terminal Hub — Ollama as Claude's Assistant",cls:"report-card",dx:3420,dy:2380,html:`<b>The idea:</b> Not every question needs Claude. Most casual chat, quick lookups, and simple rewrites can be handled by a free local model — saving your Claude tokens for real work.
+  {id:"exp-routing",icon:"⚡",title:"Smart Model Routing — Haiku vs Sonnet",cls:"report-card",dx:3420,dy:2380,html:`<b>The idea:</b> Not every message needs Sonnet. Casual chat and quick questions route to Haiku automatically — saving tokens for real work.
 
-<b>The stack:</b>
-<b>Ollama</b> runs <b>qwen2.5:7b</b> locally on your PC.
-No internet. No API cost. Zero tokens billed.
+<b>How it works:</b>
+Jem classifies each message before sending.
+Short messages without action words → Haiku (fast, 10× cheaper)
+Anything with edits, builds, code, grants → Sonnet (full power)
 
-<b>How routing works:</b>
-  Normal message  →  Ollama  (free, instant)
-  <span class="exp-code">!</span> prefix      →  Claude Code  (heavy task)
+<b>Force a model anytime:</b>
+  <span class="exp-code">/haiku</span>  — force Haiku for next message
+  <span class="exp-code">/sonnet</span> — force Sonnet (full tools)
+  <span class="exp-code">/opus</span>   — force Opus (heavy strategy)
+  <span class="exp-code">/tokens</span> — see today's usage + est. cost
 
-<b>What Ollama handles well:</b>
-• Casual questions, summaries, drafts
-• Quick code snippets + explanations
-• Brainstorming, rephrasing
-
-<b>What stays on Claude:</b>
-• File reads, edits, code fixes
-• Research + multi-step tasks
-• Anything touching your actual project files
-
-<b>The terminal hub</b> shows both side by side with a live token counter so you always know what's been spent.
-<div class="exp-total">Pull the model once: <code>ollama pull qwen2.5:7b</code><br>Launch: double-click Claude\\terminal_hub\\start.bat</div>`},
+<b>Token tracking:</b>
+Every response shows: ⚡ Haiku or ✦ Sonnet badge + daily token count.
+<div class="exp-total">Haiku: $0.25/$1.25 per 1M tokens<br>Sonnet: $3/$15 per 1M tokens<br>Same Claude Pro subscription — routing is free</div>`},
 ];
 
 // ═══════════════════════════════════════════════
@@ -444,13 +436,12 @@ let savedCatNP={};
 // Flow-order positions: same 5 columns, cards redistributed by actual execution chain
 const FLOW_NP={
   // Col 1 (x=560) — TRIGGER: who/what initiates
-  'term-hub':   {x:560,  y:750},
+  'haiku':      {x:560,  y:750},
   'shishir':    {x:560,  y:800},
   'daniel':     {x:560,  y:1010},
   'sched':      {x:560,  y:1220},
   'gh-actions': {x:560,  y:1430},
   // Col 2 (x=1230) — RECEIVE: machine + bot entry point
-  'ollama':     {x:2780, y:2090},
   'pc':         {x:1230, y:800},
   'terminal':   {x:1230, y:1050},
   'sup-py':     {x:1230, y:1300},
