@@ -167,7 +167,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 
 <header class="hdr">
   <div class="hdr-badge"><span>ICAN</span></div>
-  <div><div class="hdr-name">JEM HUB</div><div class="hdr-sub">ICAN OS</div></div>
+  <div><div class="hdr-name">JEM HUB</div><div class="hdr-sub">ICAN OS V2 · Apr 2026</div></div>
   <div class="hdr-pills" id="hpills" style="display:flex;gap:4px"></div>
   <div class="hdr-sep"></div>
   <!-- Flow filter toggle (only visible in map view) -->
@@ -240,8 +240,12 @@ const TOOLS={categories:[
     {id:"wa-qa",   name:"WhatsApp QA Bot",           desc:"Every 5h: extract group chat, parse questions, Claude replies as teacher.",icon:"💬",s:"dev",loc:"Local PC",path:"Workshops\\Realestate Workshop\\WhatsApp QA Bot\\",url:null},
     {id:"wa-img",  name:"WhatsApp Image Extractor",  desc:"Downloads photos from WhatsApp groups into sorted date/sender folders.",icon:"📸",s:"live",loc:"Local PC",path:"Workshops\\Realestate Workshop\\Whatsapp Image Extractor\\_codex\\",url:null},
     {id:"haiku-t",   name:"Haiku Smart Routing",        desc:"Short/casual queries auto-route to Haiku (fast, cheap). Work tasks go to Sonnet. Token usage tracked daily.",icon:"⚡",s:"live",loc:"Jem Supervisor",path:"Claude\\supervisor\\supervisor.py",url:null},
-    {id:"voice-t",   name:"Jem Voice (Wake Word)",      desc:"Say 'Jem' to activate. Dark card overlay with pulse animation. Haiku-first routing. edge-tts speaks back. Quiet hours 8pm-8am.",icon:"🎙️",s:"live",loc:"Local PC",path:"Claude\\supervisor\\jem_voice.py",url:null},
+    {id:"voice-t",   name:"Jem Voice — LiveKit WebRTC", desc:"Real-time always-listening voice via LiveKit. Browser joins room, Silero VAD detects speech, Claude replies via edge-tts. Replaces push-to-talk. Any device, sub-300ms.",icon:"🎙️",s:"dev",loc:"Local PC",path:"Claude\\ican-os\\voice\\livekit_agent.py",url:null},
     {id:"mind-t",    name:"JEM_MIND.md",                desc:"Jem's living inner state — current company read, what it's watching, what it thinks needs to happen. Loaded into every session.",icon:"🧠",s:"live",loc:"Claude\\JEM_MIND.md",path:"Claude\\JEM_MIND.md",url:null},
+    {id:"dashboard-t",name:"Command Center Dashboard",  desc:"Next.js 15 live mission control at localhost:3131. Dark UI: KPI bar, project list, live feed, agent panel, command input, HUB link. Framer Motion animations.",icon:"🖥️",s:"dev",loc:"localhost:3131",path:"Claude\\ican-os\\command-center\\",url:null},
+    {id:"mcp-t",     name:"MCP Server (22 Tools)",      desc:"Model Context Protocol server exposing 22 tools to Claude Code in VS Code: files, Google Drive, Gmail, Calendar, Telegram, web search, PDF generation, scripts.",icon:"🔌",s:"dev",loc:"VS Code",path:"Claude\\ican-os\\mcp_server\\server.py",url:null},
+    {id:"soul-t",    name:"ChromaDB Soul Layer",         desc:"Semantic vector store of all company knowledge. Indexes MASTER_BRAIN, PROJECT_INDEX, JEM_MIND, all CLAUDE.md files. Agents query ~800 tokens of relevant context — not 8,000 raw.",icon:"🔮",s:"dev",loc:"Local PC",path:"Claude\\ican-os\\tools\\soul.py",url:null},
+    {id:"orch-t",    name:"APScheduler Orchestrator",    desc:"Replaces Windows Task Scheduler. Manages all 4 agents centrally. HTTP status at :7891, WebSocket broadcast to dashboard. One process, one command.",icon:"⏱️",s:"dev",loc:"localhost:7891",path:"Claude\\ican-os\\orchestrator.py",url:null},
   ]},
   {id:"grants",name:"Grants & Funding",icon:"💰",color:"#10b981",angle:342,tools:[
     {id:"grants-db",   name:"Grants Dashboard", desc:"Live tracker — 3 submitted, 6 in progress, 7 researching, $3.5M pipeline.",icon:"📊",s:"live",  loc:"GitHub Pages",path:null,url:"https://shishirkhanal001.github.io/grants-dashboard/"},
@@ -272,7 +276,7 @@ const INFRA=[
   {id:"terminal",lc:"#f59e0b",icon:"⌨️",name:"Claude Code Terminal", badge:"Direct CLI", role:"Type 'claude' in any terminal for full direct access — same AI, all tools, no Telegram needed. More powerful than the bot. Sees files live, runs tests, debugs, writes code.",detail:"claude → interactive session (full tools)\nclaude --print \"prompt\" → script-friendly\nSame model: claude-sonnet-4-6\nTools: Read Write Edit Bash Grep Glob + more",path:null,dx:560,dy:570},
   {id:"shishir", lc:"#8b5cf6",icon:"📱",name:"Shishir Khanal",      badge:"User",       role:"Primary user. Sends text, voice notes, photos via Telegram.",detail:"Auth ID: 5395334942\nAll commands, tasks, and conversations",path:null,dx:560,dy:980},
   {id:"daniel",  lc:"#8b5cf6",icon:"📱",name:"Daniel Haile",        badge:"User",       role:"Co-access. Same bot, same full PC access via Telegram.",detail:"Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant",path:null,dx:560,dy:1175},
-  {id:"sched",   lc:"#8b5cf6",icon:"⏰",name:"Scheduled Tasks",     badge:"Trigger",    role:"Runs Python scripts on timer — no human input needed.",detail:"Windows Task Scheduler\n8 AM morning briefing · Mon 9 AM weekly report\nWhatsApp QA Bot every 5h (in dev)",path:null,dx:560,dy:1370},
+  {id:"sched",   lc:"#6366f1",icon:"⏱️",name:"APScheduler Orchestrator",badge:"Trigger",  role:"Replaces Windows Task Scheduler. One always-running process that manages ALL agent jobs centrally. HTTP status API + WebSocket broadcast to dashboard.",detail:"python orchestrator.py\nHTTP: http://127.0.0.1:7891/status\nPOST /run/:job — trigger any agent on demand\nJobs: briefing 8am · grants 6h · content 9am · weekly Mon\nBroadcasts events to jem_bus → dashboard live",path:"Claude\\ican-os\\orchestrator.py",dx:560,dy:1370},
   {id:"sup-py", lc:"#6366f1",icon:"⚙️",name:"supervisor.py",    badge:"Supervisor",role:"Main bot loop. Receives Telegram messages, builds context prompt, calls Claude CLI, parses response, executes actions.",detail:"Long-polls Telegram API · Authorizes user IDs\nAuto-starts on Windows login via startw.bat",path:"Claude\\supervisor\\supervisor.py",dx:1230,dy:1090},
   {id:"jem-py", lc:"#6366f1",icon:"📤",name:"jem_send.py",      badge:"Sender",    role:"Called by Claude via Bash. Sends text, files, or HTML→PDF to Telegram.",detail:"msg → text reply\nfile → any format directly\npdf → Chrome headless → PDF → Telegram",path:"Claude\\supervisor\\jem_send.py",dx:1230,dy:1360},
   {id:"cfg",    lc:"#6366f1",icon:"🔑",name:"config.env",       badge:"Config",    role:"API keys, authorized user IDs, bot name, voice on/off.",detail:"TELEGRAM_BOT_TOKEN · TELEGRAM_USER_ID\nAUTHORIZED_USERS · VOICE_INPUT=True\nVOICE_RESPONSES=True",path:"Claude\\supervisor\\config.env",dx:1230,dy:1590},
@@ -283,6 +287,11 @@ const INFRA=[
   {id:"voice",  lc:"#C8001A",icon:"🎙️",name:"Jem Voice",         badge:"Wake Word",  role:"Say 'Jem' to activate. faster-whisper detects wake word locally (zero tokens). Records until 4s silence. Haiku-first routing. edge-tts speaks back. Dark card overlay slides up from bottom-right.",detail:"Wake: faster-whisper tiny.en (local, free)\nSilence timeout: 4 seconds\nOverlay: tkinter dark card, pulse rings\nQuiet hours: 8pm–8am no alerts\nAutostart: registry Run key",path:"Claude\\supervisor\\jem_voice.py",dx:560,dy:560},
   {id:"mind",   lc:"#10b981",icon:"🧠",name:"JEM_MIND.md",        badge:"Inner State", role:"Jem's living inner monologue. Contains current company read, active signals, what Jem thinks needs to happen, and self-improvement notes. Loaded into every Jem session alongside MASTER_BRAIN.",detail:"Updated manually + by morning briefing\nLoaded: ~600 tokens per session\nShishir never writes to it — Jem does",path:"Claude\\JEM_MIND.md",dx:1980,dy:1700},
   {id:"expand", lc:"#10b981",icon:"➕",name:"How to Expand",    badge:"Protocol",  role:"Add new project:\n→ create folder\n→ create CLAUDE.md\n→ add row to PROJECT_INDEX.md\n→ Jem picks it up next message\n\nAdd tool to JEM HUB:\n→ edit DATA in index.html → git push",detail:"MDs are auto-loaded. No code change needed for new projects.",path:null,dx:1980,dy:1700,special:true},
+  {id:"soul",   lc:"#8b5cf6",icon:"🔮",name:"ChromaDB Soul",      badge:"Semantic",   role:"Vector database of all company knowledge. Agents query it for ~800 tokens of relevant context instead of loading 8,000 raw tokens. Auto re-indexes when files change.",detail:"Model: all-MiniLM-L6-v2 (79MB, local ONNX)\nStorage: ican-os\\.soul\\\n55 chunks from MASTER_BRAIN + PROJECT_INDEX + JEM_MIND + all CLAUDE.md files\nChunk size: 800 chars, 100-char overlap\nAuto-watcher: re-indexes every 60s on file change",path:"Claude\\ican-os\\tools\\soul.py",dx:1980,dy:2050},
+  {id:"mcp",    lc:"#f59e0b",icon:"🔌",name:"MCP Server",          badge:"22 Tools",   role:"Model Context Protocol server. Exposes all company tools to Claude Code inside VS Code. 22 tools: files, Drive, Gmail, Calendar, Telegram, web search, PDFs, scripts.",detail:"from mcp.server.fastmcp import FastMCP\nRegistered in: .claude\\settings.json\nTools: jem_read_file, jem_write_file, jem_drive_upload,\n  jem_gmail_scan, jem_calendar_today, jem_send_message,\n  jem_html_to_pdf, jem_web_search + 14 more\nAuto-loads when VS Code opens — no terminal needed",path:"Claude\\ican-os\\mcp_server\\server.py",dx:2780,dy:2120},
+  {id:"bus",    lc:"#3b82f6",icon:"⚡",name:"jem_bus WebSocket",   badge:"Event Bus",  role:"Central WebSocket event stream at ws://127.0.0.1:7890. Orchestrator broadcasts job events here. Dashboard subscribes for live updates. Also receives events from supervisor.py.",detail:"ws://127.0.0.1:7890\nOrchestrator → broadcasts job_update, orchestrator_start\nDashboard → subscribes, shows live feed\nAuto-reconnect every 4s if disconnected",path:"Claude\\supervisor\\jem_bus.py",dx:2780,dy:2340},
+  {id:"cmd-ctr",lc:"#C8001A",icon:"🖥️",name:"Command Center",     badge:"Dashboard",  role:"Next.js 15 live mission control at localhost:3131. Shows KPI bar (Kickstarter, grants, agents, deadlines), project list, live event feed, agent cards with Run Now buttons, voice toggle, command input.",detail:"Tech: Next.js 15 · React 19 · Tailwind · Framer Motion\nPort: 3131 (next start)\nKPI Bar: Kickstarter · Grants · Agents Active · Next Deadline · System\nAgent Panel: Run Now → POST /run/:job → triggers real agent\nHub button → opens JEM Hub canvas\nVoice button → LiveKit room",path:"Claude\\ican-os\\command-center\\",dx:3540,dy:2120},
+  {id:"livekit",lc:"#C8001A",icon:"🎙️",name:"LiveKit Voice Agent", badge:"WebRTC",     role:"Real-time always-listening voice agent. Browser joins LiveKit room, Silero VAD detects when you speak, your words go to Claude, reply comes back as speech via edge-tts. Sub-300ms latency. Works from any device.",detail:"Binary: Claude\\bin\\livekit-server.exe v1.10.1\nAgent: ican-os\\voice\\livekit_agent.py\nRoom: jem-os (ws://localhost:7880)\nVAD: Silero (local, no API cost)\nBrowser: agents-playground.livekit.io to connect\nPython: livekit-agents 1.5.2",path:"Claude\\ican-os\\voice\\livekit_agent.py",dx:3540,dy:2340},
   {id:"cli",    lc:"#f59e0b",icon:"🤖",name:"claude --print",   badge:"AI Engine", role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin. Smart routing: Haiku for casual, Sonnet for work, Opus on demand. Separate --resume sessions per model.",detail:"Haiku: claude-haiku-4-5-20251001\nSonnet: claude-sonnet-4-6\nOpus: claude-opus-4-6\n--resume keeps session alive all day",path:null,dx:2780,dy:980},
   {id:"api",    lc:"#f59e0b",icon:"☁️",name:"Anthropic API",    badge:"Remote",    role:"Remote AI inference. claude-sonnet-4-6 generates the response from your context.",detail:"Not local — requires internet\n~$0.01–0.03 per message · Round-trip to API",path:null,dx:2780,dy:1210},
   {id:"tools-ai",lc:"#f59e0b",icon:"🔧",name:"Tool Calls (Local)",badge:"Execution",role:"Claude executes these tools live on your PC: Read, Write, Edit, Bash, Grep, Glob.",detail:"Read → open any file\nWrite/Edit → modify files\nBash → run any script or command",path:null,dx:2780,dy:1450},
@@ -308,6 +317,18 @@ const EDGES=[
   {f:"cli",t:"o-tg",c:"#3b82f6"},{f:"cli",t:"o-pdf",c:"#3b82f6"},{f:"cli",t:"o-drive",c:"#3b82f6"},{f:"cli",t:"o-gh",c:"#3b82f6"},
   {f:"o-tg",t:"jem-py",c:"#6366f1",dash:true},{f:"o-pdf",t:"jem-py",c:"#6366f1",dash:true},
   {f:"o-gh",t:"hub",c:"#6366f1",w:2.5},
+  // ── JEM OS V2 edges ──
+  {f:"soul",t:"cli",c:"#8b5cf6",dash:true},
+  {f:"mb",t:"soul",c:"#8b5cf6",dash:true},
+  {f:"pi",t:"soul",c:"#8b5cf6",dash:true},
+  {f:"sched",t:"bus",c:"#6366f1"},
+  {f:"sched",t:"cmd-ctr",c:"#C8001A",w:2},
+  {f:"bus",t:"cmd-ctr",c:"#3b82f6",w:2.5},
+  {f:"mcp",t:"cli",c:"#f59e0b",w:2},
+  {f:"mcp",t:"tools-ai",c:"#f59e0b",dash:true},
+  {f:"livekit",t:"cli",c:"#C8001A"},
+  {f:"livekit",t:"o-tg",c:"#C8001A",dash:true},
+  {f:"cmd-ctr",t:"sched",c:"#C8001A",dash:true},
 ];
 
 // ═══════════════════════════════════════════════
@@ -411,6 +432,38 @@ Without this system (worst case):
   8 CLAUDE.mds × 1,000 ...... 8,000 tok
   Manual repasting context ... + waste
 </div><div class="exp-total">Savings: ~5,600 tokens/message ≈ 70% reduction<br>≈ $50–80/month saved at current usage<br>Routing is the key — Claude only reads what it needs.</div>`},
+
+  {id:"exp-v2",icon:"🚀",title:"JEM OS V2 — What's New (Apr 2026)",cls:"report-card",dx:380,dy:2900,html:`<b>V2 adds 5 new pillars on top of the existing Telegram bot (supervisor.py never changes):</b>
+
+<b>1. MCP Server</b> — 22 tools now available in VS Code, not just Telegram. Files, Drive, Gmail, Calendar, search, PDFs — all callable from Claude Code directly.
+
+<b>2. ChromaDB Soul</b> — semantic memory. All MDs are indexed as vector embeddings. Agents query ~800 tokens of relevant context vs 8,000 raw. Auto-reindexes on file changes.
+
+<b>3. APScheduler Orchestrator</b> — one process manages all 4 agents (briefing, grants, content, weekly). HTTP status API at :7891. POST /run/:job to trigger any agent from dashboard.
+
+<b>4. Command Center Dashboard</b> — Next.js 15 dark UI at localhost:3131. Live KPI bar, project list, agent panel with Run Now buttons, live event feed, command input.
+
+<b>5. LiveKit Voice Agent</b> — real WebRTC voice. Always listening. Any browser joins the room and talks to Jem. Replaces push-to-talk jem_voice.py.
+
+<div class="exp-total">One click: double-click "Start JEM OS" on Desktop → all services start → browser opens automatically</div>`},
+
+  {id:"exp-soul",icon:"🔮",title:"ChromaDB Soul — Context Engineering",cls:"",dx:860,dy:2900,html:`<b>The problem:</b> Loading all context MDs every message = 8,000+ tokens before you've said anything.
+
+<b>The fix — ChromaDB semantic search:</b>
+When an agent runs, it queries the soul vector store with its task.
+The store returns the 5 most semantically relevant chunks — ~800 tokens total.
+
+<b>What's indexed (55 chunks from 4 files):</b>
+  MASTER_BRAIN.md ............ 14 chunks
+  PROJECT_INDEX.md ............ 7 chunks
+  JEM_MIND.md ................. 2 chunks
+  Project CLAUDE.md files .... 32 chunks
+
+<b>Two-tier fallback:</b>
+  Tier 1: ChromaDB semantic query → ~800 tokens ✅
+  Tier 2: Manual file load fallback → ~3,000 tokens
+
+<div class="exp-total">10× reduction: 800 tokens vs 8,000 raw context load</div>`},
 
   {id:"exp-routing",icon:"⚡",title:"Smart Model Routing — Haiku vs Sonnet",cls:"report-card",dx:3420,dy:2380,html:`<b>The idea:</b> Not every message needs Sonnet. Casual chat and quick questions route to Haiku automatically — saving tokens for real work.
 
@@ -517,20 +570,22 @@ function resetAll(){localStorage.removeItem('jh-np');localStorage.removeItem('jh
 
 function setFlow(mode){
   if((mode==='flow')===flowMode) return; // already in this mode
+  saveNP(); // persist current positions before switching
   flowMode=(mode==='flow');
   if(flowMode){
-    // Save current infra + header positions
+    // Save current infra + header positions (in-memory for restore)
     [...Object.keys(FLOW_NP),'lh-input','lh-super','lh-mem','lh-ai','lh-out'].forEach(id=>{if(NP[id])savedCatNP[id]={...NP[id]};});
     // Apply flow positions
     Object.assign(NP,FLOW_NP);
     // Apply flow layer labels
     Object.keys(FLOW_LABELS).forEach(k=>{LT[k]=FLOW_LABELS[k];});
   } else {
-    // Restore saved positions
+    // Restore saved category positions
     if(Object.keys(savedCatNP).length) Object.assign(NP,savedCatNP);
     // Restore default labels (then reapply any user edits from storage)
     LT={...DEFAULT_LABELS};
     try{const l=JSON.parse(localStorage.getItem('jh-lt')||'{}');Object.assign(LT,l);}catch(e){}
+    saveNP(); // persist restored category positions
   }
   document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f===mode));
   renderAll();
@@ -880,6 +935,8 @@ function renderHeader(){
 // ═══════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════
+window.addEventListener('beforeunload', saveNP);
+
 document.addEventListener('DOMContentLoaded',()=>{
   buildDefaults(); loadState();
   renderAll(); renderGrid(); renderHeader();
