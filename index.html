@@ -2,383 +2,326 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JEM HUB — ICAN Operating System</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JEM HUB — ICAN OS V2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#eeeef4;--white:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--sh:0 2px 12px rgba(0,0,0,.07);--sh-lg:0 8px 32px rgba(0,0,0,.13);--sel:#6366f1}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100vh}
+:root{
+  --red:#C8001A;
+  --bg:#f0f4f8;
+  --card:#fff;
+  --border:#e2e8f0;
+  --text:#0f172a;
+  --muted:#64748b;
+  --mono:'JetBrains Mono',monospace;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --shh:0 4px 18px rgba(0,0,0,.13);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
 
 /* ── HEADER ── */
-.hdr{position:fixed;top:0;left:0;right:0;z-index:300;height:52px;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 12px;flex-wrap:nowrap}
-.hdr-badge{height:34px;width:34px;flex-shrink:0;background:#1a1a2e;border-radius:8px;display:flex;align-items:center;justify-content:center}
-.hdr-badge span{font-family:'DM Serif Display',serif;font-size:13px;color:#C8001A;letter-spacing:.5px}
-.hdr-name{font-weight:800;font-size:15px;letter-spacing:-.3px;white-space:nowrap}
-.hdr-sub{font-size:10px;color:var(--muted);white-space:nowrap}
-.pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap}
-.p-g{background:#d1fae5;color:#065f46}.p-a{background:#fef3c7;color:#92400e}.p-gr{background:#f3f4f6;color:#374151}
-.hdr-sep{width:1px;height:22px;background:var(--border);flex-shrink:0}
-.hdr-space{flex:1;min-width:4px}
-.hdr-date{font-size:11px;color:var(--muted);white-space:nowrap}
-.hdr-pills{display:flex;gap:5px}
-/* Zoom controls */
-.zctrls{display:flex;align-items:center;gap:1px;background:#f3f4f6;border-radius:8px;padding:2px;flex-shrink:0}
-.z-btn{border:none;background:transparent;cursor:pointer;width:28px;height:28px;border-radius:6px;font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .15s}
-.z-btn:hover{background:white;color:var(--text)}
-.zpct{font-size:11px;font-weight:600;color:var(--muted);min-width:36px;text-align:center}
-/* View toggle */
-.vtoggle{display:flex;background:#f3f4f6;border-radius:8px;padding:2px;gap:1px;flex-shrink:0}
-.vbtn{border:none;background:transparent;cursor:pointer;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap}
-.vbtn.on{background:white;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
-/* Mode toggle */
-.mtoggle{display:flex;background:#f3f4f6;border-radius:8px;padding:2px;gap:1px;flex-shrink:0}
-.mbtn{border:none;background:transparent;cursor:pointer;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap}
-.mbtn.on{background:white;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.mbtn.on[data-m="select"]{color:#6366f1}
-/* Misc header btns */
-.hbtn{border:none;background:#f3f4f6;cursor:pointer;padding:5px 9px;border-radius:7px;font-size:10px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap;flex-shrink:0}
-.hbtn:hover{background:#e5e7eb;color:var(--text)}
-.hbtn.danger:hover{background:#fef2f2;color:#dc2626}
+.hdr{
+  position:sticky;top:0;z-index:300;
+  display:flex;align-items:center;gap:12px;
+  padding:0 20px;height:52px;
+  background:#0a0f1a;
+  border-bottom:3px solid var(--red);
+  box-shadow:0 2px 16px rgba(0,0,0,.5);
+}
+.hdr-ican{font-family:'DM Serif Display',serif;font-size:20px;color:var(--red);letter-spacing:1px}
+.hdr-sep{width:1px;height:22px;background:rgba(255,255,255,.12)}
+.hdr-info{display:flex;flex-direction:column;gap:1px}
+.hdr-title{font-size:13px;font-weight:700;color:#fff;letter-spacing:.3px}
+.hdr-sub{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:1.5px;text-transform:uppercase}
+.hdr-pills{display:flex;gap:6px;margin-left:auto;align-items:center}
+.pill{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 9px;border-radius:20px}
+.p-g{background:#d1fae5;color:#065f46}
+.p-a{background:#fef3c7;color:#78350f}
+.p-t{background:#dbeafe;color:#1e3a8a}
+.hdr-date{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.35)}
 
-/* ── CANVAS ── */
-#cw{position:fixed;top:52px;left:0;right:0;bottom:0;overflow:hidden;user-select:none}
-#cw.mode-pan{cursor:grab}
-#cw.mode-pan.panning{cursor:grabbing}
-#cw.mode-select{cursor:crosshair}
-#cw.mode-select [data-nid]{cursor:move}
-#cw.mode-select [data-nid].dragging{cursor:grabbing}
-#vp{position:absolute;top:0;left:0;width:8500px;height:4600px;transform-origin:0 0;opacity:0;animation:vpin .4s ease .1s forwards}
-@keyframes vpin{to{opacity:1}}
-#vp::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#b8b8cc 1.3px,transparent 1.3px);background-size:30px 30px;background-position:15px 15px;opacity:.4;pointer-events:none;z-index:0}
-#svg{position:absolute;top:0;left:0;width:8500px;height:4600px;pointer-events:none;z-index:1;overflow:visible}
+/* ── TABS ── */
+.tabs{
+  position:sticky;top:52px;z-index:290;
+  display:flex;gap:0;
+  background:#111827;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:0 20px;
+}
+.tab{
+  padding:11px 20px;font-size:12px;font-weight:600;
+  color:rgba(255,255,255,.4);border:none;background:none;
+  cursor:pointer;letter-spacing:.2px;
+  border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+.tab:hover{color:rgba(255,255,255,.7)}
+.tab.on{color:#fff;border-bottom-color:var(--red)}
 
-/* ── SELECTION RECT ── */
-#sel-rect{position:fixed;border:1.5px dashed #6366f1;background:rgba(99,102,241,.06);display:none;pointer-events:none;z-index:500;border-radius:4px}
+/* ── SECTIONS ── */
+.sec{display:none}.sec.on{display:block}
 
-/* ── NODE SELECTION HIGHLIGHT ── */
-[data-nid].sel{outline:2px solid #6366f1;outline-offset:4px;border-radius:14px}
+/* ── SHARED PAGE PADDING ── */
+.pg{padding:28px 24px 60px}
 
-/* ── DRAGGABLE BASE ── */
-[data-nid]{position:absolute;z-index:10;transform:translate(-50%,-50%)}
-[data-nid].dragging{z-index:50}
+/* ── PAGE HEADING ── */
+.ph{font-size:24px;font-weight:900;letter-spacing:-.4px;margin-bottom:4px}
+.ps{font-size:12px;color:var(--muted);line-height:1.6;max-width:640px;margin-bottom:20px}
 
-/* ── SECTION LABELS (draggable) ── */
-.slabel{cursor:grab}
-.slabel.dragging{cursor:grabbing}
-.sl-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:4px;outline:none}
-.sl-title{font-size:24px;font-weight:800;letter-spacing:-.4px;display:block;outline:none;min-width:80px}
-.sl-sub{font-size:11px;color:var(--muted);margin-top:3px;display:block;outline:none;min-width:80px}
-.sl-bar{height:3px;border-radius:2px;margin-top:8px;width:100%;min-width:200px}
-[contenteditable="true"]{outline:2px solid #6366f1!important;border-radius:4px;padding:2px 4px;background:rgba(255,255,255,.9);cursor:text!important}
+/* ── FLOW BAR ── */
+.flow-wrap{overflow-x:auto;padding-bottom:2px;margin-bottom:20px;
+  -ms-overflow-style:none;scrollbar-width:none}
+.flow-wrap::-webkit-scrollbar{display:none}
+.flowbar{display:flex;align-items:center;gap:0;width:max-content}
+.fp{display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:10px 14px;border-radius:10px;min-width:120px;
+  background:var(--card);border:2px solid;box-shadow:var(--sh)}
+.fp-num{font-family:var(--mono);font-size:7px;font-weight:700;opacity:.45;letter-spacing:1.5px;margin-bottom:2px}
+.fp-name{font-size:10px;font-weight:800;letter-spacing:.3px;text-transform:uppercase}
+.fp-desc{font-size:8px;color:var(--muted);margin-top:3px;line-height:1.35}
+.farr{font-size:18px;color:#cbd5e1;padding:0 4px;flex-shrink:0;margin-bottom:6px}
 
-/* ── LAYER HEADERS ── */
-.lhdr{cursor:default;text-align:center}
-.lh-num{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:2px;opacity:.45;margin-bottom:3px;outline:none}
-.lh-name{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;outline:none;min-width:60px}
-.lh-bar{height:3px;border-radius:2px;margin:5px auto 0;width:140px}
+/* ── PIPELINE ── */
+.pipe-wrap{overflow-x:auto;padding-bottom:8px;
+  -ms-overflow-style:none;scrollbar-width:none}
+.pipe-wrap::-webkit-scrollbar{display:none}
+.pipe{display:flex;gap:12px;width:max-content;align-items:flex-start}
 
-/* ── INFRA CARDS ── */
-.ic{width:222px;background:white;border:1px solid var(--border);border-radius:12px;padding:11px 13px;box-shadow:var(--sh);border-top:3px solid var(--lc,#6366f1);transition:box-shadow .2s;cursor:default}
-.ic:hover{box-shadow:var(--sh-lg)}
-.ic.special{border-style:dashed;background:color-mix(in srgb,var(--lc,#6366f1) 4%,white)}
-.ih{display:flex;align-items:flex-start;gap:7px;margin-bottom:5px}
-.iico{font-size:18px;flex-shrink:0;margin-top:1px}
-.inm{font-size:12px;font-weight:700;line-height:1.3;flex:1}
-.ibadge{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:2px 5px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px}
-.irole{font-size:10px;color:var(--muted);line-height:1.55;margin-bottom:5px}
-.ipath{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--lc,#6366f1);background:color-mix(in srgb,var(--lc,#6366f1) 8%,transparent);padding:3px 7px;border-radius:5px;margin-bottom:5px;word-break:break-all;line-height:1.5}
-.idetail{font-size:9px;color:var(--muted);line-height:1.6;white-space:pre-line}
+/* ── COLUMN ── */
+.col{width:256px;flex-shrink:0;border-radius:12px;overflow:hidden;box-shadow:var(--sh)}
+.col-hdr{
+  padding:14px 15px 12px;
+  display:flex;flex-direction:column;gap:3px;
+}
+.col-num{font-family:var(--mono);font-size:8px;font-weight:700;opacity:.55;letter-spacing:2px}
+.col-name{font-size:13px;font-weight:900;letter-spacing:.2px}
+.col-desc{font-size:9px;opacity:.7;line-height:1.4;margin-top:1px}
+.col-body{background:#f8fafc;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:10px;display:flex;flex-direction:column;gap:8px}
 
-/* ── HUB CENTER ── */
-.hub-c{cursor:default}
-.hub-i{width:168px;height:168px;background:linear-gradient(145deg,#1a1a2e,#0d0d1a);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 0 3px rgba(200,0,26,.35),0 0 0 14px rgba(200,0,26,.1),0 0 0 30px rgba(200,0,26,.04),0 14px 44px rgba(0,0,0,.55);animation:phub 4s ease-in-out infinite}
-@keyframes phub{0%,100%{box-shadow:0 0 0 3px rgba(200,0,26,.35),0 0 0 14px rgba(200,0,26,.1),0 0 0 30px rgba(200,0,26,.04),0 14px 44px rgba(0,0,0,.55)}50%{box-shadow:0 0 0 5px rgba(200,0,26,.45),0 0 0 18px rgba(200,0,26,.15),0 0 0 38px rgba(200,0,26,.07),0 18px 52px rgba(0,0,0,.6)}}
-.hub-ican{font-family:'DM Serif Display',serif;font-size:30px;color:#C8001A;letter-spacing:2px;line-height:1}
-.hub-jh{font-size:10px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:2px;text-transform:uppercase}
-.hub-sub{font-size:8.5px;color:rgba(255,255,255,.35);text-align:center;padding:0 16px;line-height:1.4}
+/* ── INFRA CARD ── */
+.ic{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:11px 13px;box-shadow:var(--sh);border-left:3px solid}
+.ic.special{border-style:dashed;background:#f8fafc}
+.ic-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
+.ic-ico{font-size:17px;flex-shrink:0;margin-top:1px}
+.ic-right{flex:1;min-width:0}
+.ic-badge{font-size:7px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;padding:2px 5px;border-radius:4px;float:right;margin-left:6px;white-space:nowrap;margin-top:1px}
+.ic-name{font-size:11px;font-weight:700;line-height:1.35;color:var(--text)}
+.ic-role{font-size:9.5px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ic-path{display:block;font-family:var(--mono);font-size:8px;padding:3px 7px;border-radius:5px;margin-bottom:5px;word-break:break-all;line-height:1.5}
+.ic-detail{font-size:8.5px;color:var(--muted);line-height:1.6;white-space:pre-line;border-top:1px solid var(--border);padding-top:6px}
 
-/* ── CAT / TOOL NODES ── */
-.cat-n{cursor:default}
-.cat-c{background:white;border:2px solid var(--cc,#6366f1);border-radius:12px;padding:8px 13px;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);white-space:nowrap;transition:box-shadow .2s}
-.cat-c:hover{box-shadow:var(--sh-lg)}
-.cat-ic{font-size:19px}.cat-nm{font-size:12px;font-weight:700}
-.tool-n{cursor:default}
-.tc{width:186px;background:white;border:1px solid var(--border);border-radius:10px;padding:9px 11px 8px;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .2s}
-.tc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cc,#6366f1);border-radius:10px 0 0 10px}
-.tc:hover{box-shadow:0 6px 20px rgba(0,0,0,.1)}
+/* ── TOOLS ── */
+.t-sec{margin-bottom:24px}
+.t-hd{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px 10px 0 0;color:#fff}
+.t-ic{font-size:18px}.t-nm{font-size:13px;font-weight:800}.t-ct{margin-left:auto;font-size:9px;opacity:.7;font-weight:600}
+.t-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;
+  padding:10px;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px}
+.tc{background:var(--bg);border:1px solid var(--border);border-left:3px solid;border-radius:8px;padding:10px 12px;transition:box-shadow .15s}
+.tc:hover{box-shadow:var(--shh)}
 .tc.link{cursor:pointer}
-.tth{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px}
-.tte{font-size:16px;flex-shrink:0;margin-top:1px}.ttn{font-size:11px;font-weight:700;line-height:1.3}
-.ttd{font-size:9.5px;color:var(--muted);line-height:1.45;margin-bottom:5px}
-.tpath{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--cc,#6366f1);background:color-mix(in srgb,var(--cc,#6366f1) 8%,transparent);padding:2px 5px;border-radius:4px;margin-bottom:5px;word-break:break-all}
-.ttf{display:flex;align-items:center;justify-content:space-between;gap:3px}
-.sd{display:inline-flex;align-items:center;gap:3px;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.t-top{display:flex;align-items:flex-start;gap:7px;margin-bottom:4px}
+.t-em{font-size:17px;flex-shrink:0}.t-tn{font-size:11px;font-weight:700;line-height:1.3}
+.t-td{font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:5px}
+.t-ft{display:flex;align-items:center;justify-content:space-between;gap:4px;flex-wrap:wrap}
+.t-path{font-family:var(--mono);font-size:8px;padding:2px 5px;border-radius:4px;margin-bottom:5px;word-break:break-all}
+.sd{display:inline-flex;align-items:center;gap:3px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .sd::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-.s-live{color:#059669}.s-live::before{animation:blink 2s ease-in-out infinite}
+.s-live{color:#059669}.s-dev{color:#d97706}.s-active{color:#2563eb}.s-planned{color:#9ca3af}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.s-dev{color:#d97706}.s-active{color:#2563eb}.s-planned{color:#9ca3af}
-.tloc{font-size:8.5px;font-weight:500;background:#f3f4f6;color:var(--muted);padding:2px 5px;border-radius:4px}
-.tarr{font-size:8.5px;font-weight:700;color:var(--cc,#6366f1);background:color-mix(in srgb,var(--cc,#6366f1) 10%,transparent);padding:2px 5px;border-radius:4px}
+.s-live::before{animation:blink 2s ease-in-out infinite}
+.t-loc{font-size:8px;background:#f1f5f9;color:var(--muted);padding:2px 6px;border-radius:4px;font-weight:500}
+.t-arr{font-size:8px;font-weight:700;padding:2px 7px;border-radius:4px;text-decoration:none}
 
-/* ── LEGEND ── */
-.legend{position:fixed;bottom:14px;left:14px;z-index:200;background:white;border:1px solid var(--border);border-radius:10px;padding:9px 12px;box-shadow:var(--sh);font-size:10px}
-.leg-t{font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:5px}
-.leg-r{display:flex;align-items:center;gap:5px;margin-bottom:3px;font-weight:500}
-.leg-d{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.leg-sep{height:1px;background:var(--border);margin:5px 0}
-.leg-hint{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5}
-
-/* ── GRID VIEW ── */
-#gv{display:none;position:fixed;top:52px;left:0;right:0;bottom:0;overflow-y:auto;padding:20px;background:var(--bg)}
-#gv.on{display:block}
-.g-sec{margin-bottom:28px}
-.g-hd{display:flex;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:12px;border-bottom:2px solid var(--cc,#6366f1)}
-.g-ic{font-size:20px}.g-nm{font-size:14px;font-weight:800}.g-ct{margin-left:auto;font-size:10px;color:var(--muted)}
-.g-tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.g-tool{background:white;border:1px solid var(--border);border-left:4px solid var(--cc,#6366f1);border-radius:10px;padding:12px 13px;box-shadow:0 1px 5px rgba(0,0,0,.04);transition:transform .2s,box-shadow .2s}
-.g-tool.link{cursor:pointer}.g-tool:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(0,0,0,.07)}
-.g-th{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
-.g-em{font-size:22px;flex-shrink:0}.g-tn{font-size:12px;font-weight:700;margin-bottom:1px}.g-td{font-size:10px;color:var(--muted);line-height:1.5}
-.g-tf{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-.g-open{font-size:10px;font-weight:700;color:var(--cc,#6366f1);background:color-mix(in srgb,var(--cc,#6366f1) 10%,transparent);padding:3px 9px;border-radius:5px;text-decoration:none}
-
-@media(max-width:820px){#cw,.legend,.zctrls,.mtoggle,.hdr-date,.hdr-sep{display:none!important}#gv{display:block!important}.hdr-pills,.reset-pos{display:none}}
-
-/* ── EXPLAINER CARDS ── */
-.exp-card{width:340px;background:white;border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--sh);cursor:default}
-.exp-card:hover{box-shadow:var(--sh-lg)}
-.exp-card.warn-card{border-top:3px solid #f59e0b;background:#fffbf0}
-.exp-card.report-card{border-top:3px solid #10b981;background:linear-gradient(145deg,#f0fdf4,white)}
+/* ── GUIDE ── */
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.exp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:17px 19px;box-shadow:var(--sh);transition:box-shadow .15s}
+.exp-card:hover{box-shadow:var(--shh)}
+.exp-card.warn{border-top:3px solid #f59e0b;background:#fffdf0}
+.exp-card.good{border-top:3px solid #10b981;background:#f0fdf9}
 .exp-h{font-size:13px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .exp-hi{font-size:20px;flex-shrink:0}
-.exp-body{font-size:11px;color:#374151;line-height:1.75;white-space:pre-line}
+.exp-body{font-size:11px;color:#374151;line-height:1.8;white-space:pre-line}
 .exp-body b{color:#111827;font-weight:700}
-.exp-body em{font-style:italic;color:#6b7280}
-.exp-code{font-family:'JetBrains Mono',monospace;font-size:10px;background:#f3f4f6;color:#6366f1;padding:2px 5px;border-radius:4px;font-style:normal}
-.exp-sep{height:1px;background:var(--border);margin:10px 0}
-.exp-num{font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.9;color:#374151;white-space:pre}
-.exp-total{margin-top:8px;padding:8px 10px;background:#d1fae5;border-radius:8px;font-weight:700;font-size:11px;color:#065f46}
+.exp-body em{font-style:italic;color:var(--muted)}
+.exp-code{font-family:var(--mono);font-size:9px;background:#f3f4f6;color:#6366f1;padding:1px 5px;border-radius:3px;font-style:normal}
+.exp-num{font-family:var(--mono);font-size:10px;line-height:1.9;white-space:pre;color:#374151}
+.exp-total{margin-top:10px;padding:9px 12px;background:#d1fae5;border-radius:8px;font-weight:700;font-size:11px;color:#065f46;line-height:1.6}
+
+@media(max-width:680px){
+  .flow-wrap,.pipe-wrap{display:none}
+  .ph{font-size:18px}
+}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header class="hdr">
-  <div class="hdr-badge"><span>ICAN</span></div>
-  <div><div class="hdr-name">JEM HUB</div><div class="hdr-sub">ICAN OS V2 · Apr 2026</div></div>
-  <div class="hdr-pills" id="hpills" style="display:flex;gap:4px"></div>
+  <div class="hdr-ican">ICAN</div>
   <div class="hdr-sep"></div>
-  <!-- Flow filter toggle (only visible in map view) -->
-  <div class="vtoggle" id="flow-toggle" style="display:none">
-    <button class="vbtn on" data-f="cat"  onclick="setFlow('cat')" title="Group by system category (Input / Supervisor / Memory / AI / Output)">📂 Category</button>
-    <button class="vbtn"    data-f="flow" onclick="setFlow('flow')" title="Show actual execution order: Trigger → Receive → Context → AI → Deliver">⛓ Flow</button>
+  <div class="hdr-info">
+    <div class="hdr-title">JEM HUB</div>
+    <div class="hdr-sub">ICAN OS V2 · Apr 2026</div>
   </div>
-  <div class="hdr-sep" id="flow-sep" style="display:none"></div>
-  <!-- Mode toggle -->
-  <div class="mtoggle">
-    <button class="mbtn on" data-m="pan"    onclick="setMode('pan')">✋ Pan</button>
-    <button class="mbtn"    data-m="select" onclick="setMode('select')">⬚ Select</button>
-  </div>
-  <!-- View toggle -->
-  <div class="vtoggle">
-    <button class="vbtn on" data-v="map"  onclick="setV('map')">🌳 Map</button>
-    <button class="vbtn"    data-v="grid" onclick="setV('grid')">⊞ Grid</button>
-  </div>
-  <div class="hdr-sep"></div>
-  <!-- Zoom -->
-  <div class="zctrls">
-    <button class="z-btn" onclick="zBy(1.2)">+</button>
-    <span class="zpct" id="zpct">60%</span>
-    <button class="z-btn" onclick="zBy(1/1.2)">−</button>
-    <button class="z-btn" title="Fit all" onclick="fitAll()" style="font-size:10px">⊞</button>
-  </div>
-  <div class="hdr-sep"></div>
-  <button class="hbtn danger" onclick="resetAll()">↺ Reset</button>
-  <div class="hdr-space"></div>
+  <div class="hdr-pills" id="hpills"></div>
   <div class="hdr-date" id="hdate"></div>
 </header>
 
-<!-- Canvas -->
-<div id="cw" class="mode-pan">
-  <div id="vp"><svg id="svg"></svg></div>
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab on" data-s="arch" onclick="setTab('arch')">🏗 Architecture</button>
+  <button class="tab" data-s="tools" onclick="setTab('tools')">🔧 Tools</button>
+  <button class="tab" data-s="guide" onclick="setTab('guide')">📖 Guide</button>
+</nav>
+
+<!-- ═══ ARCHITECTURE ═══ -->
+<div id="s-arch" class="sec on">
+  <div class="pg">
+    <div class="ph">HOW JEM WORKS</div>
+    <div class="ps">Full system pipeline — six stages, left to right. Each card is a real file or service running on Shishir's Windows PC (unless marked cloud). Scroll right to see all columns.</div>
+
+    <!-- Flow bar -->
+    <div class="flow-wrap"><div class="flowbar" id="flowbar"></div></div>
+
+    <!-- Pipeline -->
+    <div class="pipe-wrap"><div class="pipe" id="pipeline"></div></div>
+  </div>
 </div>
 
-<!-- Selection rectangle -->
-<div id="sel-rect"></div>
+<!-- ═══ TOOLS ═══ -->
+<div id="s-tools" class="sec">
+  <div class="pg">
+    <div class="ph">TOOLS BUILT</div>
+    <div class="ps">Everything this system has built and maintains. Click any tool with a link to open it directly.</div>
+    <div id="tools-out"></div>
+  </div>
+</div>
 
-<!-- Grid view (mobile) -->
-<div id="gv"></div>
-
-<!-- Legend -->
-<div class="legend">
-  <div class="leg-t">Status</div>
-  <div class="leg-r"><div class="leg-d" style="background:#059669"></div>Live</div>
-  <div class="leg-r"><div class="leg-d" style="background:#d97706"></div>In Dev</div>
-  <div class="leg-r"><div class="leg-d" style="background:#2563eb"></div>Active</div>
-  <div class="leg-sep"></div>
-  <div class="leg-hint">✋ Pan mode — drag canvas<br>⬚ Select mode — click to select<br>Cards locked to grid</div>
+<!-- ═══ GUIDE ═══ -->
+<div id="s-guide" class="sec">
+  <div class="pg">
+    <div class="ph">SYSTEM EXPLAINED</div>
+    <div class="ps">Plain English explanations of every part. Read these to understand how the whole system fits together — no technical background needed.</div>
+    <div class="guide-grid" id="guide-out"></div>
+  </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════
-//  LAYOUT
-// ═══════════════════════════════════════════════
-const HX=6150, HY=1850, CAT_R=390, TOOL_R=300, FAN=38;
-const rad = d=>d*Math.PI/180;
-const catXY = c=>({x:HX+CAT_R*Math.cos(rad(c.angle)), y:HY+CAT_R*Math.sin(rad(c.angle))});
-const toolXY = (c,i,n)=>{const {x,y}=catXY(c);const a=rad(c.angle+(i-(n-1)/2)*FAN);return{x:x+TOOL_R*Math.cos(a),y:y+TOOL_R*Math.sin(a)};};
-const LOCKED = true; // grid layout locked — no dragging
-
-// ═══════════════════════════════════════════════
-//  TOOL DATA
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════════════
 const SL={live:'Live',dev:'In Dev',active:'Active',planned:'Planned'};
+
+// Six pipeline columns — defines order and groupings
+const COLS=[
+  {id:'input', num:'01',name:'INPUT',          color:'#8b5cf6',desc:'Who or what triggers JEM',
+   nodes:['shishir','daniel','sched','voice']},
+  {id:'core',  num:'02',name:'CORE SYSTEM',    color:'#6366f1',desc:'Machine + software that receives & routes',
+   nodes:['pc','terminal','sup-py','jem-py','cfg','haiku']},
+  {id:'mem',   num:'03',name:'MEMORY & CONTEXT',color:'#10b981',desc:'Files Claude reads to know who you are',
+   nodes:['mb','pi','pmd','log','mind','soul','expand']},
+  {id:'ai',    num:'04',name:'AI ENGINE',      color:'#f59e0b',desc:'Where Claude runs, thinks, and uses tools',
+   nodes:['cli','api','tools-ai','mcp','briefs','gh-actions']},
+  {id:'v2',    num:'05',name:'JEM OS V2',      color:'#C8001A',desc:'New infrastructure added April 2026',
+   nodes:['bus','cmd-ctr','livekit']},
+  {id:'out',   num:'06',name:'OUTPUT',         color:'#3b82f6',desc:'How replies are delivered back to you',
+   nodes:['o-tg','o-pdf','o-drive','o-gh']},
+];
+
+// All infra nodes — keyed by id
+const N={
+  shishir:{lc:'#8b5cf6',icon:'📱',name:'Shishir Khanal',     badge:'User',       role:'Primary user. Sends text, voice notes, photos via Telegram.',detail:'Auth ID: 5395334942\nAll commands, tasks, and conversations'},
+  daniel: {lc:'#8b5cf6',icon:'📱',name:'Daniel Haile',       badge:'User',       role:'Co-access. Same bot, full PC access via Telegram.',detail:'Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant'},
+  sched:  {lc:'#6366f1',icon:'⏱️',name:'APScheduler Orchestrator',badge:'Trigger',role:'Schedules + runs all AI agents. HTTP status API + WebSocket broadcast.',detail:'http://127.0.0.1:7891/status\nPOST /run/:job — trigger on demand\n8am briefing · 6h grants · 9am content · Mon weekly',path:'ican-os\\orchestrator.py'},
+  voice:  {lc:'#C8001A',icon:'🎙️',name:'Jem Voice — LiveKit',badge:'WebRTC',     role:'Real-time always-listening voice. Browser joins room, Silero VAD detects speech, Claude replies.',detail:'ws://localhost:7880 · Room: jem-os\nVAD: Silero (local) · Reply: edge-tts\nlivekit-agents 1.5.2',path:'ican-os\\voice\\livekit_agent.py'},
+  pc:     {lc:'#8b5cf6',icon:'🖥️',name:"Windows PC",         badge:'Hardware',   role:"Shishir's local machine. All scripts, files, Claude, Python, Chrome live here.",detail:'Windows 11 Home · C:\\Users\\jhabi\\\nPython 3.12 · gh CLI · Node.js · Chrome'},
+  terminal:{lc:'#f59e0b',icon:'⌨️',name:'Claude Code Terminal',badge:'Direct CLI',role:"Type 'claude' in any terminal for full direct access — same AI, all tools.",detail:'claude → interactive session\nclaude --print "prompt" → script\nModel: claude-sonnet-4-6'},
+  'sup-py':{lc:'#6366f1',icon:'⚙️',name:'supervisor.py',     badge:'Supervisor', role:'Main bot loop. Receives Telegram messages, builds context, calls Claude, executes actions.',detail:'Long-polls Telegram API · Authorizes user IDs\nAuto-starts on Windows login via startw.bat',path:'supervisor\\supervisor.py'},
+  'jem-py':{lc:'#6366f1',icon:'📤',name:'jem_send.py',       badge:'Sender',     role:'Called by Claude via Bash. Sends text, files, or HTML→PDF to Telegram.',detail:'msg → text reply\nfile → any format\npdf → Chrome headless → PDF → Telegram',path:'supervisor\\jem_send.py'},
+  cfg:    {lc:'#6366f1',icon:'🔑',name:'config.env',         badge:'Config',     role:'API keys, authorized user IDs, bot name, voice toggles.',detail:'TELEGRAM_BOT_TOKEN · TELEGRAM_USER_ID\nAUTHORIZED_USERS · VOICE_INPUT=True',path:'supervisor\\config.env'},
+  haiku:  {lc:'#00cc66',icon:'⚡',name:'Haiku Smart Routing', badge:'Token Saver',role:'Short/casual queries auto-route to Haiku (fast, cheap). Work tasks go to Sonnet.',detail:'<150 chars + no action words → Haiku\nWork / code / editing → Sonnet\n/opus for heavy strategy',path:'supervisor\\supervisor.py'},
+  mb:     {lc:'#10b981',icon:'🧠',name:'MASTER_BRAIN.md',    badge:'Memory',     role:'Company context, team, brand, architecture. Loaded on EVERY message.',detail:'~800 tokens · Companies, brand colors, mission\nJem architecture · Escalation rules',path:'MASTER_BRAIN.md'},
+  pi:     {lc:'#10b981',icon:'📋',name:'PROJECT_INDEX.md',   badge:'Memory',     role:'All projects with status and routing table. Loaded on EVERY message.',detail:'~400 tokens\n"If Shishir says grants → load grants CLAUDE.md"\nQuick status per project',path:'PROJECT_INDEX.md'},
+  pmd:    {lc:'#10b981',icon:'📄',name:'[project] CLAUDE.md',badge:'Memory',     role:'Project-specific context. Only ONE file loaded per message — the relevant one.',detail:'600–1,200 tokens each\nUpdated at end of every work session\n8 active CLAUDE.md files',path:'[project]\\CLAUDE.md'},
+  log:    {lc:'#10b981',icon:'📝',name:'LOG_YYYY-MM-DD.md',  badge:'Memory',     role:"Today's full activity log. Supervisor auto-appends after every reply.",detail:'New file each day · Q&A + timestamps\nPrevents Claude forgetting what it did 10 min ago',path:'LOG_YYYY-MM-DD.md'},
+  mind:   {lc:'#10b981',icon:'🧠',name:'JEM_MIND.md',        badge:'Inner State', role:"Jem's living inner monologue — current company read, signals, self-improvement. Loaded every session.",detail:'~600 tokens per session\nUpdated by morning briefing · Shishir never writes it',path:'JEM_MIND.md'},
+  soul:   {lc:'#8b5cf6',icon:'🔮',name:'ChromaDB Soul',      badge:'Semantic',   role:'Vector DB of all company knowledge. Agents query ~800 relevant tokens instead of loading 8,000 raw.',detail:'all-MiniLM-L6-v2 (79MB, local ONNX)\n55 chunks indexed · Auto re-index every 60s\nSources: all .md files',path:'ican-os\\.soul\\'},
+  expand: {lc:'#10b981',icon:'➕',name:'How to Expand',      badge:'Protocol',   role:'Add a project: create folder → CLAUDE.md → add to PROJECT_INDEX → Jem picks it up automatically.',detail:'No code change needed for new projects.\nAdd Hub tool: edit JS data → git push',special:true},
+  cli:    {lc:'#f59e0b',icon:'🤖',name:'claude --print',     badge:'AI Engine',  role:'Claude Code CLI runs as subprocess. Routes to Haiku / Sonnet / Opus based on task type.',detail:'Haiku: claude-haiku-4-5-20251001\nSonnet: claude-sonnet-4-6\nOpus: claude-opus-4-6'},
+  api:    {lc:'#f59e0b',icon:'☁️',name:'Anthropic API',      badge:'Cloud',      role:'Remote AI inference. Requires internet. claude-sonnet-4-6 generates the response.',detail:'~$0.01–0.03 per message\nRound-trip to Anthropic servers'},
+  'tools-ai':{lc:'#f59e0b',icon:'🔧',name:'Tool Calls (Local)',badge:'Execution', role:'Claude executes these live on your PC: Read, Write, Edit, Bash, Grep, Glob.',detail:'Read → open any file\nWrite/Edit → modify files\nBash → run any terminal command'},
+  mcp:    {lc:'#f59e0b',icon:'🔌',name:'MCP Server',         badge:'22 Tools',   role:'Model Context Protocol. Exposes all company tools to Claude Code in VS Code — no Telegram needed.',detail:'22 tools: files, Drive, Gmail, Calendar, Telegram, PDF, search\nRegistered in .claude\\settings.json',path:'ican-os\\mcp_server\\server.py'},
+  briefs: {lc:'#f59e0b',icon:'🌅',name:'Scheduled Scripts',  badge:'Scheduler',  role:'morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM) — run by the Orchestrator.',detail:'Reads all MDs → calls Claude → sends to Telegram\nFired by APScheduler, not Windows Task Scheduler',path:'supervisor\\morning_briefing.py'},
+  'gh-actions':{lc:'#10b981',icon:'⚙️',name:'GitHub Actions',badge:'Cloud Cron', role:'Cloud scheduler — runs even when your PC is off. Daily briefs + Google Calendar sync.',detail:'Repo: ShishirKhanal001/ican-2026-plan\n9am · 12pm · 5pm MDT → Telegram\nEvery 30 min → Google Calendar sync',path:'2026-Dashboard\\.github\\workflows\\'},
+  bus:    {lc:'#3b82f6',icon:'⚡',name:'jem_bus WebSocket',  badge:'Event Bus',  role:'Central event stream at ws://127.0.0.1:7890. Orchestrator broadcasts. Dashboard subscribes.',detail:'Orchestrator → broadcasts job_update events\nDashboard → subscribes, shows live feed\nAuto-reconnect every 4s',path:'supervisor\\jem_bus.py'},
+  'cmd-ctr':{lc:'#C8001A',icon:'🖥️',name:'Command Center',  badge:'Dashboard',  role:'Next.js 15 live mission control. KPI bar, project list, live feed, Run Now buttons, HUB link.',detail:'Next.js 15 · React 19 · Tailwind · Framer Motion\nPort: 3131 · POST /run/:job triggers agents',path:'ican-os\\command-center\\'},
+  livekit:{lc:'#C8001A',icon:'🎙️',name:'LiveKit Voice Agent',badge:'WebRTC',     role:'Python agent joins LiveKit room, listens via Silero VAD, sends speech to Claude, speaks reply.',detail:'livekit-agents 1.5.2 · Room: jem-os\npython voice/livekit_agent.py dev',path:'ican-os\\voice\\livekit_agent.py'},
+  'o-tg': {lc:'#3b82f6',icon:'💬',name:'Text → Telegram',   badge:'Output',     role:'Claude calls jem_send.py. Text goes back to your phone. Supports markdown.',detail:'Voice reply: edge-tts if VOICE_RESPONSES=True'},
+  'o-pdf':{lc:'#3b82f6',icon:'📎',name:'File / PDF → Telegram',badge:'Output',  role:'Files sent directly. HTML → Chrome headless → PDF → Telegram.',detail:'Chrome: Program Files\\Google\\Chrome\\Application'},
+  'o-drive':{lc:'#3b82f6',icon:'💾',name:'Google Drive Upload',badge:'Output',   role:"OAuth upload to 'Jem Uploads' folder in your Google Drive.",detail:'Token: drive_token.json\nRe-auth: drive_setup.py',path:'supervisor\\drive_token.json'},
+  'o-gh': {lc:'#3b82f6',icon:'🌐',name:'GitHub Pages Deploy',badge:'Output',     role:'Claude pushes code via gh CLI. GitHub auto-deploys to a public URL in ~60s.',detail:'Account: ShishirKhanal001 · 3 live dashboards'},
+};
+
 const TOOLS={categories:[
-  {id:"ai",name:"AI & Automation",icon:"⚡",color:"#6366f1",angle:198,tools:[
-    {id:"jem-bot", name:"Jem Supervisor Bot",       desc:"24/7 AI on Telegram. Receives messages, reads context MDs, calls Claude, replies.",icon:"🤖",s:"live",loc:"Local PC",path:"Claude\\supervisor\\supervisor.py",url:null},
-    {id:"wa-qa",   name:"WhatsApp QA Bot",           desc:"Every 5h: extract group chat, parse questions, Claude replies as teacher.",icon:"💬",s:"dev",loc:"Local PC",path:"Workshops\\Realestate Workshop\\WhatsApp QA Bot\\",url:null},
-    {id:"wa-img",  name:"WhatsApp Image Extractor",  desc:"Downloads photos from WhatsApp groups into sorted date/sender folders.",icon:"📸",s:"live",loc:"Local PC",path:"Workshops\\Realestate Workshop\\Whatsapp Image Extractor\\_codex\\",url:null},
-    {id:"haiku-t",   name:"Haiku Smart Routing",        desc:"Short/casual queries auto-route to Haiku (fast, cheap). Work tasks go to Sonnet. Token usage tracked daily.",icon:"⚡",s:"live",loc:"Jem Supervisor",path:"Claude\\supervisor\\supervisor.py",url:null},
-    {id:"voice-t",   name:"Jem Voice — LiveKit WebRTC", desc:"Real-time always-listening voice via LiveKit. Browser joins room, Silero VAD detects speech, Claude replies via edge-tts. Replaces push-to-talk. Any device, sub-300ms.",icon:"🎙️",s:"dev",loc:"Local PC",path:"Claude\\ican-os\\voice\\livekit_agent.py",url:null},
-    {id:"mind-t",    name:"JEM_MIND.md",                desc:"Jem's living inner state — current company read, what it's watching, what it thinks needs to happen. Loaded into every session.",icon:"🧠",s:"live",loc:"Claude\\JEM_MIND.md",path:"Claude\\JEM_MIND.md",url:null},
-    {id:"dashboard-t",name:"Command Center Dashboard",  desc:"Next.js 15 live mission control at localhost:3131. Dark UI: KPI bar, project list, live feed, agent panel, command input, HUB link. Framer Motion animations.",icon:"🖥️",s:"dev",loc:"localhost:3131",path:"Claude\\ican-os\\command-center\\",url:null},
-    {id:"mcp-t",     name:"MCP Server (22 Tools)",      desc:"Model Context Protocol server exposing 22 tools to Claude Code in VS Code: files, Google Drive, Gmail, Calendar, Telegram, web search, PDF generation, scripts.",icon:"🔌",s:"dev",loc:"VS Code",path:"Claude\\ican-os\\mcp_server\\server.py",url:null},
-    {id:"soul-t",    name:"ChromaDB Soul Layer",         desc:"Semantic vector store of all company knowledge. Indexes MASTER_BRAIN, PROJECT_INDEX, JEM_MIND, all CLAUDE.md files. Agents query ~800 tokens of relevant context — not 8,000 raw.",icon:"🔮",s:"dev",loc:"Local PC",path:"Claude\\ican-os\\tools\\soul.py",url:null},
-    {id:"orch-t",    name:"APScheduler Orchestrator",    desc:"Replaces Windows Task Scheduler. Manages all 4 agents centrally. HTTP status at :7891, WebSocket broadcast to dashboard. One process, one command.",icon:"⏱️",s:"dev",loc:"localhost:7891",path:"Claude\\ican-os\\orchestrator.py",url:null},
+  {id:'ai',name:'AI & Automation',icon:'⚡',color:'#6366f1',tools:[
+    {id:'jem-bot',  name:'Jem Supervisor Bot',        desc:'24/7 AI on Telegram. Receives messages, reads context MDs, calls Claude, replies.',icon:'🤖',s:'live',loc:'Local PC',path:'Claude\\supervisor\\supervisor.py'},
+    {id:'wa-qa',    name:'WhatsApp QA Bot',            desc:'Every 5h: extract group chat, parse questions, Claude replies as teacher.',icon:'💬',s:'dev',loc:'Local PC',path:'Workshops\\Realestate Workshop\\WhatsApp QA Bot\\'},
+    {id:'wa-img',   name:'WhatsApp Image Extractor',   desc:'Downloads photos from WhatsApp groups into sorted date/sender folders.',icon:'📸',s:'live',loc:'Local PC',path:'Workshops\\Realestate Workshop\\Whatsapp Image Extractor\\'},
+    {id:'haiku-t',  name:'Haiku Smart Routing',         desc:'Short/casual queries auto-route to Haiku (fast, cheap). Work tasks go to Sonnet.',icon:'⚡',s:'live',loc:'Supervisor',path:'Claude\\supervisor\\supervisor.py'},
+    {id:'voice-t',  name:'Jem Voice — LiveKit WebRTC',  desc:'Real-time always-listening voice. Silero VAD detects speech, Claude replies via edge-tts.',icon:'🎙️',s:'dev',loc:'Local PC',path:'Claude\\ican-os\\voice\\livekit_agent.py'},
+    {id:'mind-t',   name:'JEM_MIND.md',                 desc:"Jem's living inner state — current company read, signals, what needs to happen next.",icon:'🧠',s:'live',loc:'Claude\\JEM_MIND.md',path:'Claude\\JEM_MIND.md'},
+    {id:'dash-t',   name:'Command Center Dashboard',    desc:'Next.js 15 live mission control at localhost:3131. KPI bar, live feed, Run Now buttons.',icon:'🖥️',s:'dev',loc:'localhost:3131',path:'Claude\\ican-os\\command-center\\'},
+    {id:'mcp-t',    name:'MCP Server (22 Tools)',        desc:'Exposes 22 tools to Claude Code in VS Code: files, Drive, Gmail, Calendar, Telegram, PDF, search.',icon:'🔌',s:'dev',loc:'VS Code',path:'Claude\\ican-os\\mcp_server\\server.py'},
+    {id:'soul-t',   name:'ChromaDB Soul Layer',          desc:'Semantic vector store of all company knowledge. ~800 tokens of relevant context vs 8,000 raw.',icon:'🔮',s:'dev',loc:'Local PC',path:'Claude\\ican-os\\tools\\soul.py'},
+    {id:'orch-t',   name:'APScheduler Orchestrator',    desc:'Manages all 4 agents centrally. HTTP status at :7891, WebSocket broadcast to dashboard.',icon:'⏱️',s:'dev',loc:'localhost:7891',path:'Claude\\ican-os\\orchestrator.py'},
   ]},
-  {id:"grants",name:"Grants & Funding",icon:"💰",color:"#10b981",angle:342,tools:[
-    {id:"grants-db",   name:"Grants Dashboard", desc:"Live tracker — 3 submitted, 6 in progress, 7 researching, $3.5M pipeline.",icon:"📊",s:"live",  loc:"GitHub Pages",path:null,url:"https://shishirkhanal001.github.io/grants-dashboard/"},
-    {id:"futurpreneur",name:"Futurpreneur",      desc:"Discovery call Apr 15, 12:15 PM MT — under Daniel Haile.",icon:"🗓️",s:"active",loc:"In Progress",path:"Grants Applications\\Futurpreneur\\",url:null},
-    {id:"irap",        name:"IRAP & Others",     desc:"6 applications in progress, 7 in research stage.",icon:"📋",s:"active",loc:"In Progress",path:"Grants Applications\\",url:null},
+  {id:'grants',name:'Grants & Funding',icon:'💰',color:'#10b981',tools:[
+    {id:'grants-db',name:'Grants Dashboard',    desc:'Live tracker — 3 submitted, 6 in progress, 7 researching, $3.5M pipeline.',icon:'📊',s:'live',loc:'GitHub Pages',url:'https://shishirkhanal001.github.io/grants-dashboard/'},
+    {id:'futur',    name:'Futurpreneur',         desc:'Discovery call Apr 15, 12:15 PM MT — under Daniel Haile.',icon:'🗓️',s:'active',loc:'In Progress',path:'Grants Applications\\Futurpreneur\\'},
+    {id:'irap',     name:'IRAP & Others',        desc:'6 applications in progress, 7 in research stage.',icon:'📋',s:'active',loc:'In Progress',path:'Grants Applications\\'},
   ]},
-  {id:"film",name:"Film & Production",icon:"🎬",color:"#f59e0b",angle:126,tools:[
-    {id:"editor",  name:"ICAN Film Editor Plugin",desc:"Premiere Pro CEP panel. AI transcription in Amharic + Tigrinya. Phase 1 in progress.",icon:"✂️",s:"dev",loc:"Local PC",path:"ICAN FILM EDITOR\\",url:null},
-    {id:"plan2026",name:"2026 Annual Plan",       desc:"ICAN Film & Lucy TV strategic dashboard — weekly, quarterly, yearly goals.",icon:"📅",s:"live",loc:"GitHub Pages",path:null,url:"https://shishirkhanal001.github.io/ican-2026-plan/"},
+  {id:'film',name:'Film & Production',icon:'🎬',color:'#f59e0b',tools:[
+    {id:'editor',   name:'ICAN Film Editor Plugin',desc:'Premiere Pro CEP panel. AI transcription in Amharic + Tigrinya. Phase 1 in progress.',icon:'✂️',s:'dev',loc:'Local PC',path:'ICAN FILM EDITOR\\'},
+    {id:'plan2026', name:'2026 Annual Plan',      desc:'ICAN Film & Lucy TV strategic dashboard — weekly, quarterly, yearly goals.',icon:'📅',s:'live',loc:'GitHub Pages',url:'https://shishirkhanal001.github.io/ican-2026-plan/'},
   ]},
-  {id:"web",name:"Web & Streaming",icon:"🌐",color:"#3b82f6",angle:54,tools:[
-    {id:"lucy-tv",    name:"Lucy TV",    desc:"OTT streaming — African diaspora cinema. SVOD $3.99–$6.99/mo.",icon:"📺",s:"live",loc:"Web",path:null,url:"https://tvlucy.com"},
-    {id:"kickstarter",name:"Kickstarter",desc:"CA$8,000 goal — The Last Delivery. Live since Apr 1, 2026.",icon:"🚀",s:"live",loc:"Web",path:null,url:"https://www.kickstarter.com/projects/lucytv/lucy-tv-the-streaming-platform-for-independent-cinema"},
-    {id:"jem-hub-t",  name:"JEM HUB",   desc:"This dashboard — all tools + full system architecture in one view.",icon:"🗺️",s:"live",loc:"GitHub Pages",path:"Claude\\JEM-HUB\\index.html",url:"https://shishirkhanal001.github.io/jem-hub/"},
+  {id:'web',name:'Web & Streaming',icon:'🌐',color:'#3b82f6',tools:[
+    {id:'lucy-tv',  name:'Lucy TV',     desc:'OTT streaming — African diaspora cinema. SVOD $3.99–$6.99/mo.',icon:'📺',s:'live',loc:'Web',url:'https://tvlucy.com'},
+    {id:'ks',       name:'Kickstarter', desc:'CA$8,000 goal — The Last Delivery. Live since Apr 1, 2026.',icon:'🚀',s:'live',loc:'Web',url:'https://www.kickstarter.com/projects/lucytv/lucy-tv-the-streaming-platform-for-independent-cinema'},
+    {id:'hub-t',    name:'JEM HUB',     desc:'This dashboard — all tools + full system architecture in one view.',icon:'🗺️',s:'live',loc:'GitHub Pages',url:'https://shishirkhanal001.github.io/jem-hub/'},
   ]},
-  {id:"workshop",name:"Workshop & Education",icon:"📚",color:"#ec4899",angle:270,tools:[
-    {id:"re-ws",      name:"Real Estate Workshop",desc:"8-class photography course. Cohort Mar–Apr 2026 active.",icon:"🏠",s:"live",loc:"Local Files",path:"Workshops\\Realestate Workshop\\",url:null},
-    {id:"class-books",name:"Class Handbooks",    desc:"8 PDF handbooks, Classes 1–8. All printed and in use.",icon:"📄",s:"live",loc:"Local Files",path:"Workshops\\Realestate Workshop\\Class Documents\\",url:null},
+  {id:'workshop',name:'Workshop & Education',icon:'📚',color:'#ec4899',tools:[
+    {id:'re-ws',    name:'Real Estate Workshop', desc:'8-class photography course. Cohort Mar–Apr 2026 active.',icon:'🏠',s:'live',loc:'Local Files',path:'Workshops\\Realestate Workshop\\'},
+    {id:'books',    name:'Class Handbooks',      desc:'8 PDF handbooks, Classes 1–8. All printed and in use.',icon:'📄',s:'live',loc:'Local Files',path:'Workshops\\Realestate Workshop\\Class Documents\\'},
   ]},
 ]};
 
-// ═══════════════════════════════════════════════
-//  INFRA NODES
-// ═══════════════════════════════════════════════
-const INFRA=[
-  // ── COL 1 · INPUT / TRIGGER (x=380) ──
-  {id:"shishir", lc:"#8b5cf6",icon:"📱",name:"Shishir Khanal",      badge:"User",       role:"Primary user. Sends text, voice notes, photos via Telegram.",detail:"Auth ID: 5395334942\nAll commands, tasks, and conversations",path:null,dx:380,dy:800},
-  {id:"daniel",  lc:"#8b5cf6",icon:"📱",name:"Daniel Haile",        badge:"User",       role:"Co-access. Same bot, same full PC access via Telegram.",detail:"Auth ID: 5544125023 — added Apr 4 2026\nCo-owner, instructor, grant applicant",path:null,dx:380,dy:1060},
-  {id:"sched",   lc:"#6366f1",icon:"⏱️",name:"APScheduler Orchestrator",badge:"Trigger",role:"Replaces Windows Task Scheduler. One always-running process that manages ALL agent jobs centrally. HTTP status API + WebSocket broadcast to dashboard.",detail:"python orchestrator.py\nHTTP: http://127.0.0.1:7891/status\nPOST /run/:job — trigger any agent on demand\nJobs: briefing 8am · grants 6h · content 9am · weekly Mon",path:"Claude\\ican-os\\orchestrator.py",dx:380,dy:1320},
-  {id:"voice",   lc:"#C8001A",icon:"🎙️",name:"Jem Voice — LiveKit", badge:"WebRTC",     role:"Real-time always-listening voice. Browser joins LiveKit room, Silero VAD detects speech, Claude replies via edge-tts. Replaces push-to-talk. Any device, sub-300ms latency.",detail:"livekit-server.exe v1.10.1 → ws://localhost:7880\nRoom: jem-os · VAD: Silero (local)\nBrowser: agents-playground.livekit.io\nPython: livekit-agents 1.5.2",path:"Claude\\ican-os\\voice\\livekit_agent.py",dx:380,dy:1580},
-  // ── COL 2 · CORE SYSTEM (x=1000) ──
-  {id:"pc",      lc:"#8b5cf6",icon:"🖥️",name:"Windows PC",          badge:"Hardware",   role:"Shishir's local machine. Everything lives here — all scripts, files, Claude, Python, Chrome. The physical brain of the whole system.",detail:"Windows 11 Home · C:\\Users\\jhabi\\\nAll Claude files in Downloads\\Claude\\\nPython 3.12 · gh CLI · Node.js · Chrome",path:null,dx:1000,dy:800},
-  {id:"terminal",lc:"#f59e0b",icon:"⌨️",name:"Claude Code Terminal", badge:"Direct CLI", role:"Type 'claude' in any terminal for full direct access — same AI, all tools, no Telegram needed. More powerful than the bot.",detail:"claude → interactive session (full tools)\nclaude --print \"prompt\" → script-friendly\nSame model: claude-sonnet-4-6\nTools: Read Write Edit Bash Grep Glob + more",path:null,dx:1000,dy:1060},
-  {id:"sup-py",  lc:"#6366f1",icon:"⚙️",name:"supervisor.py",       badge:"Supervisor", role:"Main bot loop. Receives Telegram messages, builds context prompt, calls Claude CLI, parses response, executes actions. Never replaced — V2 wraps around it.",detail:"Long-polls Telegram API · Authorizes user IDs\nAuto-starts on Windows login via startw.bat",path:"Claude\\supervisor\\supervisor.py",dx:1000,dy:1320},
-  {id:"jem-py",  lc:"#6366f1",icon:"📤",name:"jem_send.py",         badge:"Sender",     role:"Called by Claude via Bash. Sends text, files, or HTML→PDF to Telegram.",detail:"msg → text reply\nfile → any format directly\npdf → Chrome headless → PDF → Telegram",path:"Claude\\supervisor\\jem_send.py",dx:1000,dy:1580},
-  {id:"cfg",     lc:"#6366f1",icon:"🔑",name:"config.env",          badge:"Config",     role:"API keys, authorized user IDs, bot name, voice on/off. Shared between supervisor.py and all V2 tools.",detail:"TELEGRAM_BOT_TOKEN · TELEGRAM_USER_ID\nAUTHORIZED_USERS · VOICE_INPUT=True\nVOICE_RESPONSES=True",path:"Claude\\supervisor\\config.env",dx:1000,dy:1840},
-  {id:"haiku",   lc:"#00cc66",icon:"⚡",name:"Haiku Smart Routing",  badge:"Token Saver",role:"Casual / short queries auto-route to Claude Haiku (fast, cheap). Work tasks route to Sonnet.",detail:"Short msg (<150 chars, no action words) → Haiku\nWork/editing/analysis → Sonnet\n/opus → heavy strategy\n/tokens → see daily usage",path:"Claude\\supervisor\\supervisor.py",dx:1000,dy:2100},
-  // ── COL 3 · MEMORY / CONTEXT (x=1620) ──
-  {id:"mb",      lc:"#10b981",icon:"🧠",name:"MASTER_BRAIN.md",     badge:"Memory",     role:"Company context, team, brand, architecture, escalation rules. Loaded EVERY message.",detail:"~800 tokens · Company BNs, brand colors, mission\nJem architecture · New task protocol",path:"Claude\\MASTER_BRAIN.md",dx:1620,dy:800},
-  {id:"pi",      lc:"#10b981",icon:"📋",name:"PROJECT_INDEX.md",    badge:"Memory",     role:"All 8 projects with status, paths, routing table. Loaded EVERY message.",detail:"~400 tokens\n'If Shishir says X → load this CLAUDE.md'\nQuick status snapshot per project",path:"Claude\\PROJECT_INDEX.md",dx:1620,dy:1060},
-  {id:"pmd",     lc:"#10b981",icon:"📄",name:"[project] CLAUDE.md", badge:"Memory",     role:"Project-specific memory. Only ONE relevant project file loaded per message.",detail:"One file per project · 600–1,200 tokens each\nUpdated at end of every work session\n8 active CLAUDE.md files in use",path:"[project folder]\\CLAUDE.md",dx:1620,dy:1320},
-  {id:"log",     lc:"#10b981",icon:"📝",name:"LOG_YYYY-MM-DD.md",   badge:"Memory",     role:"Today's full activity log. Supervisor auto-appends after every reply.",detail:"New file each day · Includes all Q&A + timestamps\nPrevents repeating info within same day",path:"Claude\\LOG_YYYY-MM-DD.md",dx:1620,dy:1580},
-  {id:"mind",    lc:"#10b981",icon:"🧠",name:"JEM_MIND.md",         badge:"Inner State", role:"Jem's living inner monologue. Current company read, active signals, self-improvement notes. Loaded every session alongside MASTER_BRAIN.",detail:"Updated manually + by morning briefing\nLoaded: ~600 tokens per session\nShishir never writes to it — Jem does",path:"Claude\\JEM_MIND.md",dx:1620,dy:1840},
-  {id:"soul",    lc:"#8b5cf6",icon:"🔮",name:"ChromaDB Soul",       badge:"Semantic",   role:"Vector database of all company knowledge. Agents query for ~800 tokens of relevant context instead of loading 8,000 raw. Auto re-indexes when files change.",detail:"Model: all-MiniLM-L6-v2 (79MB, local ONNX)\nStorage: ican-os\\.soul\\ · 55 chunks indexed\nSources: MASTER_BRAIN + PROJECT_INDEX + JEM_MIND + all CLAUDE.md\nAuto-watcher: re-indexes every 60s",path:"Claude\\ican-os\\tools\\soul.py",dx:1620,dy:2100},
-  {id:"expand",  lc:"#10b981",icon:"➕",name:"How to Expand",       badge:"Protocol",   role:"Add new project:\n→ create folder\n→ create CLAUDE.md\n→ add row to PROJECT_INDEX.md\n→ Jem picks it up next message\n\nAdd tool to JEM HUB:\n→ edit DATA in index.html → git push",detail:"MDs are auto-loaded. No code change needed for new projects.",path:null,dx:1620,dy:2360,special:true},
-  // ── COL 4 · AI ENGINE (x=2240) ──
-  {id:"cli",     lc:"#f59e0b",icon:"🤖",name:"claude --print",      badge:"AI Engine",  role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin. Smart routing: Haiku for casual, Sonnet for work, Opus on demand.",detail:"Haiku: claude-haiku-4-5-20251001\nSonnet: claude-sonnet-4-6\nOpus: claude-opus-4-6\n--resume keeps session alive all day",path:null,dx:2240,dy:800},
-  {id:"api",     lc:"#f59e0b",icon:"☁️",name:"Anthropic API",       badge:"Remote",     role:"Remote AI inference. claude-sonnet-4-6 generates the response from your context.",detail:"Not local — requires internet\n~$0.01–0.03 per message · Round-trip to API",path:null,dx:2240,dy:1060},
-  {id:"tools-ai",lc:"#f59e0b",icon:"🔧",name:"Tool Calls (Local)",  badge:"Execution",  role:"Claude executes these tools live on your PC: Read, Write, Edit, Bash, Grep, Glob.",detail:"Read → open any file\nWrite/Edit → modify files\nBash → run any script or command",path:null,dx:2240,dy:1320},
-  {id:"mcp",     lc:"#f59e0b",icon:"🔌",name:"MCP Server",          badge:"22 Tools",   role:"Model Context Protocol server. Exposes all company tools to Claude Code inside VS Code. 22 tools available directly without Telegram.",detail:"from mcp.server.fastmcp import FastMCP\nRegistered: .claude\\settings.json\nTools: files, Drive, Gmail, Calendar, Telegram, PDF, search + more\nAuto-loads when VS Code opens",path:"Claude\\ican-os\\mcp_server\\server.py",dx:2240,dy:1580},
-  {id:"briefs",  lc:"#f59e0b",icon:"🌅",name:"Scheduled Scripts",   badge:"Scheduler",  role:"morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM). Run by orchestrator, not Windows Task Scheduler.",detail:"Each reads all MDs → calls Claude → Telegram\nOrchestrator fires them via APScheduler",path:"Claude\\supervisor\\morning_briefing.py",dx:2240,dy:1840},
-  {id:"gh-actions",lc:"#10b981",icon:"⚙️",name:"GitHub Actions",   badge:"Cloud Cron", role:"Cloud scheduler — runs even when PC is off. Fires daily_brief.py at 9am, 12pm, 5pm MDT. Also syncs tasks to Google Calendar every 30 min.",detail:"Repo: ShishirKhanal001/ican-2026-plan\n9am · 12pm · 5pm MDT → Telegram\nEvery 30 min → Google Calendar sync\nFree tier · No server needed",path:"2026-Dashboard\\.github\\workflows\\scheduler.yml",dx:2240,dy:2100},
-  // ── COL 5 · JEM OS V2 (x=2860) ──
-  {id:"bus",     lc:"#3b82f6",icon:"⚡",name:"jem_bus WebSocket",    badge:"Event Bus",  role:"Central WebSocket event stream at ws://127.0.0.1:7890. Orchestrator broadcasts all job events here. Dashboard subscribes for live updates.",detail:"ws://127.0.0.1:7890\nOrchestrator → broadcasts job_update, orchestrator_start\nDashboard → subscribes, shows live feed\nAuto-reconnect every 4s",path:"Claude\\supervisor\\jem_bus.py",dx:2860,dy:800},
-  {id:"cmd-ctr", lc:"#C8001A",icon:"🖥️",name:"Command Center",      badge:"Dashboard",  role:"Next.js 15 live mission control at localhost:3131. KPI bar, project list, live event feed, agent panel with Run Now buttons, voice toggle, HUB link.",detail:"Tech: Next.js 15 · React 19 · Tailwind · Framer Motion\nPort: 3131 (next start)\nAgent Panel: Run Now → POST /run/:job\nHub button → JEM Hub canvas",path:"Claude\\ican-os\\command-center\\",dx:2860,dy:1060},
-  {id:"livekit", lc:"#C8001A",icon:"🎙️",name:"LiveKit Voice Agent",  badge:"WebRTC",     role:"Python agent that joins the LiveKit room, listens via Silero VAD, sends speech to Claude, speaks reply via edge-tts.",detail:"livekit-agents 1.5.2\nRoom: jem-os\nStart: python voice/livekit_agent.py dev",path:"Claude\\ican-os\\voice\\livekit_agent.py",dx:2860,dy:1320},
-  // ── COL 6 · OUTPUT (x=3480) ──
-  {id:"o-tg",   lc:"#3b82f6",icon:"💬",name:"Text → Telegram",      badge:"Output",     role:"Claude calls jem_send.py msg. Text response goes back to your phone.",detail:"Supports markdown formatting\nVoice reply via edge-tts if VOICE_RESPONSES=True",path:null,dx:3480,dy:800},
-  {id:"o-pdf",  lc:"#3b82f6",icon:"📎",name:"File / PDF → Telegram",badge:"Output",     role:"Files sent directly. HTML → Chrome headless → PDF → sent.",detail:"Chrome: Program Files\\Google\\Chrome\\Application\nTemp user-data-dir per call",path:null,dx:3480,dy:1060},
-  {id:"o-drive",lc:"#3b82f6",icon:"💾",name:"Google Drive Upload",   badge:"Output",     role:"OAuth upload to 'Jem Uploads' folder in your Google Drive.",detail:"Token: drive_token.json\nRe-auth if needed: drive_setup.py",path:"Claude\\supervisor\\drive_token.json",dx:3480,dy:1320},
-  {id:"o-gh",   lc:"#3b82f6",icon:"🌐",name:"GitHub Pages Deploy",   badge:"Output",     role:"Claude pushes code via gh CLI. GitHub auto-deploys to public URL. Reload = latest.",detail:"Account: ShishirKhanal001 · 3 live dashboards\nDeploy time: ~60 seconds",path:null,dx:3480,dy:1580},
-  {id:"cli",    lc:"#f59e0b",icon:"🤖",name:"claude --print",   badge:"AI Engine", role:"Claude Code CLI. Runs as subprocess. Receives full context via stdin. Smart routing: Haiku for casual, Sonnet for work, Opus on demand. Separate --resume sessions per model.",detail:"Haiku: claude-haiku-4-5-20251001\nSonnet: claude-sonnet-4-6\nOpus: claude-opus-4-6\n--resume keeps session alive all day",path:null,dx:2780,dy:980},
-  {id:"api",    lc:"#f59e0b",icon:"☁️",name:"Anthropic API",    badge:"Remote",    role:"Remote AI inference. claude-sonnet-4-6 generates the response from your context.",detail:"Not local — requires internet\n~$0.01–0.03 per message · Round-trip to API",path:null,dx:2780,dy:1210},
-  {id:"tools-ai",lc:"#f59e0b",icon:"🔧",name:"Tool Calls (Local)",badge:"Execution",role:"Claude executes these tools live on your PC: Read, Write, Edit, Bash, Grep, Glob.",detail:"Read → open any file\nWrite/Edit → modify files\nBash → run any script or command",path:null,dx:2780,dy:1450},
-  {id:"briefs", lc:"#f59e0b",icon:"🌅",name:"Scheduled Scripts (PC)",badge:"Scheduler", role:"morning_briefing.py (8 AM) and weekly_report.py (Mon 9 AM) run on Windows Task Scheduler when PC is on.",detail:"Each reads all MDs → calls Claude → Telegram\nWindows Task Scheduler fires them",path:"Claude\\supervisor\\morning_briefing.py",dx:2780,dy:1670},
-  {id:"gh-actions",lc:"#10b981",icon:"⚙️",name:"GitHub Actions",badge:"Cloud Cron",role:"Cloud scheduler — runs even when PC is off. Fires daily_brief.py at 9am, 12pm, 5pm MDT. Also syncs tasks to Google Calendar every 30 min.",detail:"Repo: ShishirKhanal001/ican-2026-plan\n9am · 12pm · 5pm MDT → Telegram to Shishir + Daniel\nEvery 30 min → Google Calendar sync\nFree tier · No server needed",path:"2026-Dashboard\\.github\\workflows\\scheduler.yml",dx:2780,dy:1870},
-  {id:"o-tg",   lc:"#3b82f6",icon:"💬",name:"Text → Telegram",  badge:"Output",    role:"Claude calls jem_send.py msg. Text response goes back to your phone.",detail:"Supports markdown formatting\nVoice reply via edge-tts if VOICE_RESPONSES=True",path:null,dx:3540,dy:900},
-  {id:"o-pdf",  lc:"#3b82f6",icon:"📎",name:"File / PDF → Telegram",badge:"Output",role:"Files sent directly. HTML → Chrome headless → PDF → sent.",detail:"Chrome: Program Files\\Google\\Chrome\\Application\nTemp user-data-dir per call",path:null,dx:3540,dy:1110},
-  {id:"o-drive",lc:"#3b82f6",icon:"💾",name:"Google Drive Upload",badge:"Output",  role:"OAuth upload to 'Jem Uploads' folder in your Google Drive.",detail:"Token: drive_token.json\nRe-auth if needed: drive_setup.py",path:"Claude\\supervisor\\drive_token.json",dx:3540,dy:1320},
-  {id:"o-gh",   lc:"#3b82f6",icon:"🌐",name:"GitHub Pages Deploy",badge:"Output",  role:"Claude pushes code via gh CLI. GitHub auto-deploys to public URL. Reload = latest.",detail:"Account: ShishirKhanal001 · 3 live dashboards\nDeploy time: ~60 seconds",path:null,dx:3540,dy:1530},
-];
-
-const EDGES=[
-  {f:"haiku",t:"cli",c:"#00cc66",dash:true},
-  {f:"pc",t:"sup-py",c:"#8b5cf6",dash:true},{f:"terminal",t:"cli",c:"#f59e0b",w:2.5},
-  {f:"shishir",t:"sup-py",c:"#8b5cf6"},{f:"daniel",t:"sup-py",c:"#8b5cf6"},{f:"sched",t:"sup-py",c:"#8b5cf6"},
-  {f:"cfg",t:"sup-py",c:"#6366f1",dash:true},
-  {f:"sup-py",t:"mb",c:"#10b981"},{f:"sup-py",t:"pi",c:"#10b981"},{f:"sup-py",t:"pmd",c:"#10b981"},{f:"sup-py",t:"log",c:"#10b981"},
-  {f:"mb",t:"cli",c:"#f59e0b"},{f:"pi",t:"cli",c:"#f59e0b"},{f:"pmd",t:"cli",c:"#f59e0b"},{f:"log",t:"cli",c:"#f59e0b"},
-  {f:"cli",t:"api",c:"#f59e0b"},{f:"api",t:"cli",c:"#d97706",dash:true},
-  {f:"cli",t:"tools-ai",c:"#f59e0b"},{f:"tools-ai",t:"pmd",c:"#10b981",dash:true},
-  {f:"briefs",t:"cli",c:"#f59e0b",dash:true},{f:"briefs",t:"o-tg",c:"#3b82f6",dash:true},
-  {f:"gh-actions",t:"o-tg",c:"#10b981"},{f:"gh-actions",t:"o-gh",c:"#10b981",dash:true},
-  {f:"cli",t:"o-tg",c:"#3b82f6"},{f:"cli",t:"o-pdf",c:"#3b82f6"},{f:"cli",t:"o-drive",c:"#3b82f6"},{f:"cli",t:"o-gh",c:"#3b82f6"},
-  {f:"o-tg",t:"jem-py",c:"#6366f1",dash:true},{f:"o-pdf",t:"jem-py",c:"#6366f1",dash:true},
-  {f:"o-gh",t:"hub",c:"#6366f1",w:2.5},
-  // ── JEM OS V2 edges ──
-  {f:"soul",t:"cli",c:"#8b5cf6",dash:true},
-  {f:"mb",t:"soul",c:"#8b5cf6",dash:true},
-  {f:"pi",t:"soul",c:"#8b5cf6",dash:true},
-  {f:"sched",t:"bus",c:"#6366f1"},
-  {f:"sched",t:"cmd-ctr",c:"#C8001A",w:2},
-  {f:"bus",t:"cmd-ctr",c:"#3b82f6",w:2.5},
-  {f:"mcp",t:"cli",c:"#f59e0b",w:2},
-  {f:"mcp",t:"tools-ai",c:"#f59e0b",dash:true},
-  {f:"livekit",t:"cli",c:"#C8001A"},
-  {f:"livekit",t:"o-tg",c:"#C8001A",dash:true},
-  {f:"cmd-ctr",t:"sched",c:"#C8001A",dash:true},
-];
-
-// ═══════════════════════════════════════════════
-//  EXPLAINER CARDS
-// ═══════════════════════════════════════════════
-const EXPLAINERS=[
-  {id:"exp-eli5",icon:"🧒",title:"How Jem Works — Simple Version",cls:"",dx:380,dy:2700,html:`
-<b>Imagine Jem is a helper living inside your computer.</b>
+const GUIDE=[
+  {icon:'🧒',title:'How Jem Works — Simple Version',cls:'',html:`<b>Imagine Jem is a helper living inside your computer.</b>
 
 You send a message from your phone
-→ it arrives at the Windows PC
-→ a Python script called <b>supervisor.py</b> picks it up
-→ it loads "cheat sheets" (the .md files) about who you are and what projects you're running
-→ it sends all that to <b>Claude</b> (the AI brain, in the cloud)
-→ Claude reads everything, writes a reply, and can use tools to read files, run scripts, make PDFs
-→ the reply comes back to supervisor.py
+→ arrives at the Windows PC
+→ supervisor.py picks it up
+→ loads "cheat sheets" (.md files) about you and your projects
+→ sends everything to <b>Claude</b> (the AI brain, in the cloud)
+→ Claude reads it, writes a reply, uses tools to do work
+→ reply comes back to supervisor.py
 → your phone gets the message
 
 It all happens in about 5–15 seconds. You stay on your phone. The PC does all the work.`},
-
-  {id:"exp-mds",icon:"🧠",title:"The .MD Files — Your Memory System",cls:"",dx:800,dy:2700,html:`
-<b>MASTER_BRAIN.md</b> (~800 tokens)
-Loaded on <em>every</em> message. Contains who you are, both companies, brand rules, and how Jem is wired. Think: "always remember this."
+  {icon:'🧠',title:'The .MD Files — Your Memory System',cls:'',html:`<b>MASTER_BRAIN.md</b> (~800 tokens)
+Loaded on <em>every single message</em>. Contains who you are, both companies, brand rules, and how Jem is wired. Think: "always remember this."
 
 <b>PROJECT_INDEX.md</b> (~400 tokens)
 A routing table. One row per project. Tells Claude: "if Shishir mentions grants, load the grants CLAUDE.md." Loaded every message.
 
 <b>[project] CLAUDE.md</b> (~600–1,200 tokens)
-Deep context for ONE project. Only loaded when relevant. This is the big token saver — you don't load all 8 at once.
+Deep context for ONE project. Only loaded when relevant. This is the big token saver — you never load all 8 at once.
 
 <b>LOG_YYYY-MM-DD.md</b>
-Auto-written daily. A diary of today's work. Stops Claude from forgetting what it did 10 minutes ago.`},
-
-  {id:"exp-tokens",icon:"💰",title:"How You Save Tokens (and Money)",cls:"",dx:1220,dy:2700,html:`
-<b>Without this system:</b>
+Auto-written daily. A diary of today's work. Stops Claude forgetting what it did 10 minutes ago.`},
+  {icon:'💰',title:'How You Save Tokens (and Money)',cls:'',html:`<b>Without this system:</b>
 You'd paste all context manually every message.
 8 projects × ~1,000 tokens each = 8,000 tokens just for context — before you've said anything.
 
@@ -390,27 +333,22 @@ Master Brain (800) + Index (400) + 1 CLAUDE.md (900) + Log (300) = ~2,400 tokens
 At ~$0.003/1K input tokens that's ~$0.017 saved per message.
 100 messages/day = $1.70/day = $51/month saved.
 
-But the real win is <b>quality</b> — Claude gets the RIGHT context, not a dump of everything. It focuses better and makes fewer mistakes.`},
+The real win is <b>quality</b> — Claude gets the RIGHT context, not a dump of everything.`},
+  {icon:'🔧',title:'What Each Tool Does',cls:'',html:`These are the hands Claude uses to actually <em>do</em> things, not just talk.
 
-  {id:"exp-tools",icon:"🔧",title:"What Each Tool Does",cls:"",dx:1660,dy:2700,html:`
-These are the hands Claude uses to actually <em>do</em> things, not just talk.
-
-<b>Read</b>   — Opens any file on the PC and shows contents
-<b>Write</b>  — Creates or fully overwrites a file
-<b>Edit</b>   — Surgically changes one piece of text inside a file
-<b>Bash</b>   — Runs any terminal command (Python, git, anything)
-<b>Grep</b>   — Searches inside files for a word or pattern
-<b>Glob</b>   — Finds files by name pattern (e.g. all *.md files)
+<b>Read</b>      — Opens any file on the PC and shows contents
+<b>Write</b>     — Creates or fully overwrites a file
+<b>Edit</b>      — Surgically changes one piece of text inside a file
+<b>Bash</b>      — Runs any terminal command (Python, git, anything)
+<b>Grep</b>      — Searches inside files for a word or pattern
+<b>Glob</b>      — Finds files by name pattern (e.g. all *.md files)
 <b>WebSearch</b> — Searches the internet
 <b>WebFetch</b>  — Reads a specific webpage
 
-The Telegram bot calls these same tools via Claude Code.
-The terminal gives you all of them directly, with no middleman.`},
+The Telegram bot and the Claude terminal both use these same tools.`},
+  {icon:'⌨️',title:'The Terminal — Full Power Access',cls:'',html:`The Telegram bot is convenient but the <b>Claude Code terminal</b> is the real command center.
 
-  {id:"exp-cli",icon:"⌨️",title:"The Terminal — Full Power Access",cls:"",dx:2100,dy:2700,html:`
-The Telegram bot is convenient but the <b>Claude Code terminal</b> is the real command center.
-
-Open any terminal on the PC and type <span class="exp-code">claude</span> — you get an interactive session with full tool access. Same AI, same files, but you can see everything live, copy text, paste code, run multiple steps.
+Open any terminal on the PC and type <span class="exp-code">claude</span> — you get a full interactive session with all tools. Same AI, same files, but you see everything live.
 
 For scripts: <span class="exp-code">claude --print "your prompt"</span>
 
@@ -418,57 +356,30 @@ For scripts: <span class="exp-code">claude --print "your prompt"</span>
 • No response length limits
 • Shows live diffs and file previews
 • Can debug, run tests, work on large codebases
-• Access to ALL tools including notebook and agent tools
+• Access to ALL tools — notebooks, agents, everything
 • You see exactly what it's doing in real time
 
-Think of the bot as the remote control and the terminal as sitting at the mixing board.`},
+Think of the bot as your remote control and the terminal as sitting at the mixing board.`},
+  {icon:'🚀',title:'JEM OS V2 — What\'s New (Apr 2026)',cls:'good',html:`<b>V2 adds 5 new pillars on top of the existing Telegram bot (supervisor.py never changes):</b>
 
-  {id:"exp-gh",icon:"⚠️",title:"GitHub Dashboard — The Sync Problem",cls:"warn-card",dx:2540,dy:2700,html:`
-The 2026 dashboard and JEM HUB save card positions and task notes in <b>localStorage</b> — storage that lives inside one specific browser on one specific device.
+<b>1. MCP Server</b> — 22 tools now available directly in VS Code. Files, Drive, Gmail, Calendar, search, PDFs — no Telegram needed.
 
-When you edit on your phone, those changes stay in the phone's browser.
-When you open the same URL on the PC, it reads the PC's localStorage — which has different or no data.
+<b>2. ChromaDB Soul</b> — semantic memory. All MDs indexed as vector embeddings. Agents query ~800 relevant tokens vs 8,000 raw context.
 
-<b>Why this happens:</b> GitHub Pages is a static site. There's no server storing your state. Each browser has its own isolated localStorage.
+<b>3. APScheduler Orchestrator</b> — one process manages all 4 agents. HTTP status at :7891. POST /run/:job to trigger any agent instantly.
 
-<b>Workaround:</b> Treat GitHub Pages dashboards as read-only on mobile. Make all edits on the PC. The PC localStorage is the "source of truth."
+<b>4. Command Center Dashboard</b> — Next.js 15 dark UI at localhost:3131. Live KPI bar, Run Now buttons, live event feed.
 
-<b>Real fix:</b> Would need Firebase or a small backend to sync state across devices. Can be built if needed.`},
+<b>5. LiveKit Voice Agent</b> — real WebRTC voice. Always listening. Any browser joins the room and talks to Jem.
 
-  {id:"exp-report",icon:"📊",title:"Token Savings Report",cls:"report-card",dx:2980,dy:2700,html:`<div class="exp-num">Context per message:
-  MASTER_BRAIN.md ............ 800 tok
-  PROJECT_INDEX.md ........... 400 tok
-  1× CLAUDE.md (avg) ......... 900 tok
-  LOG file (avg) ............. 300 tok
-  ─────────────────────────────────────
-  Total context .......... ~2,400 tok
-
-Without this system (worst case):
-  8 CLAUDE.mds × 1,000 ...... 8,000 tok
-  Manual repasting context ... + waste
-</div><div class="exp-total">Savings: ~5,600 tokens/message ≈ 70% reduction<br>≈ $50–80/month saved at current usage<br>Routing is the key — Claude only reads what it needs.</div>`},
-
-  {id:"exp-v2",icon:"🚀",title:"JEM OS V2 — What's New (Apr 2026)",cls:"report-card",dx:380,dy:3180,html:`<b>V2 adds 5 new pillars on top of the existing Telegram bot (supervisor.py never changes):</b>
-
-<b>1. MCP Server</b> — 22 tools now available in VS Code, not just Telegram. Files, Drive, Gmail, Calendar, search, PDFs — all callable from Claude Code directly.
-
-<b>2. ChromaDB Soul</b> — semantic memory. All MDs are indexed as vector embeddings. Agents query ~800 tokens of relevant context vs 8,000 raw. Auto-reindexes on file changes.
-
-<b>3. APScheduler Orchestrator</b> — one process manages all 4 agents (briefing, grants, content, weekly). HTTP status API at :7891. POST /run/:job to trigger any agent from dashboard.
-
-<b>4. Command Center Dashboard</b> — Next.js 15 dark UI at localhost:3131. Live KPI bar, project list, agent panel with Run Now buttons, live event feed, command input.
-
-<b>5. LiveKit Voice Agent</b> — real WebRTC voice. Always listening. Any browser joins the room and talks to Jem. Replaces push-to-talk jem_voice.py.
-
-<div class="exp-total">One click: double-click "Start JEM OS" on Desktop → all services start → browser opens automatically</div>`},
-
-  {id:"exp-soul",icon:"🔮",title:"ChromaDB Soul — Context Engineering",cls:"",dx:860,dy:3180,html:`<b>The problem:</b> Loading all context MDs every message = 8,000+ tokens before you've said anything.
+<div class="exp-total">One click: "Start JEM OS" on Desktop → all services start → browser opens</div>`},
+  {icon:'🔮',title:'ChromaDB Soul — Context Engineering',cls:'',html:`<b>The problem:</b> Loading all context MDs every message = 8,000+ tokens before you've said anything.
 
 <b>The fix — ChromaDB semantic search:</b>
 When an agent runs, it queries the soul vector store with its task.
 The store returns the 5 most semantically relevant chunks — ~800 tokens total.
 
-<b>What's indexed (55 chunks from 4 files):</b>
+<b>What's indexed (55 chunks from 4 sources):</b>
   MASTER_BRAIN.md ............ 14 chunks
   PROJECT_INDEX.md ............ 7 chunks
   JEM_MIND.md ................. 2 chunks
@@ -479,492 +390,142 @@ The store returns the 5 most semantically relevant chunks — ~800 tokens total.
   Tier 2: Manual file load fallback → ~3,000 tokens
 
 <div class="exp-total">10× reduction: 800 tokens vs 8,000 raw context load</div>`},
-
-  {id:"exp-routing",icon:"⚡",title:"Smart Model Routing — Haiku vs Sonnet",cls:"report-card",dx:3420,dy:2700,html:`<b>The idea:</b> Not every message needs Sonnet. Casual chat and quick questions route to Haiku automatically — saving tokens for real work.
+  {icon:'⚡',title:'Smart Model Routing — Haiku vs Sonnet',cls:'good',html:`<b>The idea:</b> Not every message needs Sonnet. Casual chat routes to Haiku automatically — saving tokens for real work.
 
 <b>How it works:</b>
-Jem classifies each message before sending.
-Short messages without action words → Haiku (fast, 10× cheaper)
+Short messages (<150 chars, no action words) → Haiku (fast, 10× cheaper)
 Anything with edits, builds, code, grants → Sonnet (full power)
 
 <b>Force a model anytime:</b>
   <span class="exp-code">/haiku</span>  — force Haiku for next message
   <span class="exp-code">/sonnet</span> — force Sonnet (full tools)
   <span class="exp-code">/opus</span>   — force Opus (heavy strategy)
-  <span class="exp-code">/tokens</span> — see today's usage + est. cost
+  <span class="exp-code">/tokens</span> — see today's usage + estimated cost
 
-<b>Token tracking:</b>
-Every response shows: ⚡ Haiku or ✦ Sonnet badge + daily token count.
-<div class="exp-total">Haiku: $0.25/$1.25 per 1M tokens<br>Sonnet: $3/$15 per 1M tokens<br>Same Claude Pro subscription — routing is free</div>`},
+<div class="exp-total">Haiku: $0.25/$1.25 per 1M tokens — Sonnet: $3/$15 per 1M tokens<br>Routing is free. Saves tokens automatically every day.</div>`},
+  {icon:'⚠️',title:'GitHub Dashboard — The Sync Problem',cls:'warn',html:`The dashboards save card positions in <b>localStorage</b> — storage that lives inside one specific browser on one specific device.
+
+When you edit on your phone, those changes stay in the phone's browser.
+When you open the same URL on the PC, it reads the PC's localStorage — different data.
+
+<b>Why this happens:</b> GitHub Pages is a static site. There's no server storing your state.
+
+<b>Workaround:</b> Treat GitHub Pages dashboards as read-only on mobile. Make all edits on the PC.
+
+<b>Real fix:</b> Would need Firebase or a small backend to sync state. Can be built if needed.`},
+  {icon:'📊',title:'Token Savings Report',cls:'good',html:`<div class="exp-num">Context per message:
+  MASTER_BRAIN.md ............ 800 tok
+  PROJECT_INDEX.md ........... 400 tok
+  1× CLAUDE.md (avg) ......... 900 tok
+  LOG file (avg) ............. 300 tok
+  ─────────────────────────────────────
+  Total context .......... ~2,400 tok
+
+Without this system (worst case):
+  8 CLAUDE.mds × 1,000 ...... 8,000 tok
+  Manual repasting context ... + waste
+</div><div class="exp-total">Savings: ~5,600 tokens/message ≈ 70% reduction<br>≈ $50–80/month saved at current usage rate</div>`},
 ];
 
-// ═══════════════════════════════════════════════
-//  NODE POSITIONS + LABEL TEXT
-// ═══════════════════════════════════════════════
-let NP={};
-let flowMode=false;
-let savedCatNP={};
-
-// Flow-order positions: same 5 columns, cards redistributed by actual execution chain
-const FLOW_NP={
-  // Col 1 (x=560) — TRIGGER: who/what initiates
-  'haiku':      {x:560,  y:750},
-  'shishir':    {x:560,  y:800},
-  'daniel':     {x:560,  y:1010},
-  'sched':      {x:560,  y:1220},
-  'gh-actions': {x:560,  y:1430},
-  // Col 2 (x=1230) — RECEIVE: machine + bot entry point
-  'pc':         {x:1230, y:800},
-  'terminal':   {x:1230, y:1050},
-  'sup-py':     {x:1230, y:1300},
-  'cfg':        {x:1230, y:1510},
-  // Col 3 (x=1980) — CONTEXT: memory loaded per message
-  'mb':         {x:1980, y:800},
-  'pi':         {x:1980, y:1010},
-  'pmd':        {x:1980, y:1220},
-  'log':        {x:1980, y:1430},
-  'expand':     {x:1980, y:1640},
-  // Col 4 (x=2780) — AI PROCESS: inference + tool execution
-  'cli':        {x:2780, y:800},
-  'api':        {x:2780, y:1010},
-  'tools-ai':   {x:2780, y:1220},
-  'briefs':     {x:2780, y:1430},
-  // Col 5 (x=3540) — DELIVER: output back to user
-  'jem-py':     {x:3540, y:800},
-  'o-tg':       {x:3540, y:1010},
-  'o-pdf':      {x:3540, y:1220},
-  'o-drive':    {x:3540, y:1430},
-  'o-gh':       {x:3540, y:1640},
-};
-
-const FLOW_LABELS={
-  'lh-input-num':'01','lh-input-name':'TRIGGER',
-  'lh-super-num':'02','lh-super-name':'RECEIVE',
-  'lh-mem-num':'03',  'lh-mem-name':'CONTEXT',
-  'lh-ai-num':'04',   'lh-ai-name':'AI PROCESS',
-  'lh-out-num':'05',  'lh-out-name':'DELIVER',
-};
-
-const DEFAULT_LABELS={
-  'sl-arch-tag':'System Architecture','sl-arch-title':'HOW JEM WORKS','sl-arch-sub':'Full pipeline — from your phone to every output. Six locked columns, left to right.',
-  'sl-tools-tag':'Tools Map','sl-tools-title':'TOOLS BUILT','sl-tools-sub':'All tools and dashboards maintained by this system. Click web tools to open.',
-  'sl-guide-tag':'Plain English Guide','sl-guide-title':'SYSTEM EXPLAINED','sl-guide-sub':'How every part works, what each file does, and how tokens are saved.',
-  'lh-input-num':'01','lh-input-name':'INPUT',
-  'lh-super-num':'02','lh-super-name':'CORE SYSTEM',
-  'lh-mem-num':'03',  'lh-mem-name':'MEMORY & CONTEXT',
-  'lh-ai-num':'04',   'lh-ai-name':'AI ENGINE',
-  'lh-v2-num':'05',   'lh-v2-name':'JEM OS V2',
-  'lh-out-num':'06',  'lh-out-name':'OUTPUT',
-};
-let LT={...DEFAULT_LABELS};
-
-function buildDefaults(){
-  NP={};
-  NP['hub']={x:HX,y:HY};
-  TOOLS.categories.forEach(c=>{
-    NP['cat-'+c.id]=catXY(c);
-    c.tools.forEach((t,i)=>{NP['tool-'+t.id]=toolXY(c,i,c.tools.length);});
-  });
-  INFRA.forEach(n=>{NP[n.id]={x:n.dx,y:n.dy};});
-  // Section labels & layer headers (6-column locked grid)
-  NP['sl-arch'] ={x:380,  y:360}; NP['sl-tools']={x:5100,y:360};
-  NP['lh-input']={x:380,  y:640};
-  NP['lh-super']={x:1000, y:640};
-  NP['lh-mem']  ={x:1620, y:640};
-  NP['lh-ai']   ={x:2240, y:640};
-  NP['lh-v2']   ={x:2860, y:640};
-  NP['lh-out']  ={x:3480, y:640};
-  NP['sl-guide']={x:380,  y:2700};
-  EXPLAINERS.forEach(e=>{NP[e.id]={x:e.dx,y:e.dy};});
-}
-
-function loadState(){
-  try{const p=JSON.parse(localStorage.getItem('jh-np')||'{}');Object.assign(NP,p);}catch(e){}
-  try{const l=JSON.parse(localStorage.getItem('jh-lt')||'{}');Object.assign(LT,l);}catch(e){}
-}
-function saveNP(){try{localStorage.setItem('jh-np',JSON.stringify(NP));}catch(e){}}
-function saveLT(id,txt){LT[id]=txt;try{localStorage.setItem('jh-lt',JSON.stringify(LT));}catch(e){}}
-function resetAll(){localStorage.removeItem('jh-np');localStorage.removeItem('jh-lt');flowMode=false;savedCatNP={};document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f==='cat'));buildDefaults();LT={...DEFAULT_LABELS};renderAll();fitAll();}
-
-function setFlow(mode){
-  if((mode==='flow')===flowMode) return; // already in this mode
-  saveNP(); // persist current positions before switching
-  flowMode=(mode==='flow');
-  if(flowMode){
-    // Save current infra + header positions (in-memory for restore)
-    [...Object.keys(FLOW_NP),'lh-input','lh-super','lh-mem','lh-ai','lh-out'].forEach(id=>{if(NP[id])savedCatNP[id]={...NP[id]};});
-    // Apply flow positions
-    Object.assign(NP,FLOW_NP);
-    // Apply flow layer labels
-    Object.keys(FLOW_LABELS).forEach(k=>{LT[k]=FLOW_LABELS[k];});
-  } else {
-    // Restore saved category positions
-    if(Object.keys(savedCatNP).length) Object.assign(NP,savedCatNP);
-    // Restore default labels (then reapply any user edits from storage)
-    LT={...DEFAULT_LABELS};
-    try{const l=JSON.parse(localStorage.getItem('jh-lt')||'{}');Object.assign(LT,l);}catch(e){}
-    saveNP(); // persist restored category positions
-  }
-  document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f===mode));
-  renderAll();
-  gotoInfra();
-}
-
-// ═══════════════════════════════════════════════
-//  EDITABLE TEXT
-// ═══════════════════════════════════════════════
-function startEdit(el, labelId){
-  if(el.contentEditable==='true') return;
-  el.contentEditable='true'; el.focus();
-  const r=document.createRange(); r.selectNodeContents(el);
-  const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
-  function done(){el.contentEditable='false';saveLT(labelId,el.textContent.trim());}
-  el.addEventListener('blur',done,{once:true});
-  el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}},);
-}
-
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  RENDER
-// ═══════════════════════════════════════════════
-function renderAll(){
-  const vp=document.getElementById('vp');
-  vp.querySelectorAll('[data-nid]').forEach(e=>e.remove());
-  renderSectionLabels(vp);
-  renderLayerHeaders(vp);
-  renderInfraNodes(vp);
-  renderHubNode(vp);
-  renderCatNodes(vp);
-  renderToolNodes(vp);
-  renderExplainers(vp);
-  drawConnections();
-  syncSelectionUI();
-}
+// ═══════════════════════════════════════════════════════════
 
-function renderExplainers(vp){
-  EXPLAINERS.forEach(e=>{
-    const el=mk('div');
-    el.innerHTML=`<div class="exp-card${e.cls?' '+e.cls:''}"><div class="exp-h"><span class="exp-hi">${e.icon}</span>${e.title}</div><div class="exp-body">${e.html.trim()}</div></div>`;
-    placeNode(el,e.id,vp);
-  });
-}
-
-function mk(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e;}
-function placeNode(el,id,vp){el.dataset.nid=id;const p=NP[id];el.style.left=p.x+'px';el.style.top=p.y+'px';vp.appendChild(el);}
-
-function renderSectionLabels(vp){
-  [
-    {id:'sl-arch',  tagK:'sl-arch-tag', titleK:'sl-arch-title', subK:'sl-arch-sub',  bar:'linear-gradient(90deg,#8b5cf6,#6366f1,#10b981,#f59e0b,#3b82f6)', w:640},
-    {id:'sl-tools', tagK:'sl-tools-tag',titleK:'sl-tools-title',subK:'sl-tools-sub', bar:'linear-gradient(90deg,#6366f1,#10b981,#f59e0b,#3b82f6,#ec4899)',  w:480},
-    {id:'sl-guide', tagK:'sl-guide-tag',titleK:'sl-guide-title',subK:'sl-guide-sub', bar:'linear-gradient(90deg,#8b5cf6,#6366f1,#10b981,#f59e0b,#ec4899)',  w:560},
-  ].forEach(it=>{
-    const el=mk('div','slabel');
-    el.innerHTML=`<div class="sl-tag" data-eid="${it.tagK}" ondblclick="startEdit(this,'${it.tagK}')">${LT[it.tagK]}</div><span class="sl-title" data-eid="${it.titleK}" ondblclick="startEdit(this,'${it.titleK}')">${LT[it.titleK]}</span><span class="sl-sub" data-eid="${it.subK}" ondblclick="startEdit(this,'${it.subK}')">${LT[it.subK]}</span><div class="sl-bar" style="background:${it.bar};width:${it.w}px"></div>`;
-    placeNode(el,it.id,vp);
-  });
-}
-
-function renderLayerHeaders(vp){
-  [
-    {id:'lh-input',numK:'lh-input-num',nameK:'lh-input-name',c:'#8b5cf6'},
-    {id:'lh-super',numK:'lh-super-num',nameK:'lh-super-name',c:'#6366f1'},
-    {id:'lh-mem',  numK:'lh-mem-num',  nameK:'lh-mem-name',  c:'#10b981'},
-    {id:'lh-ai',   numK:'lh-ai-num',   nameK:'lh-ai-name',   c:'#f59e0b'},
-    {id:'lh-v2',   numK:'lh-v2-num',   nameK:'lh-v2-name',   c:'#C8001A'},
-    {id:'lh-out',  numK:'lh-out-num',  nameK:'lh-out-name',  c:'#3b82f6'},
-  ].forEach(it=>{
-    const el=mk('div','lhdr');
-    el.innerHTML=`<div class="lh-num" style="color:${it.c}" data-eid="${it.numK}" ondblclick="startEdit(this,'${it.numK}')">${LT[it.numK]}</div><div class="lh-name" style="color:${it.c}" data-eid="${it.nameK}" ondblclick="startEdit(this,'${it.nameK}')">${LT[it.nameK]}</div><div class="lh-bar" style="background:${it.c};opacity:.35"></div>`;
-    placeNode(el,it.id,vp);
-  });
-}
-
-function renderInfraNodes(vp){
-  INFRA.forEach(n=>{
-    const el=mk('div');
-    const pathEl=n.path?`<div class="ipath">📁 …\\${n.path}</div>`:'';
-    el.innerHTML=`<div class="ic${n.special?' special':''}" style="--lc:${n.lc}"><div class="ih"><span class="iico">${n.icon}</span><span class="inm">${n.name}</span><span class="ibadge" style="background:color-mix(in srgb,${n.lc} 12%,transparent);color:${n.lc}">${n.badge}</span></div><div class="irole">${n.role}</div>${pathEl}<div class="idetail">${n.detail}</div></div>`;
-    placeNode(el,n.id,vp);
-  });
-}
-
-function renderHubNode(vp){
-  const el=mk('div','hub-c');
-  el.innerHTML=`<div class="hub-i"><div class="hub-ican">ICAN</div><div class="hub-jh">JEM HUB</div><div class="hub-sub">Operating System</div></div>`;
-  placeNode(el,'hub',vp);
-}
-
-function renderCatNodes(vp){
-  TOOLS.categories.forEach(c=>{
-    const el=mk('div','cat-n');
-    el.innerHTML=`<div class="cat-c" style="--cc:${c.color}"><span class="cat-ic">${c.icon}</span><span class="cat-nm">${c.name}</span></div>`;
-    placeNode(el,'cat-'+c.id,vp);
-  });
-}
-
-function renderToolNodes(vp){
-  TOOLS.categories.forEach(c=>{
-    c.tools.forEach(t=>{
-      const el=mk('div','tool-n');
-      const hasLink=!!t.url;
-      const click=hasLink?`onclick="window.open('${t.url}','_blank')"`:'' ;
-      const badge=hasLink?`<span class="tarr" style="--cc:${c.color}">↗ Open</span>`:`<span class="tloc">${t.loc}</span>`;
-      const pathEl=t.path?`<div class="tpath">📁 …\\${t.path}</div>`:'';
-      el.innerHTML=`<div class="tc${hasLink?' link':''}" style="--cc:${c.color}" ${click}><div class="tth"><span class="tte">${t.icon}</span><span class="ttn">${t.name}</span></div><div class="ttd">${t.desc}</div>${pathEl}<div class="ttf"><span class="sd s-${t.s}">${SL[t.s]}</span>${badge}</div></div>`;
-      placeNode(el,'tool-'+t.id,vp);
-    });
-  });
-}
-
-// ═══════════════════════════════════════════════
-//  SVG CONNECTIONS
-// ═══════════════════════════════════════════════
-function drawConnections(){
-  const colors=[...new Set(EDGES.map(e=>e.c))];
-  let h='<defs>';
-  colors.forEach(c=>{h+=`<marker id="a${c.replace('#','')}" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${c}" opacity="0.7"/></marker>`;});
-  h+='</defs>';
-  EDGES.forEach(e=>{
-    const p1=NP[e.f],p2=NP[e.t]; if(!p1||!p2)return;
-    const off=Math.max(Math.abs(p2.x-p1.x)*.45,100);
-    const d=`M ${p1.x} ${p1.y} C ${p1.x+off} ${p1.y} ${p2.x-off} ${p2.y} ${p2.x} ${p2.y}`;
-    const mk=e.dash?'':`marker-end="url(#a${e.c.replace('#','')})"`;
-    h+=`<path d="${d}" stroke="${e.c}" stroke-width="${e.w||1.8}" fill="none" opacity="${e.dash?.28:.5}" ${e.dash?'stroke-dasharray="6 4"':''} ${mk}/>`;
-  });
-  TOOLS.categories.forEach(c=>{
-    const cp=NP['cat-'+c.id],hp=NP['hub']; if(!cp||!hp)return;
-    h+=`<line x1="${hp.x}" y1="${hp.y}" x2="${cp.x}" y2="${cp.y}" stroke="${c.color}" stroke-width="2" stroke-dasharray="7 5" opacity="0.5"/>`;
-    c.tools.forEach(t=>{
-      const tp=NP['tool-'+t.id]; if(!tp)return;
-      h+=`<path d="M ${cp.x} ${cp.y} Q ${(cp.x+tp.x)/2} ${(cp.y+tp.y)/2} ${tp.x} ${tp.y}" stroke="${c.color}" stroke-width="1.5" fill="none" opacity="0.4"/>`;
-    });
-  });
-  document.getElementById('svg').innerHTML=h;
-}
-
-// ═══════════════════════════════════════════════
-//  SELECTION
-// ═══════════════════════════════════════════════
-let selected=new Set();
-
-function toggleSel(nid,addOnly=false){
-  if(addOnly){selected.add(nid);}
-  else{if(selected.has(nid))selected.delete(nid);else{selected.clear();selected.add(nid);}}
-  syncSelectionUI();
-}
-function clearSel(){selected.clear();syncSelectionUI();}
-function syncSelectionUI(){
-  document.querySelectorAll('[data-nid].sel').forEach(e=>e.classList.remove('sel'));
-  selected.forEach(nid=>{const el=document.querySelector(`[data-nid="${nid}"]`);if(el)el.classList.add('sel');});
-}
-
-// ═══════════════════════════════════════════════
-//  INTERACTION — pan / drag / select
-// ═══════════════════════════════════════════════
-const vs={tx:0,ty:0,scale:.6};
-let curMode='pan';
-let drag=null;
-let pan={active:false,sx:0,sy:0,tx:0,ty:0};
-let rub=null; // rubber band {sx,sy} in screen coords
-
-function setMode(m){
-  curMode=m;
-  const cw=document.getElementById('cw');
-  cw.className=`mode-${m}`;
-  document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
-  if(m==='pan') clearSel();
-}
-
-function applyT(){
-  document.getElementById('vp').style.transform=`translate(${vs.tx}px,${vs.ty}px) scale(${vs.scale})`;
-  document.getElementById('zpct').textContent=Math.round(vs.scale*100)+'%';
-}
-
-function zBy(f,cx,cy){
-  const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;
-  const mx=cx??W/2,my=cy??H/2;
-  const ns=Math.min(Math.max(vs.scale*f,.15),4);
-  vs.tx=mx-(mx-vs.tx)*(ns/vs.scale); vs.ty=my-(my-vs.ty)*(ns/vs.scale);
-  vs.scale=ns; applyT();
-}
-
-document.getElementById('cw').addEventListener('wheel',e=>{
-  e.preventDefault();
-  const r=document.getElementById('cw').getBoundingClientRect();
-  zBy(e.deltaY>0?.88:1.14,e.clientX-r.left,e.clientY-r.top);
-},{passive:false});
-
-function gotoInfra(){const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;vs.scale=.38;vs.tx=W/2-2000*.38;vs.ty=H/2-1500*.38;applyT();}
-function gotoTools(){const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;vs.scale=.65;vs.tx=W/2-HX*.65;vs.ty=H/2-HY*.65;applyT();}
-function fitAll(){const cw=document.getElementById('cw'),W=cw.clientWidth,H=cw.clientHeight;vs.scale=.26;vs.tx=W/2-3600*.26;vs.ty=H/2-1600*.26;applyT();}
-
-// ── Rubber-band helpers ──────────────────────────
-const selRect=document.getElementById('sel-rect');
-function showRub(x1,y1,x2,y2){
-  selRect.style.display='block';
-  selRect.style.left=Math.min(x1,x2)+'px';
-  selRect.style.top=Math.min(y1,y2)+'px';
-  selRect.style.width=Math.abs(x2-x1)+'px';
-  selRect.style.height=Math.abs(y2-y1)+'px';
-}
-function hideRub(){selRect.style.display='none';}
-
-function nodesInRect(sx1,sy1,sx2,sy2){
-  const cw=document.getElementById('cw').getBoundingClientRect();
-  const minX=Math.min(sx1,sx2),maxX=Math.max(sx1,sx2);
-  const minY=Math.min(sy1,sy2)+52,maxY=Math.max(sy1,sy2)+52; // +52 header
-  const found=[];
-  Object.keys(NP).forEach(nid=>{
-    const p=NP[nid];
-    const sx=p.x*vs.scale+vs.tx,sy=p.y*vs.scale+vs.ty+52;
-    if(sx>=minX&&sx<=maxX&&sy>=minY&&sy<=maxY) found.push(nid);
-  });
-  return found;
-}
-
-// ── Main mouse events ────────────────────────────
-document.getElementById('cw').addEventListener('mousedown',e=>{
-  if(e.button!==0) return;
-  const nodeEl=e.target.closest('[data-nid]');
-  const isEditing=e.target.contentEditable==='true';
-  if(isEditing) return;
-
-  if(nodeEl){
-    e.stopPropagation();
-    if(LOCKED) return; // grid locked
-    const nid=nodeEl.dataset.nid;
-    const pos=NP[nid];
-    drag={
-      nid, el:nodeEl,
-      ox:(e.clientX-vs.tx)/vs.scale-pos.x,
-      oy:(e.clientY-vs.ty)/vs.scale-pos.y,
-      moved:false, sx:e.clientX, sy:e.clientY,
-      startNP: selected.size>1&&selected.has(nid)
-        ? Object.fromEntries([...selected].map(id=>[id,{...NP[id]}]))
-        : null
-    };
-    nodeEl.classList.add('dragging');
-  } else {
-    if(curMode==='select'){
-      rub={sx:e.clientX,sy:e.clientY};
-    } else {
-      pan.active=true; pan.sx=e.clientX; pan.sy=e.clientY; pan.tx=vs.tx; pan.ty=vs.ty;
-      document.getElementById('cw').classList.add('panning');
-    }
-  }
-});
-
-window.addEventListener('mousemove',e=>{
-  if(drag){
-    if(!drag.moved&&(Math.abs(e.clientX-drag.sx)>4||Math.abs(e.clientY-drag.sy)>4)) drag.moved=true;
-    if(drag.moved){
-      const nx=(e.clientX-vs.tx)/vs.scale-drag.ox;
-      const ny=(e.clientY-vs.ty)/vs.scale-drag.oy;
-      if(drag.startNP&&selected.size>1){
-        // Multi-drag: move all selected by same delta from start positions
-        const dx=nx-drag.startNP[drag.nid].x, dy=ny-drag.startNP[drag.nid].y;
-        selected.forEach(nid=>{
-          if(!drag.startNP[nid]) return;
-          NP[nid]={x:drag.startNP[nid].x+dx, y:drag.startNP[nid].y+dy};
-          const el=document.querySelector(`[data-nid="${nid}"]`);
-          if(el){el.style.left=NP[nid].x+'px';el.style.top=NP[nid].y+'px';}
-        });
-      } else {
-        NP[drag.nid]={x:nx,y:ny};
-        drag.el.style.left=nx+'px';
-        drag.el.style.top=ny+'px';
-      }
-      drawConnections();
-    }
-  } else if(pan.active){
-    vs.tx=pan.tx+(e.clientX-pan.sx); vs.ty=pan.ty+(e.clientY-pan.sy); applyT();
-  } else if(rub){
-    showRub(rub.sx,rub.sy,e.clientX,e.clientY);
-  }
-});
-
-window.addEventListener('mouseup',e=>{
-  if(drag){
-    drag.el.classList.remove('dragging');
-    if(!drag.moved){
-      // Click — toggle selection
-      if(curMode==='select') toggleSel(drag.nid, e.shiftKey);
-      // If it's a link node and not dragging, allow click to propagate naturally
-    } else {
-      saveNP();
-    }
-    drag=null;
-  }
-  if(pan.active){pan.active=false;document.getElementById('cw').classList.remove('panning');}
-  if(rub){
-    const moved=Math.abs(e.clientX-rub.sx)>8||Math.abs(e.clientY-rub.sy)>8;
-    if(moved){
-      const found=nodesInRect(rub.sx,rub.sy,e.clientX,e.clientY);
-      if(!e.shiftKey) selected.clear();
-      found.forEach(nid=>selected.add(nid));
-      syncSelectionUI();
-    } else if(!e.shiftKey){
-      clearSel();
-    }
-    hideRub(); rub=null;
-  }
-});
-
-// Touch pan
-let tl=null;
-document.getElementById('cw').addEventListener('touchstart',e=>{if(e.touches.length===1)tl={x:e.touches[0].clientX,y:e.touches[0].clientY};});
-document.getElementById('cw').addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&tl){vs.tx+=e.touches[0].clientX-tl.x;vs.ty+=e.touches[0].clientY-tl.y;tl={x:e.touches[0].clientX,y:e.touches[0].clientY};applyT();}},{passive:false});
-document.getElementById('cw').addEventListener('touchend',()=>tl=null);
-
-// ═══════════════════════════════════════════════
-//  VIEW TOGGLE + GRID + HEADER
-// ═══════════════════════════════════════════════
-function setV(v){
-  const isM=v==='map';
-  document.getElementById('cw').style.display=isM?'block':'none';
-  document.getElementById('gv').classList.toggle('on',!isM);
-  document.querySelector('.legend').style.display=isM?'block':'none';
-  document.querySelectorAll('.vbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
-  // Show flow filter only in map view
-  document.getElementById('flow-toggle').style.display=isM?'flex':'none';
-  document.getElementById('flow-sep').style.display=isM?'block':'none';
-}
-
-function renderGrid(){
-  let h='';
-  TOOLS.categories.forEach(c=>{
-    h+=`<div class="g-sec" style="--cc:${c.color}"><div class="g-hd"><span class="g-ic">${c.icon}</span><span class="g-nm">${c.name}</span><span class="g-ct">${c.tools.length} tools</span></div><div class="g-tools">`;
-    c.tools.forEach(t=>{
-      const hl=!!t.url;
-      const foot=hl?`<a href="${t.url}" target="_blank" class="g-open" style="--cc:${c.color}" onclick="event.stopPropagation()">Open ↗</a>`:`<span style="font-size:10px;color:var(--muted)">${t.loc}</span>`;
-      h+=`<div class="g-tool${hl?' link':''}" style="--cc:${c.color}" ${hl?`onclick="window.open('${t.url}','_blank')"`:''}>
-        <div class="g-th"><span class="g-em">${t.icon}</span><div><div class="g-tn">${t.name}</div><div class="g-td">${t.desc}</div></div></div>
-        <div class="g-tf"><span class="sd s-${t.s}">${SL[t.s]}</span>${foot}</div>
-      </div>`;
-    });
-    h+='</div></div>';
-  });
-  document.getElementById('gv').innerHTML=h;
+function setTab(id){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id==='s-'+id));
 }
 
 function renderHeader(){
   const all=TOOLS.categories.flatMap(c=>c.tools);
-  document.getElementById('hpills').innerHTML=`<span class="pill p-g">${all.filter(t=>t.s==='live').length} Live</span><span class="pill p-a">${all.filter(t=>t.s==='dev').length} In Dev</span><span class="pill p-gr">${all.length} Tools</span>`;
-  document.getElementById('hdate').textContent=new Date().toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('hpills').innerHTML=
+    `<span class="pill p-g">${all.filter(t=>t.s==='live').length} Live</span>`+
+    `<span class="pill p-a">${all.filter(t=>t.s==='dev'||t.s==='active').length} In Dev</span>`+
+    `<span class="pill p-t">${all.length} Tools</span>`;
+  document.getElementById('hdate').textContent=
+    new Date().toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
 }
 
-// ═══════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════
-window.addEventListener('beforeunload', saveNP);
+function renderFlowBar(){
+  document.getElementById('flowbar').innerHTML=COLS.map((c,i)=>
+    `<div style="display:flex;align-items:center;gap:0">`+
+    `<div class="fp" style="border-color:${c.color};color:${c.color}">`+
+    `<span class="fp-num">${c.num}</span>`+
+    `<span class="fp-name">${c.name}</span>`+
+    `<span class="fp-desc">${c.desc}</span>`+
+    `</div>`+
+    (i<COLS.length-1?`<span class="farr">→</span>`:'')+
+    `</div>`
+  ).join('');
+}
+
+function renderPipeline(){
+  document.getElementById('pipeline').innerHTML=COLS.map(col=>{
+    const nodes=col.nodes.map(id=>({id,...N[id]})).filter(n=>n.lc);
+    const cards=nodes.map(n=>{
+      const bg=`color-mix(in srgb,${n.lc} 10%,transparent)`;
+      const badge=`<span class="ic-badge" style="background:${bg};color:${n.lc}">${n.badge}</span>`;
+      const path=n.path?`<span class="ic-path" style="color:${n.lc};background:${bg}">📁 …\\${n.path}</span>`:'';
+      const detail=n.detail?`<div class="ic-detail">${n.detail}</div>`:'';
+      return `<div class="ic${n.special?' special':''}" style="border-left-color:${n.lc}">
+        <div class="ic-top">
+          <span class="ic-ico">${n.icon}</span>
+          <div class="ic-right">${badge}<div class="ic-name">${n.name}</div></div>
+        </div>
+        <div class="ic-role">${n.role}</div>
+        ${path}${detail}
+      </div>`;
+    }).join('');
+
+    const hbg=`color-mix(in srgb,${col.color} 15%,white)`;
+    return `<div class="col">
+      <div class="col-hdr" style="background:${hbg};border-top:3px solid ${col.color}">
+        <span class="col-num" style="color:${col.color}">${col.num}</span>
+        <span class="col-name" style="color:${col.color}">${col.name}</span>
+        <span class="col-desc">${col.desc}</span>
+      </div>
+      <div class="col-body">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTools(){
+  document.getElementById('tools-out').innerHTML=TOOLS.categories.map(c=>{
+    const cards=c.tools.map(t=>{
+      const hasLink=!!t.url;
+      const foot=hasLink
+        ?`<a href="${t.url}" target="_blank" class="t-arr" style="color:${c.color};background:color-mix(in srgb,${c.color} 10%,transparent)">↗ Open</a>`
+        :`<span class="t-loc">${t.loc||''}</span>`;
+      const path=t.path?`<div class="t-path" style="color:${c.color};background:color-mix(in srgb,${c.color} 8%,transparent)">📁 …\\${t.path}</div>`:'';
+      return `<div class="tc${hasLink?' link':''}" style="border-left-color:${c.color}" ${hasLink?`onclick="window.open('${t.url}','_blank')"`:''}>
+        <div class="t-top"><span class="t-em">${t.icon}</span><div class="t-tn">${t.name}</div></div>
+        <div class="t-td">${t.desc}</div>
+        ${path}
+        <div class="t-ft"><span class="sd s-${t.s}">${SL[t.s]}</span>${foot}</div>
+      </div>`;
+    }).join('');
+    return `<div class="t-sec">
+      <div class="t-hd" style="background:${c.color}"><span class="t-ic">${c.icon}</span><span class="t-nm">${c.name}</span><span class="t-ct">${c.tools.length} tools</span></div>
+      <div class="t-grid">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderGuide(){
+  document.getElementById('guide-out').innerHTML=GUIDE.map(e=>
+    `<div class="exp-card${e.cls?' '+e.cls:''}">
+      <div class="exp-h"><span class="exp-hi">${e.icon}</span>${e.title}</div>
+      <div class="exp-body">${e.html.trim()}</div>
+    </div>`
+  ).join('');
+}
 
 document.addEventListener('DOMContentLoaded',()=>{
-  localStorage.removeItem('jh-np'); // clear stale positions, use grid
-  buildDefaults(); loadState();
-  renderAll(); renderGrid(); renderHeader();
-  // Show flow toggle (default view is map)
-  document.getElementById('flow-toggle').style.display='flex';
-  document.getElementById('flow-sep').style.display='block';
-  requestAnimationFrame(()=>gotoInfra());
+  renderHeader();
+  renderFlowBar();
+  renderPipeline();
+  renderTools();
+  renderGuide();
 });
 </script>
 </body>
